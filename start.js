@@ -1,4 +1,6 @@
 var http = require('http');
+var fs = require('fs');
+var path = require('path')
 
 // createServer() creates the http server object
 http.createServer(function (req, res) {
@@ -9,9 +11,10 @@ http.createServer(function (req, res) {
 		// !!!! text/html   text/plain   tells the browser how to show it.
 		res.writeHead(200, {'Content-Type': 'text/html'});
 	
-		// writes data from tutorial.html file
+		// writes data from html file
 		res.write(data);
+		res.end();
 	
 	});
 	
-}).listen(80); 
+}).listen(8080); // needs to be updated for web

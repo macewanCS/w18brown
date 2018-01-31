@@ -23,7 +23,7 @@ app.get("/Stylesheets/admin.css", function (req, res) {
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/login', function (req, res) {
-    res.send("Username: " + req.body.name);
+    res.send("Username: " + req.body.username + "\nPassword: " + req.body.password);
 })
 
 app.listen(port, function() {

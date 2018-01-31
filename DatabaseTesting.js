@@ -10,11 +10,16 @@ var con = mysql.createConnection({
 
 con.connect(function(err) {
   if (err) throw err;
-  var sql = "SELECT COUNT(name) FROM UserNames WHERE name = ? and password = ?";
+  var sql = "SELECT * FROM UserNames WHERE name = ? and password = ?";
   var name = "Sarah Hunt";
   var pw = "sarahPW";
   con.query(sql, [name, pw], function (err, result, fields) {
     if (err) throw err;
-    console.log(result);
-  });
+    if (result.length === 0){
+        console.log("Nothing here fucker!\n");
+    }
+    else{
+        console.log(result[0].password);
+    }
+});
 });

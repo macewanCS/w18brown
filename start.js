@@ -6,6 +6,7 @@ var path = require('path')
 http.createServer(function (req, res) {
 	if (req.method.toLowerCase() == 'get') {
 		getWebpage(res);
+		getCSS(res);
 	}
 	else if (req.method.toLowerCase() == 'post') {
 		getLoginForm(req, res);

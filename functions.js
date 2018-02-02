@@ -3,13 +3,11 @@
 
 // may want to add other restrictions. However, length will be limited by the database so must be set sooner than later.
 function validPassword(p){
-	if (p.length <5 || p.length > 10){
+	if (p.length <5 || p.length > 15{
 		return false;
 	} else {
 		return true;
-	}
-	
-	
+	}	
 }
 
 

@@ -49,14 +49,16 @@ function checkName(name, password){
       
     con.connect(function(err) {
         if (err) throw err;
+        // ? is like %s in C. 
         var sql = "SELECT * FROM family WHERE familyID = ? and password = ?";
+                        // this array gives order. name is the first ?, password is the 2nd ?
         con.query(sql, [name, password], function (err, result, fields) {
           if (err) throw err;
           if (result.length === 0){
               return "blank";
           }
           else{
-                return result[0].type;
+                return result[0].type; // type is facilitator, admin, etc.
           }
       });
     });

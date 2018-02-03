@@ -64,4 +64,18 @@ con.connect(function(err) {
 			        if (err) throw err;
 			        console.log("Number of records inserted into settings: " + result.affectedRows);
 			      });
+			      
+			      
+	// dont need this connect, but it differes from above. ??
+	// NOT sure this works.
+	con.connect(function(err) {
+        if (err) throw err;
+        // ? is like %s in C. 
+        var sql = "SELECT * FROM select";
+        con.query(sql, function (err, result, fields) {
+          if (err) throw err;
+		
+		console.log(result);
+		return result
+      });
 });

@@ -34,17 +34,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //When posted information to "/login", do this.
 app.post('/login', function (req, res) {
-<<<<<<< HEAD
     //Checkname is passed username/password and the resolution to redirect the user to the correct page.
     //var type = checkName(req.body.username, req.body.password, res);
 
     //Comment out the line above and uncomment the below for us without mySQL installed.
     res.redirect("/admin");
-=======
-    //passed res to the function as I dont know any better.
-    var type = checkName(req.body.username, req.body.password, res);
-    //I called a function here to open the propr page based on type but turns out I dont know how
->>>>>>> f1280c57819f9944095dedfae30656c6b4a9781a
 })
 
 app.listen(port, function() {
@@ -73,14 +67,8 @@ function checkName(name, password, res){
               return "blank";
           }
           if (result[0].type === "admin"){
-<<<<<<< HEAD
-            successfulLogin = true;
-            res.redirect("/admin");
-        }
-=======
                 res.redirect("/admin");
           }
->>>>>>> f1280c57819f9944095dedfae30656c6b4a9781a
       });
     });
 }

@@ -3,25 +3,36 @@ body, html {
         width: 100%;
         margin: auto;
         background-repeat: no-repeat;
-        background: linear-gradient(rgb(172, 196, 204),white);
+        /*
+        background: linear-gradient(rgb(172, 196, 204),white);*/
+        background-color: #d3cdcd;
+        font-family: Lato;
 }
 form {
-        width: 50%;
-        height: 200px;
-
-        position: absolute;
+        width: 30%;
+        background-color: #ffffff;
+        
         top:0;
         bottom: 0;
         left: 0;
         right: 0;
-    
+      
+        position: absolute;
+        height: 250px;
+        
+        padding: 50px;
         margin: auto;
         text-align: center;
+        /*border-style: solid;*/
+        box-shadow: 8px 8px #797777;
 }
 
 input {
         width: 200px;
         height: 25px;
+        margin-bottom: 20px;
+
+        border-bottom: blue;
 }
 
 button {
@@ -31,6 +42,10 @@ button {
 
         margin-bottom: 10px;
 }
+.PasswordField {
+        
+}
+
 .Buttons {
         text-align: center;
 
@@ -38,4 +53,9 @@ button {
 
 #login {
         margin: relative;
+}
+
+h1 {
+        text-transform: uppercase;
+        letter-spacing: 3px;
 }

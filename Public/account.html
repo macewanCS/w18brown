@@ -1,61 +1,55 @@
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet" type="text/css" href="Stylesheets/admin.css">
 
-<div class="sidebar">
-	<a href="#notifications" class="sidebar-button">Notifications</a>
-	<hr>
-	<div class="dropdown-hover">
-		<a class="sidebar-button">Room Management</a>
-		<div class="dropdown-content">
-			<a href="#" class="sidebar-button">Add Room</a>
-			<a href="#" class="sidebar-button">Edit Room</a>
-			<a href="#" class="sidebar-button">Delete Room</a>
-		</div>
-	</div>
-	<hr>
-	<a href="#account" class="sidebar-button">Account Management</a>
-	<hr>
-	<a href="#report" class="sidebar-button">Report</a>
-	<hr>
-	<a href="#contact" class="sidebar-button">Settings</a>
-</div>
+<head>
+	<title>Caraway Administrator</title>
+	<link rel="stylesheet" type="text/css" href="Stylesheets/admin.css">
+</head>
 
 <body>
-<div style="margin-left:20%">
-<h1>Create Account</h1>
-	<script src="Scripts/account.js" language="Javascript" type="text/javascript"></script>
-	<form method="POST">
-    	<div id="facilitatorInput">
-        	Facilitator 1 Name: <input type="text" name="facilitator">
-     	</div>
-     	<input type="button" value="Add another facilitator" onClick="addFacilitator('facilitatorInput');">
-	</form>
-	<form method="POST">
-		<div id="studentInput">
-			Student 1 Name: <input type="text" name="studentName"> Room: <input type="text" name="room"> Grade: <input type="text" name="grade">
-		</div>
-		<input type="button" value="Add another student" onClick="addStudent('studentInput');">
-	</form>
-	<form method="POST">
-		<div id="historicHour">
-			Historic hours: <input type="number" name="hours">
-		</div>
-	</form>
-	<form method="POST">
-		<div id="bonus">
-			Bonus weekly hours: <input type="number" name="bonus"> Comment: <input type="text">
-		</div>
-	</form>
-	<form method="POST">
-		<div id="contact">
-			Email: <input type="text" name="email">
-			<br>
-			Phone: <input type="text" name="phone">
-		</div>
-	</form>
-	<input type="button" value="Confirm" onClick="someValidationFunctionThatChecksTheValues">
-</div>
+	<div>
+		<h1>Create Account</h1>
+		<script src="Scripts/account.js" language="Javascript" type="text/javascript"></script>
+		<form method="POST">
+			<div id="facilitatorInput">
+				Facilitator 1 Name:
+				<input type="text" name="facilitator">
+			</div>
+			<input type="button" value="Add another facilitator" onClick="addFacilitator('facilitatorInput');">
+		</form>
+		<form method="POST">
+			<div id="studentInput">
+				Student 1 Name:
+				<input type="text" name="studentName"> Room:
+				<input type="text" name="room"> Grade:
+				<input type="text" name="grade">
+			</div>
+			<input type="button" value="Add another student" onClick="addStudent('studentInput');">
+		</form>
+		<form method="POST">
+			<div id="historicHour">
+				Historic hours:
+				<input type="number" name="hours">
+			</div>
+		</form>
+		<form method="POST">
+			<div id="bonus">
+				Bonus weekly hours:
+				<input type="number" name="bonus"> Comment:
+				<input type="text">
+			</div>
+		</form>
+		<form method="POST">
+			<div id="contact">
+				Email:
+				<input type="text" name="email">
+				<br> Phone:
+				<input type="text" name="phone">
+			</div>
+		</form>
+		<input type="button" value="Confirm" onClick="someValidationFunctionThatChecksTheValues">
+	</div>
 
 </body>
+
 </html>

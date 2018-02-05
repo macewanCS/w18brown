@@ -3,13 +3,16 @@ var mysql = require('mysql');
 const port = 8080;
 const path = __dirname + "/Public/";
 
+//Webpage variables
+var successfulLogin = false;
+
+//node/express variables
 const express = require("express");
 var app = express();
 var bodyParser = require("body-parser"); //Parser, however has troubles with multipart forms
-
 /*-------------*/
 
-//If the app is asked to get '/', sendFile(html file)
+//If the app is asked to get '/', sendFile(html/css/picture file)
 app.get("/", function (req, res) {
     res.sendFile(path + "index.html");
 })
@@ -22,15 +25,20 @@ app.get("/Stylesheets/login.css", function (req, res) {
 app.get("/Stylesheets/admin.css", function (req, res) {
     res.sendFile(path + "Stylesheets/admin.css");
 })
+app.get("/account", function (req, res) {
+    res.sendFile(path + "account.html");
+})
 
 //Sends the form information to req.body so we can access it later
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //When posted information to "/login", do this.
 app.post('/login', function (req, res) {
-    res.send("Username: " + req.body.username + "\nPassword: " + req.body.password);
-    var type = checkName(req.body.username, req.body.password);
-    //I called a function here to open the propr page based on type but turns out I dont know how
+    //Checkname is passed username/password and the resolution to redirect the user to the correct page.
+    //var type = checkName(req.body.username, req.body.password, res);
+
+    //Comment out the line above and uncomment the below for us without mySQL installed.
+    res.redirect("/admin");
 })
 
 app.listen(port, function() {
@@ -55,9 +63,10 @@ function checkName(name, password){
           if (result.length === 0){
               return "blank";
           }
-          else{
-                return result[0].type;
-          }
+          if (result[0].type === "admin"){
+            successfulLogin = true;
+            res.redirect("/admin");
+        }
       });
     });
 }

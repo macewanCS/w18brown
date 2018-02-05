@@ -1,69 +1,50 @@
-<<<<<<< HEAD:admin.html
 <!DOCTYPE html>
 <html>
+
 <head>
-        <title>Caraway Administrator</title>
-        <link rel="stylesheet" type="text/css" href="Stylesheets/admin.css">
+	<title>Caraway Administrator</title>
+	<link rel="stylesheet" type="text/css" href="Stylesheets/admin.css">
 </head>
+<script>
+	function moveToPage(page) {
+		var xhttp = new XMLHttpRequest();
+		console.log("Test");
+		xhttp.onreadystatechange = function () {
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById('mainArea').innerHTML = this.responseText;
+			}
+		};
+		xhttp.open("GET", "/" + page, true);
+		xhttp.send();
+	}
+</script>
+
 <body>
 
-<div class="sidebar">
-	<a href="#notifications" class="sidebar-button">Notifications</a>
-	<hr>
-	<div class="dropdown-hover">
-		<a class="sidebar-button">Room Management</a>
-		<div class="dropdown-content">
-			<a href="#" class="sidebar-button">Add Room</a>
-			<a href="#" class="sidebar-button">Edit Room</a>
-			<a href="#" class="sidebar-button">Delete Room</a>
+	<div class="sidebar">
+		<a href="#dashboard" class="sidebar-button">Dashboard</a>
+		<a href="#notifications" class="sidebar-button">Notifications</a>
+		<hr>
+		<div class="dropdown-hover">
+			<a class="sidebar-button">Room Management</a>
+			<div class="dropdown-content">
+				<a href="#" class="sidebar-button">Add room</a>
+				<a href="#" class="sidebar-button">Delete room</a>
+			</div>
 		</div>
+		<hr>
+		<a href="#account" class="sidebar-button" onClick="moveToPage('account')">Account Management</a>
+		<hr>
+		<a href="#report" class="sidebar-button">Report</a>
+		<hr>
+		<a href="#contact" class="sidebar-button">Settings</a>
 	</div>
-	<hr>
-	<a href="account.html" class="sidebar-button">Account Management</a>
-	<hr>
-	<a href="#report" class="sidebar-button">Report</a>
-	<hr>
-	<a href="#contact" class="sidebar-button">Settings</a>
-</div>
 
-<div style="margin-left:20%">
-<h2>Administration Home</h2>
-<p>Text goes here.</p>
-</div>
+	<div style="margin-left:20%" id="mainArea">
+		<h2>Administration Home</h2>
+		<p>Text goes here.</p>
+	</div>
 
 </body>
-=======
-<!DOCTYPE html>
-<html>
-<head>
-        <title>Caraway Administrator</title>
-        <link rel="stylesheet" type="text/css" href="Stylesheets/admin.css">
-</head>
-<body>
 
-<div class="sidebar">
-	<a href="#notifications" class="sidebar-button">Notifications</a>
-	<hr>
-	<div class="dropdown-hover">
-		<a class="sidebar-button">Room Management</a>
-		<div class="dropdown-content">
-			<a href="#" class="sidebar-button">Add room</a>
-			<a href="#" class="sidebar-button">Delete room</a>
-		</div>
-	</div>
-	<hr>
-	<a href="#account" class="sidebar-button">Account Management</a>
-	<hr>
-	<a href="#report" class="sidebar-button">Report</a>
-	<hr>
-	<a href="#contact" class="sidebar-button">Settings</a>
-</div>
-
-<div style="margin-left:20%">
-<h2>Administration Home</h2>
-<p>Text goes here.</p>
-</div>
-
-</body>
->>>>>>> 915e75854ca5b086778848337fb0c2b6a772e1e7:Public/admin.html
 </html>

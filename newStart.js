@@ -34,11 +34,17 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //When posted information to "/login", do this.
 app.post('/login', function (req, res) {
+<<<<<<< HEAD
     //Checkname is passed username/password and the resolution to redirect the user to the correct page.
     //var type = checkName(req.body.username, req.body.password, res);
 
     //Comment out the line above and uncomment the below for us without mySQL installed.
     res.redirect("/admin");
+=======
+    //passed res to the function as I dont know any better.
+    var type = checkName(req.body.username, req.body.password, res);
+    //I called a function here to open the propr page based on type but turns out I dont know how
+>>>>>>> f1280c57819f9944095dedfae30656c6b4a9781a
 })
 
 app.listen(port, function() {
@@ -47,7 +53,7 @@ app.listen(port, function() {
 
 //this function checks whether a username/password combo is in the database.
 //Return: account type (string)
-function checkName(name, password){
+function checkName(name, password, res){
     var con = mysql.createConnection({
         host: "localhost",
         user: "root",
@@ -57,16 +63,24 @@ function checkName(name, password){
       
     con.connect(function(err) {
         if (err) throw err;
+        // ? is like %s in C. 
         var sql = "SELECT * FROM family WHERE familyID = ? and password = ?";
+                        // this array gives order. name is the first ?, password is the 2nd ?
         con.query(sql, [name, password], function (err, result, fields) {
           if (err) throw err;
           if (result.length === 0){
+              //this wont work, needs to be different.
               return "blank";
           }
           if (result[0].type === "admin"){
+<<<<<<< HEAD
             successfulLogin = true;
             res.redirect("/admin");
         }
+=======
+                res.redirect("/admin");
+          }
+>>>>>>> f1280c57819f9944095dedfae30656c6b4a9781a
       });
     });
 }

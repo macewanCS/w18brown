@@ -38,7 +38,8 @@ app.post('/login', function (req, res) {
     //var type = checkName(req.body.username, req.body.password, res);
 
     //Comment out the line above and uncomment the below for us without mySQL installed.
-    res.redirect("/admin");
+    //res.redirect("/admin");
+    res.send("Test");
 })
 
 app.listen(port, function() {

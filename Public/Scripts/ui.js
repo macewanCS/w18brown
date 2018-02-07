@@ -1,5 +1,6 @@
 //AJAX to pull up pages while in the menu
 function moveToPage(page) {
+    console.log("This is run");
     var xhttp = new XMLHttpRequest();
     console.log("Test");
     xhttp.onreadystatechange = function () {

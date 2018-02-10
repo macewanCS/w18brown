@@ -38,7 +38,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //When posted information to "/login", do this.
 app.post('/login', function (req, res) {
     //Checkname is passed username/password and the resolution to redirect the user to the correct page.
-    checkName(req.body.username, req.body.password, res);
+
+    //var type = checkName(req.body.username, req.body.password, res);
+
+    //Comment out the line above and uncomment the below for us without mySQL installed.
+    res.redirect("/admin");
 })
 
 app.listen(port, function() {

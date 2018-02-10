@@ -5,24 +5,12 @@
 	<title>Caraway Administrator</title>
 	<link rel="stylesheet" type="text/css" href="Stylesheets/admin.css">
 </head>
-<script>
-	function moveToPage(page) {
-		var xhttp = new XMLHttpRequest();
-		console.log("Test");
-		xhttp.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				document.getElementById('mainArea').innerHTML = this.responseText;
-			}
-		};
-		xhttp.open("GET", "/" + page, true);
-		xhttp.send();
-	}
-</script>
-
+	<script src="Scripts/ui.js"></script>
 <body>
 
 	<div class="sidebar">
 		<a href="#dashboard" class="sidebar-button">Dashboard</a>
+		<hr>
 		<a href="#notifications" class="sidebar-button">Notifications</a>
 		<hr>
 		<a href="#rooms" class="sidebar-button" onClick="moveToPage('rooms')">Room Management</a>
@@ -42,7 +30,7 @@
 	</div>
 
 	<div style="margin-left:20%" id="mainArea">
-		<h2>Administration Home</h2>
+		<h2>Administration Dashboard</h2>
 		<p>Text goes here.</p>
 	</div>
 

@@ -28,6 +28,9 @@ app.get("/Stylesheets/admin.css", function (req, res) {
 app.get("/account", function (req, res) {
     res.sendFile(path + "account.html");
 })
+app.get("/rooms,", function (req, res){
+    res.sendFile(path + "rooms.html");
+})
 
 //Sends the form information to req.body so we can access it later
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,11 +38,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //When posted information to "/login", do this.
 app.post('/login', function (req, res) {
     //Checkname is passed username/password and the resolution to redirect the user to the correct page.
+
     //var type = checkName(req.body.username, req.body.password, res);
 
     //Comment out the line above and uncomment the below for us without mySQL installed.
-    //res.redirect("/admin");
-    res.send("Test");
+    res.redirect("/admin");
 })
 
 app.listen(port, function() {
@@ -65,7 +68,8 @@ function checkName(name, password, res){
           if (err) throw err;
           if (result.length === 0){
               //this wont work, needs to be different.
-              return "blank";
+              res.send("incorrect username/password combo");
+              return;
           }
           if (result[0].type === "admin"){
                 res.redirect("/admin");

@@ -29,6 +29,9 @@ app.get("/Stylesheets/admin.css", function (req, res) {
 app.get("/account", function (req, res) {
     res.sendFile(path + "account.html");
 })
+app.get("/rooms,", function (req, res){
+    res.sendFile(path + "rooms.html");
+})
 
 //Sends the form information to req.body so we can access it later
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,6 +40,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //must be an async function to call await on a function inside.
 app.post('/login', async function (req, res) {
     //Checkname is passed username/password and the resolution to redirect the user to the correct page.
+
     //type is assigned the 'fulfill' within a promise.
     let type = await checkName(req.body.username, req.body.password);
     if (type === "admin"){
@@ -45,6 +49,10 @@ app.post('/login', async function (req, res) {
     if (type === "incorrect"){
         res.send("incorrect username/password combo");
     }
+
+    //Comment out the lines above and uncomment the below for us without mySQL installed.
+    //res.redirect("/admin");
+
 })
 
 app.listen(port, function() {

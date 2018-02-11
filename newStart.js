@@ -13,22 +13,20 @@ var app = express();
 var bodyParser = require("body-parser"); //Parser, however has troubles with multipart forms
 /*-------------*/
 
+app.use(express.static('public'));
+
 //If the app is asked to get '/', sendFile(html/css/picture file)
 app.get("/", function (req, res) {
     res.sendFile(path + "index.html");
 })
 app.get("/admin", function (req, res) {
     res.sendFile(path + "admin.html");
-})
-app.get("/Stylesheets/login.css", function (req, res) {
-    res.sendFile(path + "Stylesheets/login.css");
-})
-app.get("/Stylesheets/admin.css", function (req, res) {
-    res.sendFile(path + "Stylesheets/admin.css");
-})
+}) 
 app.get("/account", function (req, res) {
     res.sendFile(path + "account.html");
 })
+app.get("/settings", function(req, res) {
+    res.sendFile(path + "settings.html");
 app.get("/rooms,", function (req, res){
     res.sendFile(path + "rooms.html");
 })

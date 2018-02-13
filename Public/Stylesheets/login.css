@@ -3,8 +3,6 @@ body, html {
         width: 100%;
         margin: auto;
         background-repeat: no-repeat;
-        /*
-        background: linear-gradient(rgb(172, 196, 204),white);*/
         background-color: #d3cdcd;
         font-family: Lato;
 }
@@ -18,7 +16,7 @@ form {
         right: 0;
       
         position: absolute;
-        height: 250px;
+        height: 300px;
         
         padding: 50px;
         margin: auto;
@@ -30,32 +28,21 @@ form {
 input {
         width: 200px;
         height: 25px;
-        margin-bottom: 20px;
-
-        border-bottom: blue;
 }
 
 button {
         margin-left: 1vw;
 }
 .UserInput {
-
         margin-bottom: 10px;
-}
-.PasswordField {
-        
 }
 
 .Buttons {
         text-align: center;
-
-}
-
-#login {
-        margin: relative;
 }
 
 h1 {
         text-transform: uppercase;
         letter-spacing: 3px;
+        font-size: 20pt;
 }

@@ -4,10 +4,12 @@ Setting up MySql with a non-root user:
 
   The following instructions for the unix/mac command line log in as root, create the specific account to be used in the code, confirm visually, and exit.
 
-  1) Logs in as root to allow for the creation of accounts.
+  1 Unix/Mac) Logs in as root to allow for the creation of accounts.
   
   $ mysql --user=root mysql  
-  
+
+  1 Windows) Log into mysql shell from start menu.
+    
   2) Identified by is the password
   
   mysql> create user 'browncar'@'localhost' identified by 'brown'   
@@ -28,21 +30,29 @@ Setting up MySql with a non-root user:
 
 Setup the caraway database:
 
-  1) Log in to mysql and create an empty caraway database.
+  1 Unix/Mac) Log in to mysql.
   
   $ mysql -u root -p
   
+  1 Windows) Log into mysql shell from start menu.
+  
+  2) Create an empty caraway database. 
+  
   mysql> create database caraway;
   
-  2) Log out of mysql.
+  3) Log out of mysql.
   
   mysql> \q
   
-  3) Download the caraway.sql file from shared drive **********************
+  4) Download the caraway.sql file from shared drive **********************
   
-  4) Import the caraway table into my sql from the command line.
+  5 Unix/Mac) Import the caraway table into my sql from the command line.
   
   $ mysql -u root -p caraway < caraway.sql
+  
+  5 Windows) Import the caraway table into my sql from the command line. Note: your mysql path in quotes may be different.
+  
+  $ "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe" -u root -p caraway < caraway.sql
   
   You can now run the program with: **********************
 

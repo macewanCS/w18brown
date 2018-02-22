@@ -12,7 +12,7 @@ Setting up MySql with a non-root user:
     
   2) Identified by is the password
   
-  mysql> create user 'browncar'@'localhost' identified by 'brown'   
+  mysql> create user 'browncar'@'localhost' identified by 'brown'; 
   
   3) Give permission to use all databases
   

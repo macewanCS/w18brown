@@ -17,17 +17,18 @@ app.use(express.static('public'));
 
 //If the app is asked to get '/', sendFile(html/css/picture file)
 app.get("/", function (req, res) {
-    res.sendFile(path + "login.html");
+    res.sendFile(path + "index.html");
 })
 app.get("/admin", function (req, res) {
     res.sendFile(path + "admin.html");
-}) 
+})
 app.get("/account", function (req, res) {
     res.sendFile(path + "account.html");
 })
-app.get("/settings", function(req, res) {
+app.get("/settings", function (req, res) {
     res.sendFile(path + "settings.html");
-app.get("/rooms,", function (req, res){
+})
+app.get("/rooms,", function (req, res) {
     res.sendFile(path + "rooms.html");
 })
 
@@ -41,10 +42,10 @@ app.post('/login', async function (req, res) {
 
     //type is assigned the 'fulfill' within a promise.
     let type = await checkName(req.body.username, req.body.password);
-    if (type === "admin"){
+    if (type === "admin") {
         res.redirect("/admin");
     }
-    if (type === "incorrect"){
+    if (type === "incorrect") {
         res.send("incorrect username/password combo");
     }
 
@@ -53,36 +54,36 @@ app.post('/login', async function (req, res) {
 
 })
 
-app.listen(port, function() {
+app.listen(port, function () {
     console.log("Listening on 8080");
 });
 
 //this function checks whether a username/password combo is in the database.
 //Return: Promise containing account type.
-async function checkName(name, password){
-    return new Promise(function (fulfill, reject){
+async function checkName(name, password) {
+    return new Promise(function (fulfill, reject) {
         var con = mysql.createConnection({
             host: "localhost",
-            user: "root",
+            user: "browncar",
             password: "brown",
-              database: "carraway"
+            database: "caraway"
         });
-          
-        con.connect(function(err) {
+
+        con.connect(function (err) {
             if (err) throw err;
             // ? is like %s in C. 
             var sql = "SELECT * FROM family WHERE familyID = ? and password = ?";
-                            // this array gives order. name is the first ?, password is the 2nd ?
+            // this array gives order. name is the first ?, password is the 2nd ?
             con.query(sql, [name, password], function (err, result, fields) {
-              if (err) throw err;
-              if (result.length === 0){
-                  //this wont work, needs to be different.
-                  fulfill("incorrect");
-              }
-              else {
+                if (err) throw err;
+                if (result.length === 0) {
+                    //this wont work, needs to be different.
+                    fulfill("incorrect");
+                }
+                else {
                     fulfill(result[0].type);
-              }
-          });
+                }
+            });
         });
     })
 }

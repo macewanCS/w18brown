@@ -1,0 +1,31 @@
+{
+  "name": "w18brown",
+  "version": "1.0.0",
+  "description": "Caraway Volunteer Web App",
+  "main": "app.js",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "express-vue": "^5.1.4",
+    "mysql": "^2.15.0",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "vuetify": "^1.0.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/macewanCS/w18brown.git"
+  },
+  "author": "CMPT 395 MacEwan Team Brown",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/macewanCS/w18brown/issues"
+  },
+  "homepage": "https://github.com/macewanCS/w18brown#readme"
+}

@@ -50,9 +50,9 @@ app.listen(port, function() {
 function checkName(name, password, res){
     var con = mysql.createConnection({
         host: "localhost",
-        user: "root",
+        user: "browncar",
         password: "brown",
-          database: "carraway"
+          database: "caraway"
     });
       
     con.connect(function(err) {

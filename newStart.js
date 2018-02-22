@@ -17,19 +17,20 @@ app.use(express.static('public'));
 
 //If the app is asked to get '/', sendFile(html/css/picture file)
 app.get("/", function (req, res) {
-    res.sendFile(path + "index.html");
-})
-app.get("/admin", function (req, res) {
-    res.sendFile(path + "admin.html");
-}) 
-app.get("/account", function (req, res) {
-    res.sendFile(path + "account.html");
-})
-app.get("/settings", function(req, res) {
-    res.sendFile(path + "settings.html");
-app.get("/rooms,", function (req, res){
-    res.sendFile(path + "rooms.html");
-})
+        res.sendFile(path + "index.html");
+    })
+    app.get("/admin", function (req, res) {
+        res.sendFile(path + "admin.html");
+    }) 
+    app.get("/account", function (req, res) {
+        res.sendFile(path + "account.html");
+    })
+    app.get("/settings", function(req, res) {
+        res.sendFile(path + "settings.html");
+    })
+    app.get("/rooms,", function (req, res){
+        res.sendFile(path + "rooms.html");
+    })
 
 //Sends the form information to req.body so we can access it later
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -63,9 +64,9 @@ async function checkName(name, password){
     return new Promise(function (fulfill, reject){
         var con = mysql.createConnection({
             host: "localhost",
-            user: "root",
+            user: "browncar",
             password: "brown",
-              database: "carraway"
+            database: "caraway"
         });
           
         con.connect(function(err) {

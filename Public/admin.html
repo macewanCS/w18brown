@@ -4,47 +4,44 @@
 <head>
 	<title>Caraway Administrator</title>
 	<link rel="stylesheet" type="text/css" href="Stylesheets/admin.css">
+	<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.blue_grey-red.min.css" />
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	<script defer src="https://code.getmdl.io/1.3.0/material.js"></script>
 </head>
-<script>
-	function moveToPage(page) {
-		var xhttp = new XMLHttpRequest();
-		console.log("Test");
-		xhttp.onreadystatechange = function () {
-			if (this.readyState == 4 && this.status == 200) {
-				document.getElementById('mainArea').innerHTML = this.responseText;
-			}
-		};
-		xhttp.open("GET", "/" + page, true);
-		xhttp.send();
-	}
-</script>
+
 
 <body>
 
-	<div class="sidebar">
-		<a href="#dashboard" class="sidebar-button">Dashboard</a>
-		<a href="#notifications" class="sidebar-button">Notifications</a>
-		<hr>
-		<div class="dropdown-hover">
-			<a class="sidebar-button">Room Management</a>
-			<div class="dropdown-content">
-				<a href="#" class="sidebar-button">Add room</a>
-				<a href="#" class="sidebar-button">Delete room</a>
-			</div>
+	<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+		<div class="mdl-layout__drawer">
+			<span class="mdl-layout-title">Welcome _______ </span>
+			<hr>
+			<nav class="mdl-navigation">
+				<a href="/admin" class="mdl-navigation__link">Dashboard</a>
+				<hr>
+				<a href="#notifications" class="mdl-navigation__link" onClick="moveToPage('notifications')">Notifications</a>
+				<hr>
+				<a href="#room" class="mdl-navigation__link" onClick="moveToPage('room')">Room Management</a>
+				<hr>
+				<a href="#account" class="mdl-navigation__link" onClick="moveToPage('account')">Account Management</a>
+				<hr>
+				<a href="#report" class="mdl-navigation__link" onClick="moveToPage('report')">Report</a>
+				<hr>
+				<a href="#settings" class="mdl-navigation__link" onClick="moveToPage('settings')">Settings</a>
+				<hr>
+				<a href="#logout" class="mdl-navigation__link" onClick="moveToPage('logout')">Logout</a>
+			</nav>
 		</div>
-		<hr>
-		<a href="#account" class="sidebar-button" onClick="moveToPage('account')">Account Management</a>
-		<hr>
-		<a href="#report" class="sidebar-button">Report</a>
-		<hr>
-		<a href="#contact" class="sidebar-button">Settings</a>
 	</div>
-
-	<div style="margin-left:20%" id="mainArea">
-		<h2>Administration Home</h2>
-		<p>Text goes here.</p>
-	</div>
-
+	<main class="mdl-layout__content" id="mainBox">
+		<div class="page-layout" id="mainArea">
+			<h2>Administration Dashboard</h2>
+			<p>Text goes here.</p>
+		</div>
+	</main>
 </body>
+
+<script type="text/javascript" src="Scripts/ui.js"></script>
 
 </html>

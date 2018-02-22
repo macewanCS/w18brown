@@ -17,7 +17,7 @@ app.use(express.static('public'));
 
 //If the app is asked to get '/', sendFile(html/css/picture file)
 app.get("/", function (req, res) {
-    res.sendFile(path + "index.html");
+    res.sendFile(path + "login.html");
 })
 app.get("/admin", function (req, res) {
     res.sendFile(path + "admin.html");
@@ -27,6 +27,7 @@ app.get("/account", function (req, res) {
 })
 app.get("/settings", function(req, res) {
     res.sendFile(path + "settings.html");
+})
 app.get("/rooms,", function (req, res){
     res.sendFile(path + "rooms.html");
 })

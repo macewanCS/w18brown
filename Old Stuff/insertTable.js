@@ -3,9 +3,9 @@ var mysql = require('mysql'); // import required
 // connects to database
 var con = mysql.createConnection({ 
 	  host: "localhost",
-	  user: "browncar",
+	  user: "root",
 	  password: "brown",
-	database: "caraway"
+	database: "carraway"
 });
 
 

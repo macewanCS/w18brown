@@ -16,7 +16,6 @@ const port = "8080";
 // (app) => { ...} is the same as function(app) {  ...   }
 module.exports.init = (app) => {
     const router = express.Router();
-    const myString = "<script defer src='https://code.getmdl.io/1.3.0/material.min.js'></script>";
 
     const expressVueMiddleware = expressVue.init();
     app.use(expressVueMiddleware);
@@ -25,6 +24,28 @@ module.exports.init = (app) => {
     app.get("/", function (req, res) {
         res.sendFile(path + "Login/login.html");
     })
+
+    //using express router to access /admin.  To edit which page this points to, edit the res.renderVue.
+    app.use("/admin", (req, res) => {
+/*        const data = {
+            title: "Test"
+        };
+        const vueOptions = {
+            head: {
+                title: "Test"
+            },
+            scripts: [
+                { src: 'https://code.getmdl.io/1.3.0/material.min.js' },
+            ],
+            layout: {
+                body: {
+                    start: '<body>',
+                    end: myString + '</body>'
+                }
+            }
+        };*/
+        res.renderVue("Vue/main.vue");
+    });
 
     //Sends the form information to req.body so we can access it later
     app.use(bodyParser.urlencoded({ extended: true }));
@@ -79,27 +100,4 @@ module.exports.init = (app) => {
             });
         })
     }
-
-    app.use("/admin", (req, res) => {
-        const data = {
-            title: "Test",
-            rooms: myString
-        };
-        const vueOptions = {
-            head: {
-                title: "Test"
-            },
-            scripts: [
-                { src: 'https://code.getmdl.io/1.3.0/material.min.js' },
-            ],
-            layout: {
-                body: {
-                    start: '<body>',
-                    end: myString + '</body>'
-                }
-            }
-        };
-        res.renderVue("Vue/main.vue", data, vueOptions);
-    });
-
 };

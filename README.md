@@ -34,6 +34,9 @@
 ##### 3) Give permission to use all databases
   
   mysql> grant all privileges on *.* to 'browncar'@'localhost' with grant option;  
+  
+  Note: markdown has removed the asterisk above on github.  If viewing from github, please use:
+  mysql> grant all privileges on \*.\* to 'browncar'@'localhost' with grant option;
 
 ##### 4) Optional. Your new user should be listed.
   

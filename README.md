@@ -1,6 +1,6 @@
 # w18brown
 
-Setting up MySql with a non-root user:
+###Setting up MySql with a non-root user:
 
   The following instructions for the unix/mac command line log in as root, create the specific account to be used in the code, confirm visually, and exit.
 
@@ -28,7 +28,7 @@ Setting up MySql with a non-root user:
 
   Note: You will need to have the password and username in your mysql match that in the newStart.js file (possibly insertTable.js as well). 
 
-Setup the caraway database:
+###Setup the caraway database:
 
   1 Unix/Mac) Log in to mysql.
   
@@ -54,15 +54,11 @@ Setup the caraway database:
   
   $ "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe" -u root -p caraway < caraway.sql
   
-  You may need to install node modues with the following command.
+###You may need to install node modules with the following command.
   
   $ npm install
-  
-  You can now run the program with: 
 
-  $ node app.js
-
-  Vue startup instructions. You will need two shells.  
+###Vue startup instructions. You will need two shells.  
 
   1) On one shell start the client's server with:
 

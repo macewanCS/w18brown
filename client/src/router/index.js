@@ -17,14 +17,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
-    }
-
-  ]
-})
-/* For Bruce Testing.
-{
-      path: '/',
+    },
+    {
+      path: '/admin',
       name: 'admin',
       component: Admin
-    },
-*/
+    }
+  ]
+})

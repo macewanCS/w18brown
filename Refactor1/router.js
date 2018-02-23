@@ -27,7 +27,7 @@ module.exports.init = (app) => {
 
     //using express router to access /admin.  To edit which page this points to, edit the res.renderVue.
     app.use("/admin", (req, res) => {
-/*        const data = {
+        const data = {
             title: "Test"
         };
         const vueOptions = {
@@ -35,16 +35,10 @@ module.exports.init = (app) => {
                 title: "Test"
             },
             scripts: [
-                { src: 'https://code.getmdl.io/1.3.0/material.min.js' },
-            ],
-            layout: {
-                body: {
-                    start: '<body>',
-                    end: myString + '</body>'
-                }
-            }
-        };*/
-        res.renderVue("Vue/main.vue");
+                { src: 'https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js' },
+            ]
+        };
+        res.renderVue("Vue/main.vue", data, vueOptions);
     });
 
     //Sends the form information to req.body so we can access it later

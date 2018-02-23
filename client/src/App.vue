@@ -1,18 +1,22 @@
 <template>
-  <div id="app">
-    <router-view/>
-  </div>
+    <div id="app">
+        <v-app>
+            <main>
+                <router-view/>
+            </main>
+        </v-app>
+    </div>
 </template>
 
 <script>
 export default {
   name: 'App'
-}
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

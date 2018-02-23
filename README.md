@@ -3,7 +3,9 @@
 ### You may need to install node modules with the following command.
   
   $ npm install
+
 ----------------------------
+
 ### Vue startup instructions. You will need two shells.  
 
 ##### 1) On one shell start the client's server with:
@@ -13,6 +15,7 @@
 ##### 2) From the server folder start the server's server with:
 
   $ npm start
+
 ----------------------------
 ### Setting up MySql with a non-root user:
 
@@ -41,6 +44,7 @@
   mysql> \q 
 
   Note: You will need to have the password and username in your mysql match that in the newStart.js file (possibly insertTable.js as well). 
+  
 ----------------------------
 ### Setup the caraway database:
 

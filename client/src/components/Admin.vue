@@ -1,8 +1,8 @@
 <template>
     <v-app>
         <nav-drawer />
-        <v-content>
-            Tejkltjksl
+        <v-content fluid>
+            Insert My Content Here
         </v-content>
     </v-app>
 </template>

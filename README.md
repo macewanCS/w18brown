@@ -54,8 +54,12 @@ Setup the caraway database:
   
   $ "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe" -u root -p caraway < caraway.sql
   
-  You can now run the program with: **********************
+  You may need to install node modues with the following command.
+  
+  $ npm install
+  
+  You can now run the program with: 
 
-  $ node newStart
+  $ node app.js
   
  

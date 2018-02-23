@@ -61,5 +61,15 @@ Setup the caraway database:
   You can now run the program with: 
 
   $ node app.js
+
+  Vue startup instructions. You will need two shells.  
+
+  1) On one shell start the client's server with:
+
+  $ npm run dev
+
+  2) From the server folder start the server's server with:
+
+  $ npm start
   
  

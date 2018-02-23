@@ -1,23 +1,34 @@
+<!-- Some import code was from the following tutorial.
+https://www.youtube.com/watch?v=Fa4cRMaTDUI -->
+
 <template>
   <v-layout column>
     <v-flex xs6 offset-xs3>
       <panel title="Caraway Login">
 
         <h1>Caraway Volunteer Log-In Page</h1>
+
  <div class="FormArea">
     <div class="UserInput">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="UsernameField">
-            <input name="username" class="mdl-textfield__input" type="text" id="username">
-            <label class="mdl-textfield__label" for="username">Username</label>
+            <!-- added v-models for linking to script, added placeholders -->
+            <input name="username" class="mdl-textfield__input" type="text" id="username" placeholder="Login" v-model="username">
+          <!-- Dont need this  <label class="mdl-textfield__label" for="username">Username</label>-->
+                    
         </div>
+          <br>  
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" id="PasswordField">
-            <input name="password" class="mdl-textfield__input" type="password" id="password">
-            <label class="mdl-textfield__label" for="password">Password</label>
+            <input name="password" class="mdl-textfield__input" type="password" id="password" placeholder="Password" v-model="password">
+          <!-- Dont need this <label class="mdl-textfield__label" for="password">Password</label>-->
         </div>
     </div>
     <div class="Buttons">
         <button type="button" id="forgotPassword" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Forgot your Password?</button>
-        <button type="submit" id="login" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Login</button>
+        <button type="submit" id="login" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+          @click="login"> <!-- calls the login method below in scripts-->
+          Login    
+        </button>
+
     </div>
 </div>
 
@@ -26,38 +37,45 @@
   </v-layout>
 </template>
 
-<script>
 
-/*
+
+<script>
+// ** script is the controller **
 import AuthenticationService from '@/services/AuthenticationService'
 
 export default {
   data () {
     return {
-      email: '',
-      password: '',
-      error: null
+      username: '', // ** to update
+      password: '', // ** to update
+      error: null // ** to update
     }
   },
   methods: {
     async login () {
+      console.log('login button was clicked')
       try {
         const response = await AuthenticationService.login({
-          email: this.email,
+          username: this.username,
           password: this.password
         })
+
+        
+        console.log(response.data)
+        /*
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
         this.$router.push({
           name: 'songs'
         })
+        */
       } catch (error) {
         this.error = error.response.data.error
       }
     }
   }
 }
-*/
+
 </script>
 
 <style scoped>

@@ -1,32 +1,23 @@
 <!-- Some import code was from the following tutorial.
 https://www.youtube.com/watch?v=Fa4cRMaTDUI -->
 
-<template>
-  <v-layout column>
-    <v-flex xs6 offset-xs3>
-      <panel title="Caraway Login">
-        <h1>Caraway Volunteer Log-In Page</h1>
-        <div class="FormArea">
-            <div class="UserInput">
-                <div id="UsernameField">
-                    <!-- added v-models for linking to script, added placeholders -->
-                    <input name="username" type="text" id="username" placeholder="Login" v-model="username">                     
-                </div>
-                  <br>  
-                <div id="PasswordField">
-                    <input name="password" type="password" id="password" placeholder="Password" v-model="password">
-                </div>
-            </div>
-            <div class="Buttons">
-                <button type="button" id="forgotPassword" >Forgot your Password?</button>
-                <button type="submit" id="login" @click="login"> <!-- calls the login method below in scripts-->
-                  Login
-                </button>
-            </div>
-        </div>
-      </panel>
-    </v-flex>
-  </v-layout>
+<template>  
+  <panel title="Caraway Login">
+    <div id = "testing">
+      <h1>Caraway Volunteer <br> Log-In Page</h1>         
+      <!-- added v-models for linking to script, added placeholders -->
+      <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />                     
+      <v-text-field name="password" type="password" id="password" label="Password" v-model="password" />
+
+      <v-flex>
+        <v-btn id="forgotPassword" >Forgot your Password?</v-btn>
+        <v-btn type="submit" id="login" @click="login"> <!-- calls the login method below in scripts-->
+        Login
+        </v-btn>
+      </v-flex>
+
+    </div>
+  </panel>
 </template>
 
 
@@ -69,52 +60,16 @@ export default {
 </script>
 
 <style scoped>
-body,
-html {
-  height: 100%;
-  width: 100%;
-  margin: auto;
-  background-repeat: no-repeat;
-  background-color: #eeeeee;
-  font-family: Lato;
+v-app {
+  background-color: #EEEEEE;
 }
-
-form {
-  width: 30%;
-  background-color: #ffffff;
-
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  position: absolute;
-  height: 300px;
-
-  padding: 50px;
-  margin: auto;
-  text-align: center;
-  /*border-style: solid;*/
-  box-shadow: 8px 8px #bdbdbd;
+#testing {
+  padding: 25px;
+  background-color: #FFFFFF;
+  box-shadow: 5px 5px #BDBDBD;
+  border-style: solid;
+  border-color: #BDBDBD;
 }
-
-input {
-  width: 200px;
-  height: 25px;
-}
-
-button {
-  margin-left: 1vw;
-}
-
-.UserInput {
-  margin-bottom: 10px;
-}
-
-.Buttons {
-  text-align: center;
-}
-
 h1 {
   text-transform: uppercase;
   letter-spacing: 3px;

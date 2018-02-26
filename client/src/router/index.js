@@ -10,8 +10,8 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
-      path: '/',
-      name: 'login',
+      // when reaching localhost:8080/, redirect to Login
+      path: '/', 
       component: Login
     },
     {
@@ -23,6 +23,7 @@ export default new Router({
       path: '/admin',
       name: 'admin',
       component: Admin,
+      //Use Children if there is any router-views within the new page which need dynamic loading. 
       children: [{
         path: 'settings',
         name: 'settings',

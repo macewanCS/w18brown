@@ -1,5 +1,22 @@
 # w18brown
 
+### You may need to install node modules with the following command.
+  
+  $ npm install
+
+----------------------------
+
+### Vue startup instructions. You will need two shells.  
+
+##### 1) On one shell start the client's server with:
+
+  $ npm run dev
+
+##### 2) From the server folder start the server's server with:
+
+  $ npm start
+
+----------------------------
 ### Setting up MySql with a non-root user:
 
   The following instructions for the unix/mac command line log in as root, create the specific account to be used in the code, confirm visually, and exit.
@@ -17,6 +34,9 @@
 ##### 3) Give permission to use all databases
   
   mysql> grant all privileges on *.* to 'browncar'@'localhost' with grant option;  
+  
+  Note: markdown has removed the asterisk above on github.  If viewing from github, please use:
+  mysql> grant all privileges on \*.\* to 'browncar'@'localhost' with grant option;
 
 ##### 4) Optional. Your new user should be listed.
   
@@ -27,7 +47,8 @@
   mysql> \q 
 
   Note: You will need to have the password and username in your mysql match that in the newStart.js file (possibly insertTable.js as well). 
-
+  
+----------------------------
 ### Setup the caraway database:
 
 ##### 1 Unix/Mac) Log in to mysql.
@@ -53,19 +74,3 @@
 ##### 5 Windows) Import the caraway table into my sql from the command line. Note: your mysql path in quotes may be different.
   
   $ "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe" -u root -p caraway < caraway.sql
-  
-### You may need to install node modules with the following command.
-  
-  $ npm install
-
-### Vue startup instructions. You will need two shells.  
-
-##### 1) On one shell start the client's server with:
-
-  $ npm run dev
-
-##### 2) From the server folder start the server's server with:
-
-  $ npm start
-  
- 

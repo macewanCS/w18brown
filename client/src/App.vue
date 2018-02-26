@@ -1,13 +1,7 @@
 <template>
     <div id="app">
-        <v-app>       
-            <v-container fluid fill-height>
-                <v-layout flex align-center justify-center>
-                    <main>
-                        <router-view />
-                    </main>
-                </v-layout>
-            </v-container>
+        <v-app>
+            <router-view />
         </v-app>
     </div>
 </template>

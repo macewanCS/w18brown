@@ -1,23 +1,33 @@
 <!-- Some import code was from the following tutorial.
 https://www.youtube.com/watch?v=Fa4cRMaTDUI -->
 
-<template>  
-  <panel title="Caraway Login">
-    <div id = "testing">
-      <h1>Caraway Volunteer <br> Log-In Page</h1>         
-      <!-- added v-models for linking to script, added placeholders -->
-      <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />                     
-      <v-text-field name="password" type="password" id="password" label="Password" v-model="password" />
+<template>
+    <!-- 
+        v-container - Somewhat like a div, but from Vuetify
+            fluid - try and expand to full length of screen
+            fill-height - fill full height of screen
+        v-layout - similar to above but different properties
+    -->
+    <v-container fluid fill-height>
+        <v-layout align-center justify-center>
 
-      <v-flex>
-        <v-btn id="forgotPassword" >Forgot your Password?</v-btn>
-        <v-btn type="submit" id="login" @click="login"> <!-- calls the login method below in scripts-->
-        Login
-        </v-btn>
-      </v-flex>
+            <div id="box">
+                <h1>Caraway Volunteer <br> Log-In Page</h1>
+                <!-- added v-models for linking to script, added placeholders -->
+                <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
+                <v-text-field name="password" type="password" id="password" label="Password" v-model="password" />
 
-    </div>
-  </panel>
+                <v-flex>
+                    <v-btn id="forgotPassword">Forgot your Password?</v-btn>
+                    <v-btn type="submit" id="login" @click="login">
+                        <!-- calls the login method below in scripts-->
+                        Login
+                    </v-btn>
+                </v-flex>
+            </div>
+
+        </v-layout>
+    </v-container>
 </template>
 
 
@@ -60,20 +70,20 @@ export default {
 </script>
 
 <style scoped>
-v-app {
-  background-color: #EEEEEE;
-}
-#testing {
-  padding: 25px;
-  background-color: #FFFFFF;
-  box-shadow: 5px 5px #BDBDBD;
+#box {
+  padding: 50px;
+  background-color: #ffffff;
+  box-shadow: 5px 5px #bdbdbd;
   border-style: solid;
-  border-color: #BDBDBD;
+  border-color: #bdbdbd;
+  align-self: center;
+  max-width: 500px;
 }
 h1 {
   text-transform: uppercase;
   letter-spacing: 3px;
   font-size: 20pt;
   color: #0288d1;
+  font-family: Lato;
 }
 </style>

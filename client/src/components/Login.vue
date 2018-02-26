@@ -75,5 +75,6 @@ h1 {
   letter-spacing: 3px;
   font-size: 20pt;
   color: #0288d1;
+  font-family: Lato;
 }
 </style>

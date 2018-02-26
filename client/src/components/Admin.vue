@@ -1,19 +1,17 @@
 <template>
-    <v-app>
+    <v-content>
         <nav-drawer />
-        <v-content>
-            <router-view />
-        </v-content>
-    </v-app>
+        <router-view />
+    </v-content>
 </template>
 
 <script>
 import NavDrawer from "@/components/NavDrawer.vue";
 export default {
-    name: "app",
-    components: {
-        NavDrawer
-    }
+  name: "app",
+  components: {
+    NavDrawer
+  }
 };
 </script>
 

@@ -33,10 +33,10 @@ app.post('/login', async function (req, res) {
     //type is assigned the 'fulfill' within a promise.
     let type = await checkName(req.body.username, req.body.password);
     if (type === "admin") {
-        res.redirect("/admin");
+        res.send("Correct username/password");
     }
     if (type === "incorrect") {
-        res.send("incorrect username/password combo");
+        res.send("false");
     }
 
     //Comment out the lines above and uncomment the below for us without mySQL installed.

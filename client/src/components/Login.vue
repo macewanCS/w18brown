@@ -54,6 +54,9 @@ export default {
         });
 
         console.log(response.data);
+        this.$router.push({
+          name: 'admin'
+        })
         /*
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)

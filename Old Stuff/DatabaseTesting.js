@@ -20,6 +20,36 @@ async function testGetSettings(){
     console.log(test);
 }
 
+async function testgetJSON(){
+    let test = await functions.createJSON();
+    console.log(test);
+}
+
+async function testEditRooms(parameter){
+    if (parameter === "bad"){
+        var testIn = {};
+        //testIn["1"] = "bluewithgreen";
+        //testIn["2"] = "red";
+        testIn["3"] = "blue";
+        testIn["4"] = "mauve";
+        testIn["5"] = "purple";
+        testIn["6"] = "fancycolour";
+        let test = await functions.addEditRoom(testIn);
+        console.log(test);
+    }
+    if (parameter === "good"){
+        var testIn = {};
+        testIn["1"] = "bluewithgreen";
+        testIn["2"] = "red";
+        testIn["3"] = "blue";
+        testIn["4"] = "mauve";
+        testIn["5"] = "purple";
+        testIn["6"] = "fancycolour";
+        let test = await functions.addEditRoom(testIn);
+        console.log(test);
+    }
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -32,5 +62,8 @@ async function connectAndTest(){
         testName("Sarah001", "sarahpw");
         testName("sdf", "sdfsfg");
         testGetSettings();
+        testgetJSON();
+        testEditRooms("bad");
+        testEditRooms("good");
     }
 }

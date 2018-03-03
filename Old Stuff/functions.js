@@ -8,7 +8,9 @@ module.exports = {
 	checkName,
 	connect,
 	getSettings,
-	setSettings
+	setSettings,
+	addEditRoom,
+	createJSON
 }
 
 
@@ -149,6 +151,93 @@ async function setSettings(input){
 	});
 }
 
+async function createJSON(){
+	return new Promise(function(fulfill, reject){
+		var json = {};
+		var list = [];
+		list.push("help");
+		list.push("me");
+
+		json.test = list;
+
+		var output = JSON.stringify(json);
+
+		console.log("within the function json is", output);
+		fulfill(output);
+	})
+}
+
+async function addEditRoom(RoomsIn){
+	//first get our existing rooms
+	var currentRooms = await roomDict();
+	return new Promise(function(fulfill, reject){
+		var newRooms = {};
+		var changedRooms = {};
+		var deletedRooms = {};
+		var problemRooms = [];
+		//now lets see if any rooms are new/different
+		for (var key in RoomsIn){
+			//if we have a totally new room
+			if (!(key in currentRooms)){
+				newRooms[key] = RoomsIn[key];
+				continue;
+			}
+			//if we have a new room name
+			if (key in currentRooms && currentRooms[key] != RoomsIn[key]){
+				changedRooms[key] = RoomsIn[key];
+			}
+		}
+		//if we have deleted a room
+		for (var key in currentRooms){
+			if (!(key in RoomsIn)){
+				deletedRooms[key] = currentRooms[key];
+			}
+		}
+
+		//pull students to see if any deleted rooms shouldnt be deleted
+		sql = "SELECT * FROM student";
+
+		con.query(sql, async function (err, result, fields) {
+			if (err) throw err;
+				for (let element in result){
+					//this takes care of deleted rooms
+					if (Object.values(deletedRooms).indexOf(result[element].room) > -1){
+						let bad = await getKey(deletedRooms, result[element].room);
+						//only do unique keys
+						if (problemRooms.indexOf(bad)){
+							problemRooms.push(bad);
+						}
+					}
+				}
+			if (problemRooms.length > 0){
+				fulfill(problemRooms);
+			}
+			else {
+				fulfill(true);
+			}
+		})
+	})
+}
+
+async function getKey(dictionary, value){
+	return new Promise(function(fulfill, reject){
+		for (var key in dictionary){
+			if (dictionary[key] === value){
+					fulfill(key);
+			}
+		}
+	})
+}
+
+/*
+async for loop
+        for (let element in test) {
+            let bad = await functions.getKey(testIn, "mauve");
+            keys.push(bad);
+        }
+
+
+*/
 
 
 // -- Test isEmptyString

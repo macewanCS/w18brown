@@ -50,6 +50,11 @@ async function testEditRooms(parameter){
     }
 }
 
+async function testGetFamilyList(){
+    let test = await functions.getFamilyList();
+    console.log(test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -65,5 +70,6 @@ async function connectAndTest(){
         testgetJSON();
         testEditRooms("bad");
         testEditRooms("good");
+        testGetFamilyList();
     }
 }

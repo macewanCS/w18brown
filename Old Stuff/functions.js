@@ -10,6 +10,7 @@ module.exports = {
 	getSettings,
 	setSettings,
 	addEditRoom,
+	getFamilyList,
 	createJSON
 }
 
@@ -167,6 +168,10 @@ async function createJSON(){
 	})
 }
 
+/**
+ * 
+ * @param {*} RoomsIn Pass me a dictionary with the rooms.
+ */
 async function addEditRoom(RoomsIn){
 	//first get our existing rooms
 	var currentRooms = await roomDict();
@@ -215,6 +220,32 @@ async function addEditRoom(RoomsIn){
 			else {
 				fulfill(true);
 			}
+		})
+	})
+}
+
+/**
+ * 
+ * @param {*} RoomsIn Takes a confirmed OK room Dictionary
+ */
+async function finalRoomUpdate(RoomsIn){
+	let currentRooms = await roomDict();
+
+}
+
+/**
+ * Returns the family ID of all families in the system.
+ */
+async function getFamilyList(){
+	return new Promise(function(fulfill, reject){
+		sql = "SELECT * FROM account";
+		var output = [];
+		con.query(sql, async function (err, result, fields) {
+			if (err) throw err;
+			result.forEach(element =>{
+				output.push(element.accountID);
+			})
+			fulfill(output);
 		})
 	})
 }

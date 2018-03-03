@@ -1,7 +1,7 @@
 <template>
     <v-content>
         <nav-drawer />
-                <h1>Insert Board HTML Here</h1>
+                <h1>Insert Teacher HTML Here</h1>
         <router-view />
     </v-content>
 </template>

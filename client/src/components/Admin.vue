@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import NavDrawer from "@/components/NavDrawer.vue";
+import NavDrawer from "@/components/NavDrawerAdmin.vue";
 export default {
   name: "app",
   components: {

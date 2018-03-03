@@ -1,5 +1,15 @@
 # w18brown
 
+### Downloading and installing mysql.
+
+##### 1) Go to https://dev.mysql.com/downloads/installer/
+
+##### 2) Click the MySQL Server option.
+
+##### 3) Download the appropriate file for your operating system.
+
+##### 4) Follow the install prompts.
+
 ### You may need to install node modules with the following command.
   
   $ npm install

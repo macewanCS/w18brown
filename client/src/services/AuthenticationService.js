@@ -4,9 +4,8 @@ import Api from '@/services/Api'
 
 // this file exports this object that has a login method.
 export default {
-    login (logInfo) {
+    async login (logInfo) {
         return Api().post('login', logInfo)
-
     }
 }
 

@@ -6,6 +6,7 @@ import Admin from "@/components/Admin";
 import Family from "@/components/Family";
 import Board from "@/components/Board";
 import Teacher from "@/components/Teacher";
+import Rooms from "@/components/Rooms";
 
 
 import Settings from "@/components/Settings";
@@ -33,7 +34,13 @@ export default new Router({
         path: 'settings',
         name: 'settings',
         component: Settings
-      }]
+      },
+      {
+        path: 'rooms',
+        name: 'rooms',
+        component: Rooms
+      }
+    ]
     }, 
     {
       path: '/teacher',

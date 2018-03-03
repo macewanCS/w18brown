@@ -11,31 +11,19 @@
         </v-toolbar>
         <v-divider />
         <v-list fluid>
-            <v-list-tile :to="{name: 'admin'}">
+            <v-list-tile :to="{name: 'teacher'}">
                 <!--looks to router/index.js for admin and loads components-->
                 <v-list-tile-content>
                     <v-list-tile-title>Dashboard</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile>
-                <v-list-tile-content>
-                    <v-list-tile-title>Room Management</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
+
 
             <v-list-tile>
                 <v-list-tile-content>
-                    <v-list-tile-title>Account Management</v-list-tile-title>
+                    <v-list-tile-title>View Schedules</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
-
-            <router-link :to="{name: 'settings'}">
-                <v-list-tile>
-                    <v-list-tile-content>
-                        <v-list-tile-title>Settings</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </router-link>
 
             <v-divider />
 

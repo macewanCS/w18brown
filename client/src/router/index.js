@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login' // add for every route. also add component.
+
+import Accounts from "@/components/Account";
+//
+// account or accounts?
+//
+
 import Rooms from "@/components/Rooms";
 import Reserve from "@/components/Reserve";
 import Settings from "@/components/Settings";
@@ -54,19 +60,23 @@ export default new Router({
         path: 'rooms',
         name: 'rooms',
         component: Rooms
+      },
+      {
+        path: "accounts",
+        name: "accounts",
+        component: Accounts
       }
     ]
     }, 
     {
       path: '/dashboardfamily',
       name: 'dashboardfamily',
-      component: DashboardFamily,
-      children: [{
-        path: 'reserve',
-        name: 'reserve',
-        component: Reserve
-      }
-    ]
+      component: DashboardFamily
+    },
+    {
+      path: 'reserve',
+      name: 'reserve',
+      component: Reserve
     }
   ]
 })

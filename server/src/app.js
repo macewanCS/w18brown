@@ -7,6 +7,7 @@ const express = require('express')
 const bodyParser = require('body-parser') // process json data easily.
 const cors = require('cors') // allows any client around the world to hit the server. security risk.
 const app = express() // builds an express server
+const pFunctions = require('./functions.js');
 
 //var mysql = require("mysql"); // this has been moved to databaseFunctions.js
 var request = require("request-promise");
@@ -50,6 +51,24 @@ app.post('/login', async function (req, res) {
     console.log("In app.js file: type: ", type)
 
     res.send(type)
+})
+/*Returns a array with this format:
+    block1_start, block1_end, block2_start, block2_end, block3_start, block3_end, Year start, weekly_requirements
+    Ex.  
+    [
+    "08:45:00",
+    "12:00:00",
+    "11:50:00",
+    "13:00:00",
+    "12:50:00",
+    "15:45:00",
+    "2018/09/05",
+    "05:00:00"
+    ]
+*/
+app.post('/getSettings', async function (req, res) {
+    let test = await pFunctions.getSettings();
+    res.send(test);
 })
 
 /* checkName - this function checks whether a username/password combo is in the database and 

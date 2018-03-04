@@ -28,6 +28,7 @@
             </v-list-tile>
             
             <v-list-tile :to="{name: 'underconstruction'}">
+             
                 <v-list-tile>
                     <v-list-tile-content>
                         <v-list-tile-title>Holidays</v-list-tile-title>
@@ -45,11 +46,13 @@
 
             <v-divider />
 
-            <v-list-tile>
-                <v-list-tile-content>
-                    <v-list-tile-title>Account Management</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
+            <router-link :to="{name: 'accounts'}">
+                <v-list-tile>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Account Management</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </router-link>
 
             <v-list-tile :to="{name: 'underconstruction'}">
                 <v-list-tile>

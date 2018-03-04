@@ -57,34 +57,44 @@ export default {
 
         await console.log("response.data is: ", response.data);
 
-        if (response.data == "incorrect"){
-          console.log(typeof(response.data))
-          console.log("this should not go to the admin page.")
-        } else if (response.data == "admin"){
+      
+
+
+        if (response.data == "admin"){
 
           console.log("admin detected")
           this.$router.push({
-            name: 'admin'
+            name: 'dashboardadmin'
           })
         } else if (response.data == "family"){
 
           console.log("family detected")
           this.$router.push({
-            name: 'family'
+            name: 'dashboardfamily'
           })
         } else if (response.data == "teacher"){
 
           console.log("teacher detected")
           this.$router.push({
-            name: 'teacher'
+            name: 'dashboardteacher'
           })
         } else if (response.data == "board"){
 
           console.log("board detected")
           this.$router.push({
-            name: 'board'
+            name: 'dashboardboard'
           })
-        }
+        } else {
+
+          console.log(typeof(response.data))
+          console.log("Login Failed!")
+          //
+          //  Add redirect to error page?
+          //
+          this.$router.push({
+              name: 'underconstruction'
+            })
+          }
 
       
         /*

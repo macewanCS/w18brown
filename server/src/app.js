@@ -1,7 +1,7 @@
 // Some import code was from the following tutorial.
 // https://www.youtube.com/watch?v=Fa4cRMaTDUI
 
-console.log('hello')
+console.log('The Caraway Server is running.')
 
 const express = require('express')
 const bodyParser = require('body-parser') // process json data easily.
@@ -9,25 +9,47 @@ const cors = require('cors') // allows any client around the world to hit the se
 const app = express() // builds an express server
 const pFunctions = require('./functions.js');
 
-var mysql = require("mysql");
+//var mysql = require("mysql"); // this has been moved to databaseFunctions.js
 var request = require("request-promise");
+
+
+// code to import functions file 
+var databaseFunc = require('./databaseFunctions')
+/*
+    Note: to use databaseFunctions, use dot notation.
+            ex. databaseFunc.checkName(...)
+*/
+
+
+
+
+
+
+
+
+
 
 app.use(bodyParser.json())
 app.use(cors())
 
-//When posted information to "/login", do this.
-//must be an async function to call await on a function inside.
+/* 
+* This code takes a username and password from the login page and sends the user type.
+* integration code
+* from client: login
+* returns: user type
+*/
 app.post('/login', async function (req, res) {
     //Checkname is passed username/password and the resolution to redirect the user to the correct page.
 
+    // -- test output -- PLO
     console.log("In app.js file:   username: ", req.body.username, "password: ", req.body.password)
 
-    //type is assigned the 'fulfill' within a promise.
-    let type = await checkName(req.body.username, req.body.password);
+    // calls checkName. Gives it username and password from the login page. Returns type to user.
+    let type = await databaseFunc.checkName(req.body.username, req.body.password);
 
+    // -- test output -- PLO
     console.log("In app.js file: type: ", type)
 
-    // This is all that was needed to fix login issue!
     res.send(type)
 })
 /*Returns a array with this format:
@@ -49,10 +71,15 @@ app.post('/getSettings', async function (req, res) {
     res.send(test);
 })
 
-//this function checks whether a username/password combo is in the database.
-//Return: Promise containing account type.
+/* checkName - this function checks whether a username/password combo is in the database and 
+* returns their account type if found.
+* 
+* returns: promise containing account type
+*//*
 async function checkName(name, password) {
     return new Promise(function (fulfill, reject) {
+
+        // creates a connection to the database saved in the con variable.
         var con = mysql.createConnection({
             host: "localhost",
             user: "browncar",
@@ -60,6 +87,7 @@ async function checkName(name, password) {
             database: "caraway"
         });
 
+        // sql query code
         con.connect(function (err) {
             if (err) throw err;
             // ? is like %s in C. 
@@ -69,23 +97,20 @@ async function checkName(name, password) {
                 if (err) throw err;
                 if (result.length === 0) {
                     fulfill("incorrect");
-                    console.log("app.js file. no matching users found.")
+
+                    // -- test output -- PLO
+                    console.log("checkName function. user not found in database.")
+
                 }
                 else {
                     fulfill(result[0].type); // this returns account type
 
-                    console.log("app.js file. matching user found. Type is", result[0].type)
+                    // -- test output -- PLO
+                    console.log("checkName function. User found with type: ", result[0].type)
                 }
             });
         });
     })
-};
-
-// to use later
-/* AuthenticationService.login({
-    account: 'some text',
-    password: 'some text'
-}) */
-
+};*/
 
 app.listen(8081)

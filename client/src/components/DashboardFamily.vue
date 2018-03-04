@@ -1,7 +1,10 @@
 <template>
     <v-content>
         <nav-drawer />
-          <h1>Insert Family HTML Here</h1>
+          <h1>Family Dashboard</h1>
+          
+          <!-- HTML code for family page goes in reserve.vue -->
+
         <router-view />
     </v-content>
 </template>

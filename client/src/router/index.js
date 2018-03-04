@@ -1,12 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login' // add for every route. also add component.
-
-import Accounts from "@/components/Account";
-//
-// account or accounts?
-//
-
+import Accounts from "@/components/Accounts";
 import Rooms from "@/components/Rooms";
 import Reserve from "@/components/Reserve";
 import Settings from "@/components/Settings";

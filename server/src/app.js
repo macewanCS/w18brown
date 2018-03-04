@@ -13,26 +13,16 @@ const pFunctions = require('./functions.js');
 var request = require("request-promise");
 
 
-// code to import functions file 
+// code to import functions file
 var databaseFunc = require('./databaseFunctions')
 /*
     Note: to use databaseFunctions, use dot notation.
             ex. databaseFunc.checkName(...)
 */
-
-
-
-
-
-
-
-
-
-
 app.use(bodyParser.json())
 app.use(cors())
 
-/* 
+/*
 * This code takes a username and password from the login page and sends the user type.
 * integration code
 * from client: login
@@ -53,11 +43,13 @@ app.post('/login', async function (req, res) {
     res.send(type)
 })
 
-/*
+
+
+/* GET:  getSettings
 ----------------------------
     Returns a array with this format:
     block1_start, block1_end, block2_start, block2_end, block3_start, block3_end, Year start, weekly_requirements
-    Ex.  
+    Ex.
     [
     "08:45:00",
     "12:00:00",
@@ -73,10 +65,16 @@ app.get('/getSettings', async function (req, res) {
     let settings = await pFunctions.getSettings();
     res.send(settings);
 })
+/* POST:  setSettings
+*/
+app.post("/setSettings", async (req, res) => {
+    console.log(req.body);
+    pFunctions.setSettings(req.body);
+})
 
-/* checkName - this function checks whether a username/password combo is in the database and 
+/* checkName - this function checks whether a username/password combo is in the database and
 * returns their account type if found.
-* 
+*
 * returns: promise containing account type
 *//*
 async function checkName(name, password) {
@@ -93,7 +91,7 @@ async function checkName(name, password) {
         // sql query code
         con.connect(function (err) {
             if (err) throw err;
-            // ? is like %s in C. 
+            // ? is like %s in C.
             var sql = "SELECT * FROM account WHERE accountID = ? and password = ?";
             // this array gives order. name is the first ?, password is the 2nd ?
             con.query(sql, [name, password], function (err, result, fields) {

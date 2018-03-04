@@ -98,10 +98,20 @@ export default {
   },
   methods: {
     applySettings() {
-        var curSettings = [block1Start, block1End, block2Start, block2End, block3Start, block3End, startDate, "05:00:00"];
+      var curSettings = [
+        this.block1Start,
+        this.block1End,
+        this.block2Start,
+        this.block2End,
+        this.block3Start,
+        this.block3End,
+        this.startDate,
+        "05:00:00"
+      ];
+      this.pushSettings(curSettings);
     },
     cancelSettings() {
-        this.pullSettings();
+      this.pullSettings();
     },
     async pullSettings() {
       try {
@@ -129,6 +139,15 @@ export default {
       var dashDate = dateString.replace(/\//g, "-");
       //console.log(dashDate);
       return dashDate;
+    },
+    async pushSettings(settings) {
+        try {
+            await ApiFunctions.setSettings(settings);
+            await this.pullSettings();
+
+        } catch (error) {
+            this.error = error.response.data.error;
+        }
     }
   }
 };

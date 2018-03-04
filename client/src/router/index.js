@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login' // add for every route. also add component.
 import Admin from "@/components/Admin";
 import Family from "@/components/Family";

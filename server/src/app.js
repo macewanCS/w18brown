@@ -30,7 +30,10 @@ app.post('/login', async function (req, res) {
     // This is all that was needed to fix login issue!
     res.send(type)
 })
-/*Returns a array with this format:
+
+/*
+----------------------------
+    Returns a array with this format:
     block1_start, block1_end, block2_start, block2_end, block3_start, block3_end, Year start, weekly_requirements
     Ex.  
     [
@@ -44,9 +47,9 @@ app.post('/login', async function (req, res) {
     "05:00:00"
     ]
 */
-app.post('/getSettings', async function (req, res) {
-    let test = await pFunctions.getSettings();
-    res.send(test);
+app.get('/getSettings', async function (req, res) {
+    let settings = await pFunctions.getSettings();
+    res.send(settings);
 })
 
 //this function checks whether a username/password combo is in the database.

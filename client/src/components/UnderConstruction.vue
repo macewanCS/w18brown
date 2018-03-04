@@ -7,7 +7,6 @@
                     <h1>Under Construction
                         </h1>  
                         <div>
-                            <img src="../assets/under_construction.jpg">
                         </div>
                     </body>
             </div>
@@ -26,21 +25,6 @@
 </script>
 
 <style>
-#box {
-  padding: 50px;
-  background-color: #ffffff;
-  box-shadow: 5px 5px #bdbdbd;
-  border-style: solid;
-  border-color: #bdbdbd;
-  align-self: center;
-  max-width: 500px;
-}
-h1 {
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  font-size: 20pt;
-  color: #0288d1;
-  font-family: Lato;
-}
+
 
 </style>

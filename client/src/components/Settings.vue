@@ -67,7 +67,8 @@
                 <h3>Year Start Date
                     <input id="yearStart" type="date" v-model="startDate">
                 </h3>
-
+                <v-btn color="success" @click="applySettings">Apply</v-btn>
+                <v-btn color="error" @click="cancelSettings">Cancel</v-btn>
             </v-tab-item>
             <v-tab-item key="tab2">
                 fffffff
@@ -93,10 +94,16 @@ export default {
     };
   },
   created() {
-    this.updateSettings();
+    this.pullSettings();
   },
   methods: {
-    async updateSettings() {
+    applySettings() {
+        var curSettings = [block1Start, block1End, block2Start, block2End, block3Start, block3End, startDate, "05:00:00"];
+    },
+    cancelSettings() {
+        this.pullSettings();
+    },
+    async pullSettings() {
       try {
         const test = await ApiFunctions.getSettings();
         let settings = await test.data;
@@ -110,8 +117,8 @@ export default {
           this.block3Start = settings[4];
           this.block3End = settings[5];
           this.startDate = this.changeDate(settings[6]);
-        } else  {
-            throw "Length of settings != 8";
+        } else {
+          throw "Length of settings != 8";
         }
       } catch (error) {
         console.log("catch condition");

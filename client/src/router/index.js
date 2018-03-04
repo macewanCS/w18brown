@@ -7,6 +7,9 @@ import Family from "@/components/Family";
 import Board from "@/components/Board";
 import Teacher from "@/components/Teacher";
 import Rooms from "@/components/Rooms";
+import ReserveFieldTrip from "@/components/ReserveFieldTrip";
+import ReserveRoom from "@/components/ReserveRoom";
+
 
 
 import Settings from "@/components/Settings";
@@ -55,7 +58,18 @@ export default new Router({
     {
       path: '/family',
       name: 'family',
-      component: Family
+      component: Family,
+      children: [{
+        path: 'reservefieldtrip',
+        name: 'reservefieldtrip',
+        component: ReserveFieldTrip
+      },
+      {
+        path: 'reserveroom',
+        name: 'reserveroom',
+        component: ReserveRoom
+      }
+    ]
     }
   ]
 })

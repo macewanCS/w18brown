@@ -18,12 +18,22 @@
                 </v-list-tile-content>
             </v-list-tile>
 
-
-            <v-list-tile>
-                <v-list-tile-content>
-                    <v-list-tile-title>Reserve Time</v-list-tile-title>
-                </v-list-tile-content>
+            <v-list-tile :to="{name: 'reserveroom'}">
+                <v-list-tile>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Reserve Room Hours</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
             </v-list-tile>
+
+            <v-list-tile :to="{name: 'reservefieldtrip'}">
+                <v-list-tile>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Reserve Fieldtrip</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list-tile>
+     
 
             <v-divider />
 

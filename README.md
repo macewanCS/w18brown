@@ -10,6 +10,8 @@
 
 ##### 4) Follow the install prompts.
 
+----------------------------
+
 ### You may need to install node modules with the following command.
   
   $ npm install

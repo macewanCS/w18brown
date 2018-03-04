@@ -11,32 +11,29 @@
         </v-toolbar>
         <v-divider />
         <v-list fluid>
-            <v-list-tile :to="{name: 'board'}">
+            <v-list-tile :to="{name: 'dashboardboard'}">
                 <!--looks to router/index.js for admin and loads components-->
                 <v-list-tile-content>
                     <v-list-tile-title>Dashboard</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
 
-
-            <v-list-tile>
-                <v-list-tile-content>
-                    <v-list-tile-title>View Schedule</v-list-tile-title>
-                </v-list-tile-content>
+            <v-list-tile :to="{name: 'underconstruction'}">
+                    <v-list-tile-content>
+                        <v-list-tile-title>View Schedule</v-list-tile-title>
+                    </v-list-tile-content>
             </v-list-tile>
 
-            <v-list-tile>
-                <v-list-tile-content>
-                    <v-list-tile-title>View Reports</v-list-tile-title>
-                </v-list-tile-content>
+            <v-list-tile :to="{name: 'underconstruction'}">
+                    <v-list-tile-content>
+                        <v-list-tile-title>View Reports</v-list-tile-title>
+                    </v-list-tile-content>
             </v-list-tile>
-
-            <v-divider />
 
             <v-list-tile :to="{name: 'login'}">
-                <v-list-tile-content>
-                    <v-list-tile-title>Logout</v-list-tile-title>
-                </v-list-tile-content>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Logout</v-list-tile-title>
+                    </v-list-tile-content>
             </v-list-tile>
 
         </v-list>

@@ -1,6 +1,7 @@
 <template>
     <v-content>
         <nav-drawer />
+          <h1>Admin Dashboard</h1>
         <router-view />
     </v-content>
 </template>

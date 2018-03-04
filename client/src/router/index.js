@@ -1,18 +1,20 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login' // add for every route. also add component.
-import Admin from "@/components/Admin";
-import Family from "@/components/Family";
-import Board from "@/components/Board";
-import Teacher from "@/components/Teacher";
-import Rooms from "@/components/Rooms";
-import ReserveFieldTrip from "@/components/ReserveFieldTrip";
-import ReserveRoom from "@/components/ReserveRoom";
+
 import Accounts from "@/components/Account";
+//
+// account or accounts?
+//
 
-
-
+import Rooms from "@/components/Rooms";
+import Reserve from "@/components/Reserve";
 import Settings from "@/components/Settings";
+import UnderConstruction from "@/components/UnderConstruction";
+import DashboardFamily from "@/components/DashboardFamily";
+import DashboardAdmin from "@/components/DashboardAdmin";
+import DashboardBoard from "@/components/DashboardBoard";
+import DashboardTeacher from "@/components/DashboardTeacher";
 
 Vue.use(Router)
 
@@ -29,9 +31,25 @@ export default new Router({
       component: Login
     },
     {
-      path: '/admin',
-      name: 'admin',
-      component: Admin,
+      path: '/underconstruction',
+      name: 'underconstruction',
+      component: UnderConstruction
+    },
+    {
+      path: '/dashboardboard',
+      name: 'dashboardboard',
+      component: DashboardBoard
+    },
+    {
+      path: '/dashboardteacher',
+      name: 'dashboardteacher',
+      component: DashboardTeacher
+    },
+
+    {
+      path: '/dashboardadmin',
+      name: 'dashboardadmin',
+      component: DashboardAdmin,
       //Use Children if there is any router-views within the new page which need dynamic loading. 
       children: [{
         path: 'settings',
@@ -51,30 +69,14 @@ export default new Router({
     ]
     }, 
     {
-      path: '/teacher',
-      name: 'teacher',
-      component: Teacher
+      path: '/dashboardfamily',
+      name: 'dashboardfamily',
+      component: DashboardFamily
     },
     {
-      path: '/board',
-      name: 'board',
-      component: Board
-    },
-    {
-      path: '/family',
-      name: 'family',
-      component: Family,
-      children: [{
-        path: 'reservefieldtrip',
-        name: 'reservefieldtrip',
-        component: ReserveFieldTrip
-      },
-      {
-        path: 'reserveroom',
-        name: 'reserveroom',
-        component: ReserveRoom
-      }
-    ]
+      path: 'reserve',
+      name: 'reserve',
+      component: Reserve
     }
   ]
 })

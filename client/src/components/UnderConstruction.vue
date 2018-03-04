@@ -4,13 +4,16 @@
 
             <div id="box">
                     <body>
-                    <h1>Reserve Fieldtrip Hours</h1>  
+                    <h1>Under Construction
+                        </h1>  
                         <div>
+                            <img src="../assets/under_construction.jpg">
                         </div>
                     </body>
             </div>
 
         </v-layout>
+
     </v-container>
 
 
@@ -19,14 +22,7 @@
 </template>
 
 <script>
-/*
-export default {
-  data() {
-    return {
-      tabs: null
-    };
-  }
-};*/
+
 </script>
 
 <style>

@@ -102,22 +102,26 @@ export default {
         let settings = await test.data;
         console.log(test);
         console.log(settings);
-        this.block1Start = settings[0];
-        this.block1End = settings[1];
-        this.block2Start = settings[2];
-        this.block2End = settings[3];
-        this.block3Start = settings[4];
-        this.block3End = settings[5];
-        this.startDate = this.changeDate(settings[6]);
+        if (settings.length == 8) {
+          this.block1Start = settings[0];
+          this.block1End = settings[1];
+          this.block2Start = settings[2];
+          this.block2End = settings[3];
+          this.block3Start = settings[4];
+          this.block3End = settings[5];
+          this.startDate = this.changeDate(settings[6]);
+        } else  {
+            throw "Length of settings != 8";
+        }
       } catch (error) {
         console.log("catch condition");
         this.error = error.response.data.error;
       }
     },
     changeDate(dateString) {
-        var dashDate = dateString.replace(/\//g, "-");
-        //console.log(dashDate);
-        return(dashDate);
+      var dashDate = dateString.replace(/\//g, "-");
+      //console.log(dashDate);
+      return dashDate;
     }
   }
 };

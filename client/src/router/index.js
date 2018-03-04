@@ -8,6 +8,7 @@ import Teacher from "@/components/Teacher";
 import Rooms from "@/components/Rooms";
 import ReserveFieldTrip from "@/components/ReserveFieldTrip";
 import ReserveRoom from "@/components/ReserveRoom";
+import Accounts from "@/components/Account";
 
 
 
@@ -41,6 +42,11 @@ export default new Router({
         path: 'rooms',
         name: 'rooms',
         component: Rooms
+      },
+      {
+        path: "accounts",
+        name: "accounts",
+        component: Accounts
       }
     ]
     }, 

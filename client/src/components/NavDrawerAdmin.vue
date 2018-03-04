@@ -17,7 +17,7 @@
                     <v-list-tile-title>Dashboard</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
-            
+
             <router-link :to="{name: 'rooms'}">
                 <v-list-tile>
                     <v-list-tile-content>
@@ -26,11 +26,13 @@
                 </v-list-tile>
             </router-link>
 
-            <v-list-tile>
-                <v-list-tile-content>
-                    <v-list-tile-title>Account Management</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
+            <router-link :to="{name: 'accounts'}">
+                <v-list-tile>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Account Management</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </router-link>
 
             <router-link :to="{name: 'settings'}">
                 <v-list-tile>

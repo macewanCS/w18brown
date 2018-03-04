@@ -11,31 +11,29 @@
         </v-toolbar>
         <v-divider />
         <v-list fluid>
-            <v-list-tile :to="{name: 'admin'}">
+            <v-list-tile :to="{name: 'family'}">
                 <!--looks to router/index.js for admin and loads components-->
                 <v-list-tile-content>
                     <v-list-tile-title>Dashboard</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile>
-                <v-list-tile-content>
-                    <v-list-tile-title>Room Management</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
 
-            <v-list-tile>
-                <v-list-tile-content>
-                    <v-list-tile-title>Account Management</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
-
-            <router-link :to="{name: 'settings'}">
+            <v-list-tile :to="{name: 'reserveroom'}">
                 <v-list-tile>
                     <v-list-tile-content>
-                        <v-list-tile-title>Settings</v-list-tile-title>
+                        <v-list-tile-title>Reserve Room Hours</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
-            </router-link>
+            </v-list-tile>
+
+            <v-list-tile :to="{name: 'reservefieldtrip'}">
+                <v-list-tile>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Reserve Fieldtrip</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list-tile>
+     
 
             <v-divider />
 

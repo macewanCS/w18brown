@@ -11,37 +11,23 @@ const app = express() // builds an express server
 var mysql = require("mysql");
 var request = require("request-promise");
 
-
-// app.use(morgan('combined)) // not currently installed.
 app.use(bodyParser.json())
 app.use(cors())
-
-// end points
-
-// example format:
-/* app.get('/status', (req, res) => {
-    res.send({
-        message: "hello world!"
-    })
-}) */
 
 //When posted information to "/login", do this.
 //must be an async function to call await on a function inside.
 app.post('/login', async function (req, res) {
     //Checkname is passed username/password and the resolution to redirect the user to the correct page.
 
+    console.log("In app.js file:   username: ", req.body.username, "password: ", req.body.password)
+
     //type is assigned the 'fulfill' within a promise.
     let type = await checkName(req.body.username, req.body.password);
-    if (type === "admin") {
-        res.send("Correct username/password");
-    }
-    if (type === "incorrect") {
-        res.send("false");
-    }
 
-    //Comment out the lines above and uncomment the below for us without mySQL installed.
-    //res.redirect("/admin");
+    console.log("In app.js file: type: ", type)
 
+    // This is all that was needed to fix login issue!
+    res.send(type)
 })
 
 //this function checks whether a username/password combo is in the database.
@@ -63,11 +49,13 @@ async function checkName(name, password) {
             con.query(sql, [name, password], function (err, result, fields) {
                 if (err) throw err;
                 if (result.length === 0) {
-                    //this wont work, needs to be different.
                     fulfill("incorrect");
+                    console.log("app.js file. no matching users found.")
                 }
                 else {
-                    fulfill(result[0].type);
+                    fulfill(result[0].type); // this returns account type
+
+                    console.log("app.js file. matching user found. Type is", result[0].type)
                 }
             });
         });

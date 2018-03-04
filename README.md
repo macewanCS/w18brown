@@ -1,5 +1,17 @@
 # w18brown
 
+### Downloading and installing mysql.
+
+##### 1) Go to https://dev.mysql.com/downloads/installer/
+
+##### 2) Click the MySQL Server option.
+
+##### 3) Download the appropriate file for your operating system.
+
+##### 4) Follow the install prompts.
+
+----------------------------
+
 ### You may need to install node modules with the following command.
   
   $ npm install
@@ -74,3 +86,12 @@
 ##### 5 Windows) Import the caraway table into my sql from the command line. Note: your mysql path in quotes may be different.
   
   $ "C:\Program Files\MySQL\MySQL Server 5.7\bin\mysql.exe" -u root -p caraway < caraway.sql
+  
+  
+ -------------------------------------------
+  Current accountIDs and passwords:
+  
+  Peter001 - peterpw
+  Sarah001 - sarahpw
+  Bruce001 - brucepw
+  Ann001 - annpw

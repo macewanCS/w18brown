@@ -6,7 +6,6 @@ import Api from '@/services/Api'
 export default {
     async login (logInfo) {
         return Api().post('login', logInfo)
-
     }
 }
 

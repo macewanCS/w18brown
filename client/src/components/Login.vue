@@ -39,34 +39,66 @@ import AuthenticationService from "@/services/AuthenticationService";
 export default {
   data() {
     return {
-      username: "", // ** to update
-      password: "", // ** to update
+      username, // ** to update
+      password, // ** to update
       error: null // ** to update
     };
   },
   methods: {
     async login() {
+      console.log("In Login.vue file:   username: ", this.username, "password: ", this.password)
       console.log("login button was clicked");
+      
       try {
         const response = await AuthenticationService.login({
           username: this.username,
           password: this.password
         });
 
-        console.log(response.data);
-        this.$router.push({
-          name: 'admin'
-        })
+        await console.log("response.data is: ", response.data);
+
+        if (response.data == "incorrect"){
+          console.log(typeof(response.data))
+          console.log("this should not go to the admin page.")
+        } else if (response.data == "admin"){
+
+          console.log("admin detected")
+          this.$router.push({
+            name: 'admin'
+          })
+        } else if (response.data == "family"){
+
+          console.log("family detected")
+          this.$router.push({
+            name: 'family'
+          })
+        } else if (response.data == "teacher"){
+
+          console.log("teacher detected")
+          this.$router.push({
+            name: 'teacher'
+          })
+        } else if (response.data == "board"){
+
+          console.log("board detected")
+          this.$router.push({
+            name: 'board'
+          })
+        }
+
+      
         /*
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
         this.$router.push({
-          name: 'songs'
-        })
-        */
+          name: 'admin'
+        })*/
+        
       } catch (error) {
+        console.log("catch condition")
         this.error = error.response.data.error;
       }
+      
     }
   }
 };

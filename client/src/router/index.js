@@ -19,7 +19,7 @@ import HolidaysAdmin from "@/components/HolidaysAdmin";
 import FieldTripsAdmin from "@/components/FieldTripsAdmin";
 import AccountStaff from "@/components/AccountStaff";
 import Board from "@/components/Board";
-//import Admin from "@/components/Admin";
+import Admin from "@/components/Admin";
 
 //import NavDrawerAdmin from "@/components/NavDrawerAdmin";
 
@@ -52,26 +52,24 @@ export default new Router({
         name: 'dashboardboard',
         component: DashboardBoard
       }]      
-      
-      
-     
     },
     {
       path: '/dashboardteacher',
       name: 'dashboardteacher',
       component: DashboardTeacher
     },
-/*
+
     {
       path: '/admin',
       name: 'admin',
       component: Admin,
       //Use Children if there is any router-views within the new page which need dynamic loading. 
-      children: [*/{
-        path: '/dashboardadmin',
+      children: [{
+        path: 'dashboardadmin',
         name: 'dashboardadmin',
-        component: DashboardAdmin,
-        children: [{
+        component: DashboardAdmin
+        },
+        {  
           path: 'settings',
           name: 'settings',
           component: Settings

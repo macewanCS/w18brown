@@ -10,7 +10,11 @@ module.exports = {
 	getSettings,
 	setSettings,
 	addEditRoom,
+	finalRoomUpdate,
 	getFamilyList,
+	createEmployeeCheck,
+	createEmployeeConfirm,
+	getTypes,
 	createJSON
 }
 
@@ -67,13 +71,68 @@ async function checkName(name, password){
 			if (result.length === 0){
 				//this wont work, needs to be different.
 				fulfill("incorrect");
+
+				console.log("checkName function. user not found in database.")
 			}
 			else {
 				fulfill(result[0].type);
+
+				console.log("checkName function. User found with type: ", result[0].type)
 			}
 		
 		});
     });
+}
+
+/**
+ * 
+ * @param {*} username provided username
+ * @param {*} type provided type
+ */
+async function createEmployeeCheck(username, type){
+	let length = await below255(username);
+
+	if (length === true){
+		length = await isEmptyString(username);
+	}
+	return new Promise(function(fulfill, reject){
+		//confirm length
+		if (length === false){
+			fulfill("tooLongOrEmpty");
+		}
+		var sql = "SELECT * from account";
+
+		//first lets make sure the username doesnt exist already
+		con.query(sql, function (err, result, fields) {
+			if (err) throw err;		
+			for (let account in result){
+				if (account.accountID === username){
+					fulfill("alreadyUsed");
+				}
+			}	
+		});
+		//we've gone this far, now we can create a username
+		fulfill("brown");
+	})
+}
+
+/**
+ * 
+ * @param {*} username username to insert
+ * @param {*} type type of account
+ */
+async function createEmployeeConfirm(username, type){
+	return new Promise(function(fulfill, reject){
+		var sql = "INSERT into account (accountID, type) VALUES (?, ?);"
+
+		con.query(sql, [username, type], function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			fulfill(true);		
+		});
+	})
 }
 
 
@@ -148,8 +207,30 @@ async function setSettings(input){
 		con.query(sql, (input), function (err, result, fields) {
 			if (err) throw err;
 			console.log("settings updated");
+			fulfill(true);
 		});
 	});
+}
+
+/**
+ * 
+ * @param {*} input Input to check if input is too long or not.
+ */
+async function below255(input){
+	return new Promise(function(fulfill, reject){
+		if (input.length >= 253){
+			fulfill(false);
+		}
+		fulfill(true);
+	})
+}
+
+async function getTypes(){
+	return new Promise(function(fulfill, reject){
+		var output = ["board", "teacher", "admin", "family"];
+
+		fulfill(output);
+	})
 }
 
 async function createJSON(){
@@ -230,7 +311,40 @@ async function addEditRoom(RoomsIn){
  */
 async function finalRoomUpdate(RoomsIn){
 	let currentRooms = await roomDict();
+	return new Promise(function(fulfill, reject){
+		//iterate through incoming rooms
+		for (var key in RoomsIn){
+			//we found a new value so update it in the database
+			if (currentRooms[key] != RoomsIn[key]){
+				var oldName = currentRooms[key];
+				var newName = RoomsIn[key];
+				var sql = "UPDATE room SET roomName = ? WHERE roomName = ?";
 
+				con.query(sql, [newName, oldName], function (err, result, fields) {
+					if (err) throw err;				
+				});
+			}
+			//we have a new entry
+			if (!(key in currentRooms)){
+				var sql = "INSERT into room (roomID, roomName) VALUES (?, ?)";
+
+				con.query(sql, [key, RoomsIn[key]], function (err, result, fields) {
+					if (err) throw err;				
+				});
+			}
+		}
+		//finished adding and editting, now to delete
+		for (var key in currentRooms){
+			if (!(key in RoomsIn)){
+				var sql = "DELETE FROM room WHERE roomID = ?";
+
+				con.query(sql, key, function (err, result, fields) {
+					if (err) throw err;				
+				});
+			}
+		}
+		fulfill(true);
+	})
 }
 
 /**

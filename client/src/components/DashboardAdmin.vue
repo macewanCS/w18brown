@@ -7,6 +7,7 @@
 </template>
 
 <script>
+
 import NavDrawer from "@/components/NavDrawerAdmin.vue";
 export default {
   name: "app",

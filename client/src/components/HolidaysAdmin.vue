@@ -1,20 +1,15 @@
 <template>
-      <v-container fluid fill-height>
-        <v-layout align-center justify-center>
-
-            <div id="box">
-                    <body>
-                    <h1>Create a Holiday</h1>  
-                        <div>
-                        </div>
-                    </body>
-            </div>
-
-        </v-layout>
+  <v-container fluid fill-height>
+    <v-layout align-center justify-center>
+      <div id="box">
+        <body>
+        <h1>Create a Holiday</h1>  
+          <div>
+          </div>
+        </body>
+      </div>
+    </v-layout>
     </v-container>
-
-
-
 
 </template>
 

@@ -1,9 +1,8 @@
 <template>
     <v-content>
-        <nav-drawer />
-          <h1>Family Dashboard</h1>
-          <!-- HTML code for family page goes in reserve.vue -->
-        <router-view />
+      <nav-drawer />
+        <h1>Family Dashboard</h1>
+      <router-view />
     </v-content>
 </template>
 

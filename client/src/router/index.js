@@ -19,7 +19,7 @@ import HolidaysAdmin from "@/components/HolidaysAdmin";
 import FieldTripsAdmin from "@/components/FieldTripsAdmin";
 import AccountStaff from "@/components/AccountStaff";
 import Board from "@/components/Board";
-import Admin from "@/components/Admin";
+//import Admin from "@/components/Admin";
 
 //import NavDrawerAdmin from "@/components/NavDrawerAdmin";
 

@@ -124,10 +124,15 @@ export default {
       cancelDialog: ""
     };
   },
-  created() {
+  created() { // Created = run these things upon the page fully loading
     this.pullSettings();
   },
   methods: {
+    /* 
+        applySettings():
+
+        Closes the confirmation box. Pulls the current data from this vue and sends it to pushSettings.
+    */  
     applySettings() {
       this.applyDialog = false; // close applyDialog box
       var curSettings = [
@@ -142,17 +147,26 @@ export default {
       ];
       this.pushSettings(curSettings);
     },
+    /* 
+        cancelSettings():
+
+        closes the cancel dialog box and overwrites all fields by pulling settings again.
+    */
     cancelSettings() {
       this.cancelDialog = false;
       this.pullSettings();
     },
+    /*
+
+    */
     async pullSettings() {
       try {
-        const test = await ApiFunctions.getSettings();
-        let settings = await test.data;
+        const inData = await ApiFunctions.getSettings(); // inData hold the array from getSettings
+        let settings = await inData.data;
+        // Testing logs.  Feel free to explore in the Inspect, and see what this data is made out of.
         console.log(test);
         console.log(settings);
-        if (settings.length == 8) {
+        if (settings.length == 8) { // Sets all the data to the settings obtained from the server.
           this.block1Start = settings[0];
           this.block1End = settings[1];
           this.block2Start = settings[2];

@@ -11,18 +11,17 @@
         </v-toolbar>
         <v-divider />
         <v-list fluid>
-            <v-list-tile :to="{name: 'teacher'}">
+            <v-list-tile :to="{name: 'dashboardteacher'}">
                 <!--looks to router/index.js for admin and loads components-->
                 <v-list-tile-content>
                     <v-list-tile-title>Dashboard</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
 
-
-            <v-list-tile>
-                <v-list-tile-content>
-                    <v-list-tile-title>View Schedules</v-list-tile-title>
-                </v-list-tile-content>
+            <v-list-tile :to="{name: 'underconstruction'}">
+                    <v-list-tile-content>
+                        <v-list-tile-title>View Schedules</v-list-tile-title>
+                    </v-list-tile-content>
             </v-list-tile>
 
             <v-divider />

@@ -1,13 +1,13 @@
 <template>
     <v-content>
-        <nav-drawer />
-<!-- This page is for routing and should remain blank-->
-        <router-view />
+      <nav-drawer />
+        <h1>Family Dashboard</h1>
+      <router-view />
     </v-content>
 </template>
 
 <script>
-import NavDrawer from "@/components/NavDrawerBoard.vue";
+import NavDrawer from "@/components/NavDrawerFamily.vue";
 export default {
   name: "app",
   components: {

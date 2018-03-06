@@ -10,6 +10,8 @@
 
 ##### 4) Follow the install prompts.
 
+----------------------------
+
 ### You may need to install node modules with the following command.
   
   $ npm install
@@ -23,8 +25,12 @@
   $ npm run dev
 
 ##### 2) From the server folder start the server's server with:
-
+  (Linux/Mac)
   $ npm start
+  (Windows)
+  $ npm run winstart
+
+  You may need to run npm install -g nodemon (-g stands for global)
 
 ----------------------------
 ### Setting up MySql with a non-root user:

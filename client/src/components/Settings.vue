@@ -22,12 +22,12 @@
                     <tr>
                         <td>Start Time</td>
                         <td>
-                            <input id="b1Start" type="time">
+                            <input id="b1Start" type="time" v-model="block1Start">
                         </td>
 
                         <td>End Time</td>
                         <td>
-                            <input id="b1End" type="time">
+                            <input id="b1End" type="time" v-model="block1End">
                         </td>
                     </tr>
                     <tr>
@@ -38,12 +38,12 @@
                     <tr>
                         <td>Start Time</td>
                         <td>
-                            <input id="b2Start" type="time">
+                            <input id="b2Start" type="time" v-model="block2Start">
                         </td>
 
                         <td>End Time</td>
                         <td>
-                            <input id="b2End" type="time">
+                            <input id="b2End" type="time" v-model="block2End">
                         </td>
                     </tr>
                     <tr>
@@ -54,18 +54,20 @@
                     <tr>
                         <td>Start Time</td>
                         <td>
-                            <input id="b3Start" type="time">
+                            <input id="b3Start" type="time" v-model="block3Start">
                         </td>
 
                         <td>End Time</td>
                         <td>
-                            <input id="b3End" type="time">
+                            <input id="b3End" type="time" v-model="block3End">
                         </td>
                     </tr>
                 </table>
                 <h2>Date Settings</h2>
-                <h3>Year Start Date
-                    <input id="yearStart" type="date">
+                <h3>System Start Date
+                    <input id="yearStart" type="date" v-model="startDate">
+                    <!-- would like to wrap this next line. perhaps in a box -->
+                    <p>The start date must be set once. It marks the beginning of the system and is used to determine when to start requiring facilitation hours.</p>
                 </h3>
 
             </v-tab-item>
@@ -77,11 +79,48 @@
 </template>
 
 <script>
+import ApiFunctions from "@/services/ApiFunctions";
+
 export default {
   data() {
     return {
-      tabs: null
+      block1Start: "",
+      block1End: "",
+      block2Start: "",
+      block2End: "",
+      block3Start: "",
+      block3End: "",
+      startDate: "",
+      requiredHours: ""
     };
+  },
+  created() {
+    this.updateSettings();
+  },
+  methods: {
+    async updateSettings() {
+      try {
+        const test = await ApiFunctions.getSettings();
+        let settings = await test.data;
+        console.log(test);
+        console.log(settings);
+        this.block1Start = settings[0];
+        this.block1End = settings[1];
+        this.block2Start = settings[2];
+        this.block2End = settings[3];
+        this.block3Start = settings[4];
+        this.block3End = settings[5];
+        this.startDate = this.changeDate(settings[6]);
+      } catch (error) {
+        console.log("catch condition");
+        this.error = error.response.data.error;
+      }
+    },
+    changeDate(dateString) {
+        var dashDate = dateString.replace(/\//g, "-");
+        //console.log(dashDate);
+        return(dashDate);
+    }
   }
 };
 </script>

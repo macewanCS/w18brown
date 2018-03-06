@@ -10,6 +10,14 @@ import DashboardFamily from "@/components/DashboardFamily";
 import DashboardAdmin from "@/components/DashboardAdmin";
 import DashboardBoard from "@/components/DashboardBoard";
 import DashboardTeacher from "@/components/DashboardTeacher";
+import HolidaysAdmin from "@/components/HolidaysAdmin";
+import FieldTripsAdmin from "@/components/FieldTripsAdmin";
+import AccountStaff from "@/components/AccountStaff";
+import Board from "@/components/Board";
+import Admin from "@/components/Admin";
+
+//import NavDrawerAdmin from "@/components/NavDrawerAdmin";
+
 
 Vue.use(Router)
 
@@ -31,9 +39,14 @@ export default new Router({
       component: UnderConstruction
     },
     {
-      path: '/dashboardboard',
-      name: 'dashboardboard',
-      component: DashboardBoard
+      path: '/board',
+      name: 'board',
+      component: Board,
+      children: [{
+        path: '/dashboardboard',
+        name: 'dashboardboard',
+        component: DashboardBoard
+      }]      
     },
     {
       path: '/dashboardteacher',
@@ -42,36 +55,55 @@ export default new Router({
     },
 
     {
-      path: '/dashboardadmin',
-      name: 'dashboardadmin',
-      component: DashboardAdmin,
+      path: '/admin',
+      name: 'admin',
+      component: Admin,
       //Use Children if there is any router-views within the new page which need dynamic loading. 
       children: [{
-        path: 'settings',
-        name: 'settings',
-        component: Settings
-      },
-      {
-        path: 'rooms',
-        name: 'rooms',
-        component: Rooms
-      },
-      {
-        path: "accounts",
-        name: "accounts",
-        component: Accounts
-      }
-    ]
-    }, 
+        path: 'dashboardadmin',
+        name: 'dashboardadmin',
+        component: DashboardAdmin
+        },
+        {  
+          path: 'settings',
+          name: 'settings',
+          component: Settings
+        },
+        {
+          path: 'rooms',
+          name: 'rooms',
+          component: Rooms
+        },
+        {
+          path: "accounts",
+          name: "accounts",
+          component: Accounts
+        },
+        {
+          path: "holidaysadmin",
+          name: "holidaysadmin",
+          component: HolidaysAdmin
+        },
+        {
+          path: "fieldtripsadmin",
+          name: "fieldtripsadmin",
+          component: FieldTripsAdmin
+        },
+        {
+          path: "accountstaff",
+          name: "accountstaff",
+          component: AccountStaff
+        }
+      ]}, 
     {
       path: '/dashboardfamily',
       name: 'dashboardfamily',
-      component: DashboardFamily
-    },
-    {
-      path: 'reserve',
-      name: 'reserve',
-      component: Reserve
+      component: DashboardFamily,
+      children: [{
+        path: 'reserve',
+        name: 'reserve',
+        component: Reserve
+      }]
     }
   ]
 })

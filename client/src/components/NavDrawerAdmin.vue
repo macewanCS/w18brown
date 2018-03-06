@@ -27,8 +27,7 @@
                 </v-list-tile-content>
             </v-list-tile>
             
-            <v-list-tile :to="{name: 'underconstruction'}">
-             
+            <v-list-tile :to="{name: 'holidaysadmin'}">
                 <v-list-tile>
                     <v-list-tile-content>
                         <v-list-tile-title>Holidays</v-list-tile-title>
@@ -36,7 +35,7 @@
                 </v-list-tile>
             </v-list-tile>
 
-           <v-list-tile :to="{name: 'underconstruction'}">
+           <v-list-tile :to="{name: 'fieldtripsadmin'}">
                 <v-list-tile>
                     <v-list-tile-content>
                         <v-list-tile-title>Field Trips</v-list-tile-title>
@@ -60,7 +59,7 @@
                 </v-list-tile>
             </v-list-tile>
 
-            <v-list-tile :to="{name: 'underconstruction'}">
+            <v-list-tile :to="{name: 'accountstaff'}">
                 <v-list-tile>
                     <v-list-tile-content>
                         <v-list-tile-title>Staff</v-list-tile-title>

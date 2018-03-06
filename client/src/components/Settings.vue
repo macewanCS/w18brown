@@ -67,8 +67,35 @@
                 <h3>Year Start Date
                     <input id="yearStart" type="date" v-model="startDate">
                 </h3>
-                <v-btn color="success" @click="applySettings">Apply</v-btn>
-                <v-btn color="error" @click="cancelSettings">Cancel</v-btn>
+                <!--@click.stop is used here for triggering only when the click is let go.-->
+                <v-btn color="success" @click.stop="applyDialog = true">Apply</v-btn>
+                <v-btn color="error" @click.stop="cancelDialog = true">Cancel</v-btn>
+
+                <!--Begin Dialog Boxes for Confirmation -->
+                <v-dialog v-model="applyDialog" max-width="250">
+                    <v-card>
+                        <v-card-text>Are you sure you want to apply changes?</v-card-text>
+                        <v-card-actions>
+                            <v-spacer />
+                            <v-btn color="success" @click="applySettings">Yes</v-btn>
+                            <v-btn color="error" @click.native="applyDialog = false">No</v-btn>
+                            <v-spacer />
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <v-dialog v-model="cancelDialog" max-width="250">
+                    <v-card>
+                        <v-card-text>Cancel Changes?</v-card-text>
+                        <v-card-actions>
+                            <v-spacer />
+                            <v-btn color="success" @click="cancelSettings">Yes</v-btn>
+                            <v-btn color="error" @click.native="cancelDialog = false">No</v-btn>
+                            <v-spacer />
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+                <!--End Dialog Boxes for Confirmation -->
             </v-tab-item>
             <v-tab-item key="tab2">
                 fffffff
@@ -90,7 +117,9 @@ export default {
       block3Start: "",
       block3End: "",
       startDate: "",
-      requiredHours: ""
+      requiredHours: "",
+      applyDialog: "",
+      cancelDialog: ""
     };
   },
   created() {
@@ -98,6 +127,7 @@ export default {
   },
   methods: {
     applySettings() {
+      this.applyDialog = false; // close applyDialog box
       var curSettings = [
         this.block1Start,
         this.block1End,
@@ -111,6 +141,7 @@ export default {
       this.pushSettings(curSettings);
     },
     cancelSettings() {
+      this.cancelDialog = false;
       this.pullSettings();
     },
     async pullSettings() {
@@ -136,18 +167,17 @@ export default {
       }
     },
     changeDate(dateString) {
-      var dashDate = dateString.replace(/\//g, "-");
+      var dashDate = dateString.replace(/\//g, "-"); //replaces all / with - for a date.
       //console.log(dashDate);
       return dashDate;
     },
     async pushSettings(settings) {
-        try {
-            await ApiFunctions.setSettings(settings);
-            await this.pullSettings();
-
-        } catch (error) {
-            this.error = error.response.data.error;
-        }
+      try {
+        await ApiFunctions.setSettings(settings);
+        await this.pullSettings();
+      } catch (error) {
+        this.error = error.response.data.error;
+      }
     }
   }
 };

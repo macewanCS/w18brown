@@ -20,6 +20,10 @@ import FieldTripsAdmin from "@/components/FieldTripsAdmin";
 import AccountStaff from "@/components/AccountStaff";
 import Board from "@/components/Board";
 import Admin from "@/components/Admin";
+import Teacher from "@/components/Teacher";
+import Family from "@/components/Family";
+
+
 
 //import NavDrawerAdmin from "@/components/NavDrawerAdmin";
 
@@ -54,9 +58,15 @@ export default new Router({
       }]      
     },
     {
-      path: '/dashboardteacher',
-      name: 'dashboardteacher',
-      component: DashboardTeacher
+      path: '/teacher',
+      name: 'teacher',
+      component: Teacher,
+      children: [{
+        path: '/dashboardteacher',
+        name: 'dashboardteacher',
+        component: DashboardTeacher
+    }]      
+
     },
 
     {
@@ -100,15 +110,24 @@ export default new Router({
           component: AccountStaff
         }
       ]}, 
+
+
+
     {
-      path: '/dashboardfamily',
-      name: 'dashboardfamily',
-      component: DashboardFamily,
+      path: '/family',
+      name: 'family',
+      component: Family,
       children: [{
         path: 'reserve',
         name: 'reserve',
         component: Reserve
-      }]
+        },
+        {
+        path: '/dashboardfamily',
+        name: 'dashboardfamily',
+        component: DashboardFamily,
+        } 
+    ]
     }
   ]
 })

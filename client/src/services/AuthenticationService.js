@@ -9,6 +9,13 @@ export default {
     }
 }
 
+/* 
+export default {
+    async createEmployee (info) {
+        return Api().post('createEmployee', info)
+    }
+} */
+
 // calling the above function in another file:
 /* AuthenticationService.login({
     account: 'some text',

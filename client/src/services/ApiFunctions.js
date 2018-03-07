@@ -6,5 +6,8 @@ export default {
     },
     async setSettings (currentSettings) {
         Api().post("setSettings", currentSettings);
+    },
+    async createEmployee (info) {
+        return Api().post('createEmployee', info)
     }
 }

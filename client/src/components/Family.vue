@@ -1,6 +1,8 @@
 <template>
     <v-content>
-        <h1>Family Dashboard</h1>
+        <nav-drawer />
+<!-- This page is for routing and should remain blank-->
+        <router-view />
     </v-content>
 </template>
 

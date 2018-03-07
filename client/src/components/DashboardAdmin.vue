@@ -1,8 +1,6 @@
 <template>
     <v-content>
-      <nav-drawer />
         <h1>Admin Dashboard</h1>
-        <router-view />   <!-- connects the pages functionally to the sidebar -->
     </v-content>
 </template>
 

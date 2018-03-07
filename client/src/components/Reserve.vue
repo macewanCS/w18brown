@@ -13,7 +13,7 @@
           <v-layout align-center justify-center>
             <div id="box">
               <body>
-              <h1>Reserve Facilitation Hours</h1>  
+              <h1>Reserve Room Hours</h1>  
                 <div>
                 </div>
               </body>
@@ -26,7 +26,7 @@
         <v-layout align-center justify-center>
           <div id="box">
             <body>
-            <h1>Reserve Facilitation Hours</h1>  
+            <h1>Reserve Field Trip Hours</h1>  
                 <div>
                 </div>
             </body>

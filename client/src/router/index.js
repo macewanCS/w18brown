@@ -22,6 +22,8 @@ import Board from "@/components/Board";
 import Admin from "@/components/Admin";
 import Teacher from "@/components/Teacher";
 import Family from "@/components/Family";
+import ScheduleTeacher from "@/components/ScheduleTeacher";
+import ScheduleBoard from "@/components/ScheduleBoard";
 
 
 
@@ -55,6 +57,11 @@ export default new Router({
         path: '/dashboardboard',
         name: 'dashboardboard',
         component: DashboardBoard
+      },
+      {  
+        path: 'scheduleboard',
+        name: 'scheduleboard',
+        component: ScheduleBoard
       }]      
     },
     {
@@ -65,7 +72,12 @@ export default new Router({
         path: '/dashboardteacher',
         name: 'dashboardteacher',
         component: DashboardTeacher
-    }]      
+      },
+      {  
+        path: 'scheduleteacher',
+        name: 'scheduleteacher',
+        component: ScheduleTeacher
+      }]      
 
     },
 

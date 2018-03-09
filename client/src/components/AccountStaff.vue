@@ -5,80 +5,134 @@
             fill-height - fill full height of screen
         v-layout - similar to above but different properties
     -->
+  <div>
+    <h1>Create Employee Account</h1>
+    <!-- added v-models for linking to script, added placeholders -->
+    <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
+    <v-text-field name="type" type="type" id="type" label="Type" v-model="employeeType" />
+    <!--
+    <div class="flex xs6"><div tabindex="0" data-uid="734" role="combobox" class="input-group input-group--append-icon input-group--text-field input-group--select input-group--single-line primary--text"><label>Select</label><div class="input-group__input"><div class="input-group__selections" style="overflow: hidden;"><input disabled="disabled" tabindex="-1" class="input-group--select__autocomplete" style="display: none;"></div><div class="menu" style="display: inline-block;"></div><i aria-hidden="true" class="icon material-icons input-group__append-icon input-group__icon-cb">arrow_drop_down</i></div><div class="input-group__details"></div></div></div>
+    -->
+    <v-flex> <!-- grid system -->
+        <v-btn type="submit" id="Submit" @click="submit">
+            <!-- calls the login method below in scripts-->
+            Submit
+        </v-btn>
+      
+      <!--
+        <v-flex xs6>
+          <v-subheader>Type</v-subheader>
+        </v-flex>
+        <v-flex xs6>
+          <v-select
+            :items="items"
+            v-model="e1"
+            label="Type"
+            single-line
+          ></v-select>
+        </v-flex>
+   -->
    
-            <div>
-                <h1>Create Employee Account</h1>
-                <!-- added v-models for linking to script, added placeholders -->
-                <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
-                <v-text-field name="type" type="type" id="type" label="Type" v-model="type" />
-                <v-flex> <!-- grid system -->
-                    <v-btn type="submit" id="Submit" @click="submit">
-                        <!-- calls the login method below in scripts-->
-                        Submit
-                    </v-btn>
-                    <p>Return temporary password here</p>
-                </v-flex>
-            </div>
- 
+    </v-flex>
+    <br/>
+    <h1>Current Employee Accounts</h1>
+    <p>To come!</p>
+  </div>
 </template>
 
 <script>
-import AuthenticationService from "@/services/ApiFunctions";
+//import ApiFunctions from "@/services/ApiFunctions";
+import ApiFunctions from "@/services/ApiFunctions";
+
 
 export default {
   data() {
     return {
-      username, // ** to update
-      type, // ** to update
-      error: null // ** to update
+      username, 
+      employeeType, 
+      error: null 
     };
   },
+
   methods: {
     async submit() {
-      console.log("In AccountStaff.vue file:   username: ", this.username, "type: ", this.type)
-      console.log("createEmployee button was clicked");
-      
+ 
+  //response = "Test Response";    // <-- this code wont work outside of the export default scope. It does work here. 
+
+   //   console.log("In AccountStaff.vue file:   username: ", this.username, "type: ", this.employeeType)
+   //   console.log("submit button was clicked");
+   //   console.log("username and length: ", this.username, this.username.length)
+
       try {
-        const response = await AuthenticationService.createEmployee({
+        const checkResponse = await ApiFunctions.createEmployeeCheck({
           username: this.username,
-          type: this.type
-        });
+          employeeType: this.employeeType
+        })
+        
+        await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
+
+        if (checkResponse.data = "tooLongOrEmpty") {
+
+  /*
+  put output error on screen here. username length requirements.
+  */
+
+        }
+        else if (checkResponse.data = "alreadyUsed") {
+
+  /*
+  put output error on screen here. username already used requirements.
+  */
+          
+        }
+
+      }
+      catch (error) {
+      console.log("catch condition")
+      this.error = error.checkResponse.data.error;
+    } 
+    if (checkResponse.data = "brown") {
+      
+      /*
+  insert into database
+      */
+
+    }
+  }
+}
+
+     
+  
+
+
+
+
 /*
-        await console.log("response.data is: ", response.data);
+    try {
+      const response = await ApiFunctions.createEmployee({
+        username: this.username,
+        employeeType: this.employeeType
+      });
+
+      await console.log("create employee response.data is: ", response.data);
 
 
-        if (response.data == "admin"){
+      if (response.data == "admin"){
 
-          console.log("admin detected")
-          this.$router.push({
-            name: 'dashboardadmin'
-          })
-        } else if (response.data == "family"){
+        console.log("admin detected")
+        this.$router.push({
+          name: 'dashboardadmin'
+        })
+      } 
 
-          console.log("family detected")
-          this.$router.push({
-            name: 'dashboardfamily'
-          })
-        } else {
-
-          console.log(typeof(response.data))
-          console.log("Login Failed!")
-          //
-          //  Add redirect to error page?
-          //
-          this.$router.push({
-              name: 'underconstruction'
-            })
-          }
-*/
-       
+      
       } catch (error) {
         console.log("catch condition")
         this.error = error.response.data.error;
       }
-      
-    }
-  }
+    }*/
+    
+  
 };
 </script>
 

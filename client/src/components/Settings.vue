@@ -1,5 +1,5 @@
 <template>
-    <v-tabs fixed-tabs dark>
+    <v-tabs fixed-tabs dark id="allTabs">
         <v-tab key="tab1">
             Date/Time Settings
         </v-tab>
@@ -207,6 +207,9 @@ export default {
 table.center {
   margin-left: auto;
   margin-right: auto;
+}
+#allTabs {
+  text-align: center;
 }
 
 /*

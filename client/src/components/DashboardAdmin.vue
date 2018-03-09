@@ -1,7 +1,8 @@
 <template>
-  <v-content>
-    <h1>Admin Dashboard</h1>
-  </v-content>
+    <!--Using v-content screws up the positioning.  Reverting to div to fix centering-->
+    <div>
+        <h1>Admin Dashboard</h1>
+    </div>
 </template>
 
 <script>

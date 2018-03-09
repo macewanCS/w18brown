@@ -1,8 +1,8 @@
 <template>
-  <v-content>
-    <nav-drawer /> <!-- this pulls the nav vue -->
-    <router-view />   <!-- connects the pages functionally to the sidebar -->
-  </v-content>
+    <v-content>
+        <nav-drawer /> <!-- this pulls the nav vue -->
+        <router-view />   <!-- connects the pages functionally to the sidebar -->
+    </v-content>
 </template>
 
 <script>

@@ -39,11 +39,12 @@ import AuthenticationService from "@/services/AuthenticationService";
 export default {
   data() {
     return {
-      username, // ** to update
-      password, // ** to update
-      error: null // ** to update
+      username, 
+      password, 
+      error: null 
     };
   },
+
   methods: {
     async login() {
       console.log("In Login.vue file:   username: ", this.username, "password: ", this.password)

@@ -9,5 +9,13 @@ export default {
     },
     async createEmployee (info) {
         return Api().post('createEmployee', info)
+    },
+    async createEmployeeCheck(employeeCheckResult) {
+        return Api().post('createEmployeeCheck', employeeCheckResult)
+    },
+    async createEmployeeConfirm(employeeAddedBool) {
+        return Api().post('createEmployeeConfirm', employeeAddedBool)
     }
+
+
 }

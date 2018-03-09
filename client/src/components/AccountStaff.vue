@@ -9,13 +9,30 @@
     <h1>Create Employee Account</h1>
     <!-- added v-models for linking to script, added placeholders -->
     <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
-    <v-text-field name="type" type="type" id="type" label="Type" v-model="type" />
+    <v-text-field name="type" type="type" id="type" label="Type" v-model="employeeType" />
+    <!--
+    <div class="flex xs6"><div tabindex="0" data-uid="734" role="combobox" class="input-group input-group--append-icon input-group--text-field input-group--select input-group--single-line primary--text"><label>Select</label><div class="input-group__input"><div class="input-group__selections" style="overflow: hidden;"><input disabled="disabled" tabindex="-1" class="input-group--select__autocomplete" style="display: none;"></div><div class="menu" style="display: inline-block;"></div><i aria-hidden="true" class="icon material-icons input-group__append-icon input-group__icon-cb">arrow_drop_down</i></div><div class="input-group__details"></div></div></div>
+    -->
     <v-flex> <!-- grid system -->
         <v-btn type="submit" id="Submit" @click="submit">
             <!-- calls the login method below in scripts-->
             Submit
         </v-btn>
-        <v-text-field name="password" type="text" id="password" label="Return password here, change to label. start invisible." v-model="response" />
+      
+      <!--
+        <v-flex xs6>
+          <v-subheader>Type</v-subheader>
+        </v-flex>
+        <v-flex xs6>
+          <v-select
+            :items="items"
+            v-model="e1"
+            label="Type"
+            single-line
+          ></v-select>
+        </v-flex>
+   -->
+   
     </v-flex>
     <br/>
     <h1>Current Employee Accounts</h1>
@@ -24,81 +41,98 @@
 </template>
 
 <script>
-import AuthenticationService from "@/services/ApiFunctions";
+//import ApiFunctions from "@/services/ApiFunctions";
+import ApiFunctions from "@/services/ApiFunctions";
 
 
 export default {
   data() {
     return {
-      username, // ** to update
-      type, // ** to update
-      error: null // ** to update
+      username, 
+      employeeType, 
+      error: null 
     };
   },
+
   methods: {
     async submit() {
  
- //response = "Test Response";    // <-- this code wont work outside of the export default scope. It does work here. 
+  //response = "Test Response";    // <-- this code wont work outside of the export default scope. It does work here. 
 
-      console.log("In AccountStaff.vue file:   username: ", this.username, "type: ", this.type)
-      console.log("submit button was clicked");
-      console.log("username and length: ", this.username, this.username.length)
-      
-      if (this.username.length < 2 || this.username.length > 25){
-        console.log("the password length is too short or long")
+   //   console.log("In AccountStaff.vue file:   username: ", this.username, "type: ", this.employeeType)
+   //   console.log("submit button was clicked");
+   //   console.log("username and length: ", this.username, this.username.length)
 
-      /*
-          Return error message here.
-      */
-     this.response.label="bad length"
-
-
-      }
-
-      else {
-        console.log("the password length good")
-
-        try {
-          const response = await AuthenticationService.createEmployee({
-            username: this.username,
-            type: this.type
-          });
-  /*
-          await console.log("response.data is: ", response.data);
-
-
-          if (response.data == "admin"){
-
-            console.log("admin detected")
-            this.$router.push({
-              name: 'dashboardadmin'
-            })
-          } else if (response.data == "family"){
-
-            console.log("family detected")
-            this.$router.push({
-              name: 'dashboardfamily'
-            })
-          } else {
-
-            console.log(typeof(response.data))
-            console.log("Login Failed!")
-            //
-            //  Add redirect to error page?
-            //
-            this.$router.push({
-                name: 'underconstruction'
-              })
-            }
-  */
+      try {
+        const checkResponse = await ApiFunctions.createEmployeeCheck({
+          username: this.username,
+          employeeType: this.employeeType
+        })
         
-        } catch (error) {
-          console.log("catch condition")
-          this.error = error.response.data.error;
+        await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
+
+        if (checkResponse.data = "tooLongOrEmpty") {
+
+  /*
+  put output error on screen here. username length requirements.
+  */
+
         }
+        else if (checkResponse.data = "alreadyUsed") {
+
+  /*
+  put output error on screen here. username already used requirements.
+  */
+          
+        }
+
       }
+      catch (error) {
+      console.log("catch condition")
+      this.error = error.checkResponse.data.error;
+    } 
+    if (checkResponse.data = "brown") {
+      
+      /*
+  insert into database
+      */
+
     }
   }
+}
+
+     
+  
+
+
+
+
+/*
+    try {
+      const response = await ApiFunctions.createEmployee({
+        username: this.username,
+        employeeType: this.employeeType
+      });
+
+      await console.log("create employee response.data is: ", response.data);
+
+
+      if (response.data == "admin"){
+
+        console.log("admin detected")
+        this.$router.push({
+          name: 'dashboardadmin'
+        })
+      } 
+
+      
+      } catch (error) {
+        console.log("catch condition")
+        this.error = error.response.data.error;
+      }
+    }*/
+    
+  
 };
 </script>
 

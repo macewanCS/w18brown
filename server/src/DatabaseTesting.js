@@ -69,12 +69,12 @@ async function testGetFamilyList(){
 
 async function testcreateEmployeeCheck(input, type){
     let test = await functions.createEmployeeCheck(input, type);
-    console.log(test);
+    console.log("input is:", input, "result is", test);
 }
 
 async function testcreateEmployeeConfirm(input, type){
     let test = await functions.createEmployeeConfirm(input, type);
-    console.log(test);
+    console.log("input is:", input, "result is", test);
 }
 
 async function testgetTypes(){
@@ -98,13 +98,13 @@ async function connectAndTest(){
         testEditRooms("bad");
         testEditRooms("good");
         testGetFamilyList();
-        testConfirmRoomChange();
+        testConfirmRoomChange();*/
         testcreateEmployeeCheck("", "admin");
         testcreateEmployeeCheck("Peter001", "admin");
         testcreateEmployeeCheck("shouldWork", "board");
-        testcreateEmployeeConfirm("testBoard1", "board");
+        /*testcreateEmployeeConfirm("testBoard1", "board");
         testcreateEmployeeConfirm("testBoard2", "board");
-        testcreateEmployeeConfirm("testTeacher1", "teacher");*/
-        testgetTypes();
+        testcreateEmployeeConfirm("testTeacher1", "teacher");
+        testgetTypes();*/
     }
 }

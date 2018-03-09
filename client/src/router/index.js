@@ -1,12 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login' // add for every route. also add component.
-
-import Accounts from "@/components/Account";
-//
-// account or accounts?
-//
-
+import Accounts from "@/components/Accounts";
 import Rooms from "@/components/Rooms";
 import Reserve from "@/components/Reserve";
 import Settings from "@/components/Settings";
@@ -19,7 +14,13 @@ import HolidaysAdmin from "@/components/HolidaysAdmin";
 import FieldTripsAdmin from "@/components/FieldTripsAdmin";
 import AccountStaff from "@/components/AccountStaff";
 import Board from "@/components/Board";
-//import Admin from "@/components/Admin";
+import Admin from "@/components/Admin";
+import Teacher from "@/components/Teacher";
+import Family from "@/components/Family";
+import ScheduleTeacher from "@/components/ScheduleTeacher";
+import ScheduleBoard from "@/components/ScheduleBoard";
+
+
 
 //import NavDrawerAdmin from "@/components/NavDrawerAdmin";
 
@@ -51,27 +52,41 @@ export default new Router({
         path: '/dashboardboard',
         name: 'dashboardboard',
         component: DashboardBoard
+      },
+      {  
+        path: 'scheduleboard',
+        name: 'scheduleboard',
+        component: ScheduleBoard
       }]      
-      
-      
-     
     },
     {
-      path: '/dashboardteacher',
-      name: 'dashboardteacher',
-      component: DashboardTeacher
+      path: '/teacher',
+      name: 'teacher',
+      component: Teacher,
+      children: [{
+        path: '/dashboardteacher',
+        name: 'dashboardteacher',
+        component: DashboardTeacher
+      },
+      {  
+        path: 'scheduleteacher',
+        name: 'scheduleteacher',
+        component: ScheduleTeacher
+      }]      
+
     },
-/*
+
     {
       path: '/admin',
       name: 'admin',
       component: Admin,
       //Use Children if there is any router-views within the new page which need dynamic loading. 
-      children: [*/{
-        path: '/dashboardadmin',
+      children: [{
+        path: 'dashboardadmin',
         name: 'dashboardadmin',
-        component: DashboardAdmin,
-        children: [{
+        component: DashboardAdmin
+        },
+        {  
           path: 'settings',
           name: 'settings',
           component: Settings
@@ -102,15 +117,24 @@ export default new Router({
           component: AccountStaff
         }
       ]}, 
+
+
+
     {
-      path: '/dashboardfamily',
-      name: 'dashboardfamily',
-      component: DashboardFamily,
+      path: '/family',
+      name: 'family',
+      component: Family,
       children: [{
         path: 'reserve',
         name: 'reserve',
         component: Reserve
-      }]
+        },
+        {
+        path: '/dashboardfamily',
+        name: 'dashboardfamily',
+        component: DashboardFamily,
+        } 
+    ]
     }
   ]
 })

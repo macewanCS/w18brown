@@ -50,8 +50,35 @@ async function testEditRooms(parameter){
     }
 }
 
+async function testConfirmRoomChange(){
+    var testIn = {};
+    testIn["1"] = "bluewithgreen";
+    testIn["2"] = "red";
+    //testIn["3"] = "blue";
+    testIn["4"] = "mauve";
+    testIn["5"] = "purple";
+    testIn["6"] = "fancycolour";
+    let test = await functions.finalRoomUpdate(testIn);
+    console.log(test);
+}
+
 async function testGetFamilyList(){
     let test = await functions.getFamilyList();
+    console.log(test);
+}
+
+async function testcreateEmployeeCheck(input, type){
+    let test = await functions.createEmployeeCheck(input, type);
+    console.log("input is:", input, "result is", test);
+}
+
+async function testcreateEmployeeConfirm(input, type){
+    let test = await functions.createEmployeeConfirm(input, type);
+    console.log("input is:", input, "result is", test);
+}
+
+async function testgetTypes(){
+    let test = await functions.getTypes();
     console.log(test);
 }
 
@@ -62,7 +89,7 @@ async function testGetFamilyList(){
 async function connectAndTest(){
     let test = await functions.connect();
     if (test === "connected"){
-        testRoom();
+        /*testRoom();
         testName("Peter001", "peterpw");
         testName("Sarah001", "sarahpw");
         testName("sdf", "sdfsfg");
@@ -71,5 +98,13 @@ async function connectAndTest(){
         testEditRooms("bad");
         testEditRooms("good");
         testGetFamilyList();
+        testConfirmRoomChange();*/
+        testcreateEmployeeCheck("", "admin");
+        testcreateEmployeeCheck("Peter001", "admin");
+        testcreateEmployeeCheck("shouldWork", "board");
+        /*testcreateEmployeeConfirm("testBoard1", "board");
+        testcreateEmployeeConfirm("testBoard2", "board");
+        testcreateEmployeeConfirm("testTeacher1", "teacher");
+        testgetTypes();*/
     }
 }

@@ -13,26 +13,18 @@ const pFunctions = require('./functions.js');
 var request = require("request-promise");
 
 
-// code to import functions file 
+// code to import functions file
 var databaseFunc = require('./databaseFunctions')
+var functions = require('./functions')
+
 /*
     Note: to use databaseFunctions, use dot notation.
             ex. databaseFunc.checkName(...)
 */
-
-
-
-
-
-
-
-
-
-
 app.use(bodyParser.json())
 app.use(cors())
 
-/* 
+/*
 * This code takes a username and password from the login page and sends the user type.
 * integration code
 * from client: login
@@ -52,9 +44,54 @@ app.post('/login', async function (req, res) {
 
     res.send(type)
 })
-/*Returns a array with this format:
+
+
+
+/*
+* This code takes a username and employee type, checks if the username is available, 
+* and adds the user to the database if possible with a random password.
+* integration code
+* from client: AccoutStaff.vue page via ApiFunctions.vue and Api.js
+* returns: a boolean
+*/
+app.post('/createEmployeeCheck', async function (req, res) {
+    //createEmployeeCheck is passed username/employeeType and the resolution.
+
+    // -- test output -- PLO
+  //  console.log("In app.js file:   username: ", req.body.username, "employeeType: ", req.body.employeeType)
+
+    // calls checkName. Gives it username and password from the login page. Returns type to user.
+    let employeeExists = await functions.createEmployeeCheck(req.body.username, req.body.employeeType);
+
+    // -- test output -- PLO
+  //  console.log("In app.js file: employeeExists: ", employeeExists)
+
+    res.send(employeeExists)
+})
+
+
+
+
+
+//////////// is /createEmployeeCheck a path in the index or a ApiFunctions.js link? /////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* GET:  getSettings
+----------------------------
+    Returns a array with this format:
     block1_start, block1_end, block2_start, block2_end, block3_start, block3_end, Year start, weekly_requirements
-    Ex.  
+    Ex.
     [
     "08:45:00",
     "12:00:00",
@@ -66,14 +103,20 @@ app.post('/login', async function (req, res) {
     "05:00:00"
     ]
 */
-app.post('/getSettings', async function (req, res) {
-    let test = await pFunctions.getSettings();
-    res.send(test);
+app.get('/getSettings', async function (req, res) {
+    let settings = await pFunctions.getSettings();
+    res.send(settings);
+})
+/* POST:  setSettings
+*/
+app.post("/setSettings", async (req, res) => {
+    console.log(req.body);
+    pFunctions.setSettings(req.body);
 })
 
-/* checkName - this function checks whether a username/password combo is in the database and 
+/* checkName - this function checks whether a username/password combo is in the database and
 * returns their account type if found.
-* 
+*
 * returns: promise containing account type
 *//*
 async function checkName(name, password) {
@@ -90,7 +133,7 @@ async function checkName(name, password) {
         // sql query code
         con.connect(function (err) {
             if (err) throw err;
-            // ? is like %s in C. 
+            // ? is like %s in C.
             var sql = "SELECT * FROM account WHERE accountID = ? and password = ?";
             // this array gives order. name is the first ?, password is the 2nd ?
             con.query(sql, [name, password], function (err, result, fields) {

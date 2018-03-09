@@ -1,7 +1,7 @@
 <template>
     <v-content>
-<!-- This page is for routing and should remain blank-->
-<h1>Blank page</h1>
+        <nav-drawer /> <!-- this pulls the nav vue -->
+        <router-view />   <!-- connects the pages functionally to the sidebar -->
     </v-content>
 </template>
 

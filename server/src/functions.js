@@ -90,29 +90,23 @@ async function checkName(name, password){
  * @param {*} type provided type
  */
 async function createEmployeeCheck(username, type){
-	let length = await below255(username);
-
-	if (length === true){
-		length = await isEmptyString(username);
-	}
 	return new Promise(function(fulfill, reject){
 		//confirm length
-		if (length === false){
+		if (username.length === 0 || username.length > 254){
 			fulfill("tooLongOrEmpty");
 		}
-		var sql = "SELECT * from account";
+		var sql = "SELECT * from account where accountID = ?";
 
 		//first lets make sure the username doesnt exist already
-		con.query(sql, function (err, result, fields) {
+		con.query(sql, username, function (err, result, fields) {
 			if (err) throw err;		
-			for (let account in result){
-				if (account.accountID === username){
-					fulfill("alreadyUsed");
-				}
-			}	
+			if (result.length === 0){
+				fulfill("brown");
+			}
+			else{
+				fulfill("alreadyUsed");
+			}
 		});
-		//we've gone this far, now we can create a username
-		fulfill("brown");
 	})
 }
 

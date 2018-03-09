@@ -1,12 +1,12 @@
 <template>
-    <v-content>
-      <nav-drawer />
+    <!--Using v-content screws up the positioning.  Reverting to div to fix centering-->
+    <div>
         <h1>Admin Dashboard</h1>
-        <router-view />   <!-- connects the pages functionally to the sidebar -->
-    </v-content>
+    </div>
 </template>
 
 <script>
+
 import NavDrawer from "@/components/NavDrawerAdmin.vue";
 export default {
   name: "app",

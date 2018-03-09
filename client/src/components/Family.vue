@@ -1,14 +1,13 @@
 <template>
     <v-content>
-        <nav-drawer /> <!-- this pulls the nav vue -->
+        <nav-drawer />
 <!-- This page is for routing and should remain blank-->
-        <router-view />   <!-- connects the pages functionally to the sidebar -->
+        <router-view />
     </v-content>
 </template>
 
 <script>
-
-import NavDrawer from "@/components/NavDrawerAdmin.vue";
+import NavDrawer from "@/components/NavDrawerFamily.vue";
 export default {
   name: "app",
   components: {
@@ -18,4 +17,5 @@ export default {
 </script>
 
 <style>
+
 </style>

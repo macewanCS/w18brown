@@ -1,8 +1,6 @@
 <template>
     <v-content>
-        <nav-drawer />
           <h1>Teacher Dashboard</h1>
-        <router-view />
     </v-content>
 </template>
 

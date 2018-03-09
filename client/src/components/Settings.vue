@@ -1,5 +1,5 @@
 <template>
-    <v-tabs fixed-tabs dark>
+    <v-tabs fixed-tabs dark id="allTabs">
         <v-tab key="tab1">
             Date/Time Settings
         </v-tab>
@@ -69,7 +69,35 @@
                     <!-- would like to wrap this next line. perhaps in a box -->
                     <p>The start date must be set once. It marks the beginning of the system and is used to determine when to start requiring facilitation hours.</p>
                 </h3>
+                <!--@click.stop is used here for triggering only when the click is let go.-->
+                <v-btn color="success" @click.stop="applyDialog = true">Apply</v-btn>
+                <v-btn color="error" @click.stop="cancelDialog = true">Cancel</v-btn>
 
+                <!--Begin Dialog Boxes for Confirmation -->
+                <v-dialog v-model="applyDialog" max-width="250">
+                    <v-card>
+                        <v-card-text>Are you sure you want to apply changes?</v-card-text>
+                        <v-card-actions>
+                            <v-spacer />
+                            <v-btn color="success" @click="applySettings">Yes</v-btn>
+                            <v-btn color="error" @click.native="applyDialog = false">No</v-btn>
+                            <v-spacer />
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <v-dialog v-model="cancelDialog" max-width="250">
+                    <v-card>
+                        <v-card-text>Cancel Changes?</v-card-text>
+                        <v-card-actions>
+                            <v-spacer />
+                            <v-btn color="success" @click="cancelSettings">Yes</v-btn>
+                            <v-btn color="error" @click.native="cancelDialog = false">No</v-btn>
+                            <v-spacer />
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+                <!--End Dialog Boxes for Confirmation -->
             </v-tab-item>
             <v-tab-item key="tab2">
                 fffffff
@@ -91,35 +119,81 @@ export default {
       block3Start: "",
       block3End: "",
       startDate: "",
-      requiredHours: ""
+      requiredHours: "",
+      applyDialog: "",
+      cancelDialog: ""
     };
   },
-  created() {
-    this.updateSettings();
+  created() { // Created = run these things upon the page fully loading
+    this.pullSettings();
   },
   methods: {
-    async updateSettings() {
+    /* 
+        applySettings():
+
+        Closes the confirmation box. Pulls the current data from this vue and sends it to pushSettings.
+    */  
+    applySettings() {
+      this.applyDialog = false; // close applyDialog box
+      var curSettings = [
+        this.block1Start,
+        this.block1End,
+        this.block2Start,
+        this.block2End,
+        this.block3Start,
+        this.block3End,
+        this.startDate,
+        "05:00:00"
+      ];
+      this.pushSettings(curSettings);
+    },
+    /* 
+        cancelSettings():
+
+        closes the cancel dialog box and overwrites all fields by pulling settings again.
+    */
+    cancelSettings() {
+      this.cancelDialog = false;
+      this.pullSettings();
+    },
+    /*
+
+    */
+    async pullSettings() {
       try {
-        const test = await ApiFunctions.getSettings();
-        let settings = await test.data;
+        const inData = await ApiFunctions.getSettings(); // inData hold the array from getSettings
+        let settings = await inData.data;
+        // Testing logs.  Feel free to explore in the Inspect, and see what this data is made out of.
         console.log(test);
         console.log(settings);
-        this.block1Start = settings[0];
-        this.block1End = settings[1];
-        this.block2Start = settings[2];
-        this.block2End = settings[3];
-        this.block3Start = settings[4];
-        this.block3End = settings[5];
-        this.startDate = this.changeDate(settings[6]);
+        if (settings.length == 8) { // Sets all the data to the settings obtained from the server.
+          this.block1Start = settings[0];
+          this.block1End = settings[1];
+          this.block2Start = settings[2];
+          this.block2End = settings[3];
+          this.block3Start = settings[4];
+          this.block3End = settings[5];
+          this.startDate = this.changeDate(settings[6]);
+        } else {
+          throw "Length of settings != 8";
+        }
       } catch (error) {
         console.log("catch condition");
         this.error = error.response.data.error;
       }
     },
     changeDate(dateString) {
-        var dashDate = dateString.replace(/\//g, "-");
-        //console.log(dashDate);
-        return(dashDate);
+      var dashDate = dateString.replace(/\//g, "-"); //replaces all / with - for a date.
+      //console.log(dashDate);
+      return dashDate;
+    },
+    async pushSettings(settings) {
+      try {
+        await ApiFunctions.setSettings(settings);
+        await this.pullSettings();
+      } catch (error) {
+        this.error = error.response.data.error;
+      }
     }
   }
 };
@@ -133,6 +207,9 @@ export default {
 table.center {
   margin-left: auto;
   margin-right: auto;
+}
+#allTabs {
+  text-align: center;
 }
 
 /*

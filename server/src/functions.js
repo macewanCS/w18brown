@@ -15,6 +15,7 @@ module.exports = {
 	createEmployeeCheck,
 	createEmployeeConfirm,
 	getTypes,
+	getRoomReservationByWeek,
 	createJSON
 }
 
@@ -130,6 +131,101 @@ async function createEmployeeConfirm(username, type, password){
 			} 
 			fulfill(true);		
 		});
+	})
+}
+
+/**
+ * This function returns an object containing all room bookings for a room, for a given week.
+ * @param {*} roomID the roomID desired
+ * @param {*} startDate the start date desired
+ */
+async function getRoomReservationByWeek(roomID, startDate){
+	var monday = new Date(startDate);
+
+	let blocks = await getBlocks();
+
+	var json = {};
+
+	var days = [];
+	var daysOut = [];
+	var blocksOut = [];
+
+	days.push(monday);
+
+	for (let i = 1; i < 5; i++){
+		let day = await addDays(monday, i);
+		days.push(day);
+	}
+
+	//free person for Brucetopher
+	var free = {};
+	free.name = "free";
+	free.percentage = 100;
+
+	return new Promise(function(fulfill, reject){
+
+		var sql = "SELECT * from reservations WHERE date >= ? AND date <= ?";
+
+		con.query(sql, [days[0], days[4]], async function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			//go through each day
+			days.forEach(day =>{
+				var today = {};
+				today.date = day;
+				today.blocks = [];
+				today.fieldTrip = false;
+				//go through each block
+				blocks.forEach(block =>{
+					var blockOut = {};
+					blockOut.startTime = block.startTime;
+					blockOut.endTime = block.endTime;
+					blockOut.slot = [];
+					//go through each reservation during this week
+					result.forEach(reservation =>{
+						if (reservation.start_time >= block.startTime && reservation.end_time <= block.endTime && reservation.date.getTime() === day.getTime()){
+							var person = {};
+							person.name = reservation.family_ID;
+							person.percentage = 100;
+							person.startTime = reservation.start_time;
+							person.endTime = reservation.end_time;
+							blockOut.slot.push(person);
+						}
+					})
+					//fill with free person for Brucetopher
+					while (blockOut.slot.length < 3){
+						blockOut.slot.push(free);
+					}
+					today.blocks.push(blockOut);
+				})
+				daysOut.push(today);
+			})
+			var output = JSON.stringify(daysOut, null, 2);
+			fulfill(output);
+		});
+	})
+}
+
+async function getBlocks(){
+
+	let settings = await getSettings();
+
+	return new Promise(function(fulfill, reject){
+		var blocks = [];
+
+		for (i = 0; i < settings.length - 2; i++){
+			if (i % 2 == 0){
+				var block = {};
+				block.startTime = settings[i];
+			}
+			else{
+				block.endTime = settings[i];
+				blocks.push(block);
+			}
+		}
+		fulfill(blocks);
 	})
 }
 
@@ -371,6 +467,19 @@ async function getKey(dictionary, value){
 		}
 	})
 }
+
+/**
+ * Helper Function
+ * @param {*} date 
+ * @param {*} days 
+ */
+async function addDays(date, days) {
+    return new Promise(function(fulfill, reject){
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        fulfill(result);
+    })
+  }
 
 /*
 async for loop

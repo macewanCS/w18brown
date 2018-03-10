@@ -82,6 +82,15 @@ async function testgetTypes(){
     console.log(test);
 }
 
+async function testgetRoomReservationByWeek(roomID, startDate){
+
+    let test = await functions.getRoomReservationByWeek(roomID, startDate);
+
+    console.log(test);
+
+}
+
+
 /**
  * All backend testing can be completed here
  * 
@@ -102,9 +111,10 @@ async function connectAndTest(){
         testcreateEmployeeCheck("", "admin");
         testcreateEmployeeCheck("Peter001", "admin");
         testcreateEmployeeCheck("shouldWork", "board");*/
-        testcreateEmployeeConfirm("testBoard1", "board", "brown");
-        testcreateEmployeeConfirm("testBoard2", "board", "brown");
-        testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
+        //testcreateEmployeeConfirm("testBoard1", "board", "brown");
+        //testcreateEmployeeConfirm("testBoard2", "board", "brown");
+        //testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
+        testgetRoomReservationByWeek(1, "2018/03/05");
         //testgetTypes();
     }
 }

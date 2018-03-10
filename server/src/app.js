@@ -70,7 +70,7 @@ app.post('/createEmployeeCheck', async function (req, res) {
 })
 
 app.post('/createEmployeeConfirm', async function (req, res) {
-    let addedBool = await functions.createEmployeeConfirm(req.body.username, req.body.employeeType);
+    let addedBool = await functions.createEmployeeConfirm(req.body.username, req.body.employeeType, req.body.password);
     res.send(addedBool)
 })
 

@@ -19,7 +19,8 @@ module.exports = {
 	deleteEmployee,
 	getEmployeeList,
 	createReservation,
-	deleteReservation
+	deleteReservation,
+	checkCreateFamily
 }
 
 
@@ -280,6 +281,120 @@ async function createReservation(reservationJSON){
 			} 
 			else{
 				fulfill(result["insertId"]);
+			}
+		});
+	})
+}
+
+/**
+ * Call this function to create a family. Returns temp password (brown) if successful. Otherwise will pass back an object containing key that contains error with value being the error.
+ * @param {*} FamilyIn JSON object passed in.*****Please follow the following naming conventions*******
+ * accountID, bonusHours, bonusComment, phone, email, historicHours, facilitators (list), students (list)
+ * 
+ * For each facilitator object, pass me their name.
+ * 
+ * For every student object, pass me their room, name and grade.
+ * 
+ * For facilitators and students, please use the property names above
+ * If the account name is already in use, there will be a single return string of 'alreadyUsed'. If the username was blank, there will be a single return string of "emptyUsername"
+ * 
+ * I propose you have the user only select room and grade via a dropdown menu and therefore no error checking is required.
+ * 
+ * You can get the rooms using roomDict function and grades via getGrades.
+ */
+async function checkCreateFamily(familyIn){
+	//first parse the JSON
+	var family = JSON.parse(familyIn);
+
+	let exists = await alreadyExists(family.accountID);
+
+	var output = {};
+	errors = 0;
+
+	output.facilitators = [];
+	output.students = [];
+
+	for (var key in family){
+		//these are just single strings
+		if (key != "facilitators" && key != "students" && key != "accountID"){
+			if (family[key].length === 0 || family[key].length > 254){
+				output[key] = "tooLongOrEmpty";
+				errors++;
+			}
+		}
+		//now to handle facilitator checks
+		if (key === "facilitators"){
+			family[key].forEach(fac =>{
+				if (fac.name.length === 0 || fac.name.length > 254){
+					var person = {};
+					person.name = fac.name;
+					person.error = "tooLongOrEmpty";
+					output.facilitators.push(person);
+					errors++;
+				}
+			})
+		}
+		//now for student check
+		if (key === "students"){
+			family[key].forEach(stu =>{
+				if (stu.name.length === 0 || stu.name.length > 254){
+					var person = {};
+					person.name = stu.name;
+					person.error = "tooLongOrEmpty";
+					output.students.push(person);
+					errors++;
+				}
+			})
+		}
+	}
+
+	return new Promise(function(fulfill, reject){
+		//first 3 if statements return errors according to spec
+		if (family.accountID.length === 0){
+			fulfill("emptyUsername");
+		}
+		if (exists === true){
+			fulfill("alreadyUsed");
+		}
+
+		if (errors > 0){
+			var json = JSON.stringify(output);
+			fulfill(json);
+		}
+
+		//return the current default password
+		fulfill("brown");
+
+		
+	})
+}
+
+/**
+ * This function returns a list of all grades in order of youngest students to oldest.
+ */
+async function getGrades(){
+	return new Promise(function(fulfill, reject){
+		output = ["K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+
+		fulfill(output);
+	})
+}
+
+
+async function alreadyExists(username){
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT * from account WHERE accountID = ?";
+
+		con.query(sql, username, async function (err, result, fields) {
+			if (err){
+				reject(false);
+				throw err;
+			} 
+			if (result.length > 0){
+				fulfill(true);
+			}
+			else{
+				fulfill(false);
 			}
 		});
 	})

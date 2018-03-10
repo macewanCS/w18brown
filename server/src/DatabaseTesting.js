@@ -125,6 +125,123 @@ async function testdeleteReservation(ID){
     console.log(test);
 }
 
+async function testcheckCreateFamily(name){
+    var input = {};
+    input.accountID = name;
+    input.bonusHours = 5;
+    input.bonusComment = "board";
+    input.phone = "780-258-3697";
+    input.email = "sdfsdfsdf@sdfsdf.com";
+    input.historicHours = 4356;
+
+    input.facilitators = [];
+    var fac = {};
+    fac.name = "Fred Flinstone";
+    input.facilitators.push(fac);
+    var fac2 = {};
+    fac2.name = "Misfkj sadf";
+    input.facilitators.push(fac2);
+    input.students = [];
+
+    var stu = {};
+    stu.name = "little girl";
+    stu.room = "red";
+    stu.grade = "K";
+
+    var stu2 = {};
+    stu2.name = "little boy";
+    stu2.room = "red";
+    stu2.grade = "5";
+
+    input.students.push(stu);
+    input.students.push(stu2);
+
+    json = JSON.stringify(input);
+
+
+    let test = await functions.checkCreateFamily(json);
+
+    console.log("for input", name, "result is:", test);
+}
+
+async function testcheckCreateFamilyFacError(name){
+    var input = {};
+    input.accountID = name;
+    input.bonusHours = 5;
+    input.bonusComment = "board";
+    input.phone = "780-258-3697";
+    input.email = "sdfsdfsdf@sdfsdf.com";
+    input.historicHours = 4356;
+
+    input.facilitators = [];
+    var fac = {};
+    fac.name = "";
+    input.facilitators.push(fac);
+    var fac2 = {};
+    fac2.name = "Misfkj sadf";
+    input.facilitators.push(fac2);
+    input.students = [];
+
+    var stu = {};
+    stu.name = "little girl";
+    stu.room = "red";
+    stu.grade = "K";
+
+    var stu2 = {};
+    stu2.name = "little boy";
+    stu2.room = "red";
+    stu2.grade = "5";
+
+    input.students.push(stu);
+    input.students.push(stu2);
+
+    json = JSON.stringify(input);
+
+
+    let test = await functions.checkCreateFamily(json);
+
+    console.log("for input", name, "result is:", test);
+}
+
+async function testcheckCreateFamilyStuError(name){
+    var input = {};
+    input.accountID = name;
+    input.bonusHours = 5;
+    input.bonusComment = "board";
+    input.phone = "780-258-3697";
+    input.email = "sdfsdfsdf@sdfsdf.com";
+    input.historicHours = 4356;
+
+    input.facilitators = [];
+    var fac = {};
+    fac.name = "Fred Flinstone";
+    input.facilitators.push(fac);
+    var fac2 = {};
+    fac2.name = "Misfkj sadf";
+    input.facilitators.push(fac2);
+    input.students = [];
+
+    var stu = {};
+    stu.name = "";
+    stu.room = "red";
+    stu.grade = "K";
+
+    var stu2 = {};
+    stu2.name = "little boy";
+    stu2.room = "red";
+    stu2.grade = "5";
+
+    input.students.push(stu);
+    input.students.push(stu2);
+
+    json = JSON.stringify(input);
+
+
+    let test = await functions.checkCreateFamily(json);
+
+    console.log("for input", name, "result is:", test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -148,12 +265,17 @@ async function connectAndTest(){
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
-        testgetRoomReservationByWeek("red", "2018/03/05");
+        // testgetRoomReservationByWeek("red", "2018/03/05");
         // testgetEmployeeList();
         // testdeleteEmployee("testBoard2");
         // testgetEmployeeList();
         // testcreateReservation();
         // testdeleteReservation(15);
         //testgetTypes();
+        testcheckCreateFamily("Peter001");
+        testcheckCreateFamily("");
+        testcheckCreateFamily("ShouldWork001");
+        testcheckCreateFamilyStuError("ShouldWork001");
+        testcheckCreateFamilyFacError("ShouldWork001");
     }
 }

@@ -543,7 +543,7 @@ async function isEmptyString(inString){
 async function getEmployeeList(){
 	return new Promise(function(fulfill, reject){
 		var output = {};
-		output.name = "Employee List";
+		output.name = "EmployeeList";
 		output.values = [];
 		var sql = "SELECT * FROM account WHERE type <> ('family') ORDER BY type";
 

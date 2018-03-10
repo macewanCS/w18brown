@@ -4,7 +4,7 @@
             <v-list>
                 <v-list-tile>
                     <v-list-tile-title class="title">
-                        Welcome __________!
+                        <h2>Welcome to Caraway</h2>
                     </v-list-tile-title>
                 </v-list-tile>
             </v-list>
@@ -107,6 +107,13 @@
 export default {};
 </script>
 
-<style>
-
+<style scoped>
+h2 {
+  padding: 5px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 13pt;
+  color: #0288d1;
+  font-family: Lato;
+}
 </style>

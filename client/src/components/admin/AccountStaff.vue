@@ -61,6 +61,32 @@
       <br/>
       <h1>Current Employee Accounts</h1>
 
+<br>
+
+
+  <v-data-table
+    :headers="headers"
+    :items="users"
+    hide-actions
+    class="elevation-1"
+  >
+    <template slot="items" slot-scope="props">
+      <td>{{ props.item.name }}</td>
+      <td class="text-xs-right">{{ props.item.calories }}</td>
+      <td class="text-xs-right">{{ props.item.fat }}</td>
+    </template>
+  </v-data-table>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -105,11 +131,42 @@ export default {
       employeeType: null, // should be null until input is selected
       confirm: false,
       password: "red",
+      // dropdown items
       items: [
         { text: 'Teacher' },
         { text: 'Board' },
         { text: 'Admin' }
       ]
+      ,
+      // table columns
+      headers: [
+        {
+          text: 'User Names',
+          align: 'center',
+          sortable: true,
+          value: 'name'
+        },
+        { text: 'Employee Type', 
+          align: 'center',
+          sortable: true,
+          value: 'type' },
+      ],
+      users: {}
+      
+      /* example row
+      {
+            value: false,
+            name: 'Frozen Yogurt',
+            calories: 159,
+            fat: 6.0,
+            carbs: 24,
+            protein: 4.0,
+            iron: '1%'
+          }
+      */
+      
+  
+
     };
   },
 
@@ -125,9 +182,18 @@ export default {
 
   //response = "Test Response";    // <-- this code wont work outside of the export default scope. It does work here. 
 
-        console.log("In AccountStaff.vue file:\nusername: ", this.username, "\ntype: ", this.employeeType.text.toLowerCase())
+      console.log("In AccountStaff.vue file:\nusername: ", this.username, "\ntype: ", this.employeeType.text.toLowerCase())
       console.log("submit button was clicked");
-      
+
+
+      var employees = await ApiFunctions.getEmployeeList();
+      console.log("type of employees: ", typeof(employees))
+      console.log(employees.data.values)
+
+      this.users = employees.data.values
+
+    //  this.users = employees.data.values
+   
     //  console.log("Dropdown type: ", this.dropdownType.text.toLowerCase()  );
       
    //   console.log("username and length: ", this.username, this.username.length)
@@ -139,6 +205,15 @@ export default {
           employeeType: this.employeeType.text.toLowerCase()
         })
         
+
+
+
+
+
+
+
+
+
         await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
 
         if (checkResponse.data === "tooLongOrEmpty") {
@@ -189,10 +264,7 @@ export default {
       } 
 
 
-      var employees = await ApiFunctions.getEmployeeList();
-      console.log(employees)
-
-   
+  
       /*
       */
 

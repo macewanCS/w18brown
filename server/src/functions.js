@@ -225,9 +225,31 @@ async function getRoomReservationByWeek(roomName, startDate){
 					})
 					//fill with free person for Brucetopher
 					i = 0;
-					while (blockOut.slot.length < 3){
-						console.log("slot i is", blockOut.slot[i]);
-						blockOut.slot.push(free);
+					currentPercent = 0;
+					while (currentPercent < 3){
+						//console.log("slot i is", blockOut.slot[i], i);
+						if (blockOut.slot[i] === undefined){
+							blockOut.slot.push(free);
+							currentPercent++;
+						}
+						else{
+							if (blockOut.slot[i].percentage != 1){
+								if (blockOut.slot[i].name != "free"){
+									var remaining = 1 - blockOut.slot[i].percentage;
+									var newFree = {};
+									newFree.percentage = remaining;
+									newFree.name = "free";
+									blockOut.slot.push(newFree);
+									currentPercent++;
+								}
+								else{
+
+								}
+							}
+							else{
+								currentPercent++;
+							}
+						}
 						i++;
 					}
 					today.blocks.push(blockOut);
@@ -263,6 +285,11 @@ async function createReservation(reservationJSON){
 	})
 }
 
+/**
+ * Use this function to delete a reservation. Pass a reservation id (int) value.
+ * Returns true if it was successfully deleted or false if there was an SQL error.
+ * @param {*} reservationID 
+ */
 async function deleteReservation(reservationID){
 	return new Promise(function(fulfill, reject){
 		var sql = "DELETE FROM reservations WHERE reservation_ID = ?";

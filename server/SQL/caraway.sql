@@ -40,7 +40,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL),('Sarah001','sarahpw','family',0.00,'N/A','780)555-9874','her@email.com',45.25),('testBoard1','brown','board',NULL,NULL,NULL,NULL,NULL),('testTeacher1','brown','teacher',NULL,NULL,NULL,NULL,NULL),('ShouldWork001',NULL,'family',5.00,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL);
+INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL),('Sarah001','sarahpw','family',0.00,'N/A','780)555-9874','her@email.com',45.25),('testBoard1','brown','board',NULL,NULL,NULL,NULL,NULL),('testTeacher1','brown','teacher',NULL,NULL,NULL,NULL,NULL),('ShouldWork001',NULL,'family',5.00,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL),('ShouldWork001',NULL,'family',5.00,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,7 +137,7 @@ CREATE TABLE `facilitator` (
 
 LOCK TABLES `facilitator` WRITE;
 /*!40000 ALTER TABLE `facilitator` DISABLE KEYS */;
-INSERT INTO `facilitator` VALUES ('ShouldWork001','Fred Flinstone'),('ShouldWork001','Misfkj sadf');
+INSERT INTO `facilitator` VALUES ('ShouldWork001','Fred Flinstone'),('ShouldWork001','Misfkj sadf'),('ShouldWork001','Fred Flinstone'),('ShouldWork001','Misfkj sadf');
 /*!40000 ALTER TABLE `facilitator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -180,7 +180,9 @@ CREATE TABLE `fieldtrip_reservations` (
   `facilitator` varchar(255) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `credit` float(7,1) DEFAULT NULL,
-  `room` varchar(255) DEFAULT NULL
+  `room` varchar(255) DEFAULT NULL,
+  `reservation_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`reservation_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -281,7 +283,7 @@ CREATE TABLE `reservations` (
   `room` varchar(255) DEFAULT NULL,
   `reservation_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`reservation_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -313,7 +315,7 @@ CREATE TABLE `room` (
 
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
-INSERT INTO `room` VALUES ('0','red'),('1','green'),('2','blue'),('3','mauve'),('4','purple');
+INSERT INTO `room` VALUES ('0','red'),('1','green'),('2','blue'),('3','mauve'),('4','purple'),('5','fancycolour');
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -367,7 +369,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('ShouldWork001','red','little girl','K'),('ShouldWork001','red','little boy','5');
+INSERT INTO `student` VALUES ('ShouldWork001','red','little girl','K'),('ShouldWork001','red','little boy','5'),('ShouldWork001','red','little girl','K'),('ShouldWork001','red','little boy','5');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -380,4 +382,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-10 13:27:40
+-- Dump completed on 2018-03-10 14:26:14

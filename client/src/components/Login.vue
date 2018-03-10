@@ -30,7 +30,7 @@ https://www.youtube.com/watch?v=Fa4cRMaTDUI -->
                 https://vuetifyjs.com/en/layout/spacing
                  -->
                 <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="error" v-model="error">
-                  {{ " Error: Incorrect username or password" }}
+                  {{ "Error: Incorrect username or password" }}
                   <i class="material-icons">error</i>
                 </v-flex>
             </div>

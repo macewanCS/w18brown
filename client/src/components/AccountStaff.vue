@@ -19,7 +19,7 @@
             Submit
         </v-btn>
       
-      <!--
+      
         <v-flex xs6>
           <v-subheader>Type</v-subheader>
         </v-flex>
@@ -31,7 +31,7 @@
             single-line
           ></v-select>
         </v-flex>
-   -->
+  
    
     </v-flex>
     <br/>
@@ -71,33 +71,52 @@ export default {
         
         await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
 
-        if (checkResponse.data = "tooLongOrEmpty") {
+        if (checkResponse.data === "tooLongOrEmpty") {
 
   /*
   put output error on screen here. username length requirements.
   */
 
         }
-        else if (checkResponse.data = "alreadyUsed") {
+        else if (checkResponse.data === "alreadyUsed") {
 
   /*
   put output error on screen here. username already used requirements.
   */
           
         }
+        else if (checkResponse.data === "brown") {
 
-      }
+          try {
+            const addResponse = await ApiFunctions.createEmployeeConfirm({
+              username: this.username,
+              employeeType: this.employeeType
+            })
+
+            await console.log("response.data in AccountStaff.vue is: ", addResponse.data );
+
+            if (addResponse.data = true) {
+              console.log("user has been added (need to confirm)")
+            }
+          }
+
+          catch (error) {
+            console.log("catch condition")
+            this.error = error.addResponse.data.error;
+          } 
+
+        } // end of add user 
+
+      } // end of first try
       catch (error) {
-      console.log("catch condition")
-      this.error = error.checkResponse.data.error;
-    } 
-    if (checkResponse.data = "brown") {
-      
+        console.log("catch condition")
+        this.error = error.checkResponse.data.error;
+      } 
+   
       /*
   insert into database
       */
 
-    }
   }
 }
 

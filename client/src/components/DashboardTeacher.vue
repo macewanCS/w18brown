@@ -1,7 +1,7 @@
 <template>
-    <v-content>
+    <div>
       <h1>Teacher Dashboard</h1>
-    </v-content>
+    </div>
 </template>
 
 <script>

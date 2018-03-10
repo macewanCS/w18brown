@@ -1,6 +1,8 @@
 <template>
     <div id="app">
         <v-app>
+            <!-- the following link is used for drop down arrow, etc -->
+            <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
             <router-view />
         </v-app>
     </div>

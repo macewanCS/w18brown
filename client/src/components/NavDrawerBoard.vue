@@ -24,7 +24,7 @@
                     </v-list-tile-content>
             </v-list-tile>
 
-            <v-list-tile :to="{name: 'underconstruction'}">
+            <v-list-tile :to="{name: 'reportsboard'}">
                     <v-list-tile-content>
                         <v-list-tile-title>View Reports</v-list-tile-title>
                     </v-list-tile-content>

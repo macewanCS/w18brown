@@ -102,6 +102,29 @@ async function testdeleteEmployee(username){
     console.log(test);
 }
 
+async function testcreateReservation(){
+    var jsonIn = {};
+
+    jsonIn.familyID = "Fac006";
+    jsonIn.date = "2018/03/09";
+    jsonIn.facilitator = "Smiley Face";
+    jsonIn.startTime = "14:00:00";
+    jsonIn.endTime = "15:45:00";
+    jsonIn.room = "red";
+
+    var input = JSON.stringify(jsonIn);
+
+    let test = await functions.createReservation(input);
+
+    console.log(test);
+}
+
+async function testdeleteReservation(ID){
+    let test = await functions.deleteReservation(ID);
+
+    console.log(test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -125,10 +148,12 @@ async function connectAndTest(){
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
-        //testgetRoomReservationByWeek(1, "2018/03/05");
-        testgetEmployeeList();
-        testdeleteEmployee("testBoard2");
-        testgetEmployeeList();
+        testgetRoomReservationByWeek("red", "2018/03/05");
+        // testgetEmployeeList();
+        // testdeleteEmployee("testBoard2");
+        // testgetEmployeeList();
+        // testcreateReservation();
+        // testdeleteReservation(15);
         //testgetTypes();
     }
 }

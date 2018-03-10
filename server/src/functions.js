@@ -21,6 +21,7 @@ module.exports = {
 	createReservation,
 	deleteReservation,
 	checkCreateFamily,
+	confirmCreateFamily,
 	getGrades
 }
 
@@ -379,6 +380,54 @@ async function checkCreateFamily(familyIn){
 		fulfill("brown");
 
 		
+	})
+}
+
+/**
+ * Use this function once all errors are removed from the checkCreateFamily function.
+ * @param {} familyIn JSON object with the identical requirements as checkCreateFamily with one exception. This time also have a password property.
+ * 
+ * Returns true if successful
+ */
+async function confirmCreateFamily(familyIn){
+	var family = JSON.parse(familyIn);
+	return new Promise(function(fulfill, reject){
+
+		var sql = "INSERT into account (accountID, password, type, bonusHours, bonusComment, phone, email, historic) VALUES (?,?,?,?,?,?,?,?)";
+
+		con.query(sql, [family.accountID, family.password, "family", family.bonusHours, family.bonusComment, family.phone, family.email, family.historic], async function (err, result, fields) {
+			if (err){
+				reject(false);
+				throw err;
+			} 
+		});
+
+		//insert every student
+		family.students.forEach(stu =>{
+			sql = "INSERT into student (familyID, room, studentName, grade) VALUES (?,?,?,?)";
+
+			con.query(sql, [family.accountID, stu.room, stu.name, stu.grade], async function (err, result, fields) {
+				if (err){
+					reject(false);
+					throw err;
+				} 
+			});
+		})
+
+		//insert every facilitator
+		family.facilitators.forEach(fac =>{
+			sql = "INSERT into facilitator (familyID, name) VALUES (?,?)";
+
+			con.query(sql, [family.accountID, fac.name], async function (err, result, fields) {
+				if (err){
+					reject(false);
+					throw err;
+				} 
+			});
+		})
+
+		fulfill(true);
+
 	})
 }
 

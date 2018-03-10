@@ -40,7 +40,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL),('Sarah001','sarahpw','family',0.00,'N/A','780)555-9874','her@email.com',45.25),('testBoard1','brown','board',NULL,NULL,NULL,NULL,NULL),('testTeacher1','brown','teacher',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL),('Sarah001','sarahpw','family',0.00,'N/A','780)555-9874','her@email.com',45.25),('testBoard1','brown','board',NULL,NULL,NULL,NULL,NULL),('testTeacher1','brown','teacher',NULL,NULL,NULL,NULL,NULL),('ShouldWork001',NULL,'family',5.00,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,6 +137,7 @@ CREATE TABLE `facilitator` (
 
 LOCK TABLES `facilitator` WRITE;
 /*!40000 ALTER TABLE `facilitator` DISABLE KEYS */;
+INSERT INTO `facilitator` VALUES ('ShouldWork001','Fred Flinstone'),('ShouldWork001','Misfkj sadf');
 /*!40000 ALTER TABLE `facilitator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -366,6 +367,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
+INSERT INTO `student` VALUES ('ShouldWork001','red','little girl','K'),('ShouldWork001','red','little boy','5');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -378,4 +380,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-10 11:11:20
+-- Dump completed on 2018-03-10 13:27:40

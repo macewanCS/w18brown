@@ -52,12 +52,12 @@ async function testEditRooms(parameter){
 
 async function testConfirmRoomChange(){
     var testIn = {};
+    testIn["0"] = "red";
     testIn["1"] = "bluewithgreen";
-    testIn["2"] = "red";
-    //testIn["3"] = "blue";
-    testIn["4"] = "mauve";
-    testIn["5"] = "purple";
-    testIn["6"] = "fancycolour";
+    testIn["2"] = "blue";
+    testIn["3"] = "mauve";
+    testIn["4"] = "purple";
+    testIn["5"] = "fancycolour";
     let test = await functions.finalRoomUpdate(testIn);
     console.log(test);
 }
@@ -303,7 +303,7 @@ async function connectAndTest(){
         // testEditRooms("bad");
         // testEditRooms("good");
         // testGetFamilyList();
-        // testConfirmRoomChange();
+         testConfirmRoomChange();
         // testcreateEmployeeCheck("", "admin");
         // testcreateEmployeeCheck("Peter001", "admin");
         // testcreateEmployeeCheck("shouldWork", "board");
@@ -323,6 +323,6 @@ async function connectAndTest(){
         // testcheckCreateFamilyStuError("ShouldWork001");
         // testcheckCreateFamilyFacError("ShouldWork001");
         // testgetGrades();
-        testconfirmCreateFamily("ShouldWork001");
+        // testconfirmCreateFamily("ShouldWork001");
     }
 }

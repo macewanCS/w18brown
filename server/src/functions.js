@@ -753,6 +753,48 @@ async function finalRoomUpdate(RoomsIn){
 				con.query(sql, [newName, oldName], function (err, result, fields) {
 					if (err) throw err;				
 				});
+
+				sql = "UPDATE student SET room = ? WHERE room = ?";
+
+				con.query(sql, [newName, oldName], function (err, result, fields) {
+					if (err) throw err;				
+				});
+
+				sql = "UPDATE fieldtrip_reservations SET room = ? WHERE room = ?";
+
+				con.query(sql, [newName, oldName], function (err, result, fields) {
+					if (err) throw err;				
+				});
+
+				sql = "UPDATE fieldtrip SET room = ? WHERE room = ?";
+
+				con.query(sql, [newName, oldName], function (err, result, fields) {
+					if (err) throw err;				
+				});
+
+				sql = "UPDATE holidays SET room = ? WHERE room = ?";
+
+				con.query(sql, [newName, oldName], function (err, result, fields) {
+					if (err) throw err;				
+				});
+
+				sql = "UPDATE cancelations SET room = ? WHERE room = ?";
+
+				con.query(sql, [newName, oldName], function (err, result, fields) {
+					if (err) throw err;				
+				});
+
+				sql = "UPDATE earned_hours SET room = ? WHERE room = ?";
+
+				con.query(sql, [newName, oldName], function (err, result, fields) {
+					if (err) throw err;				
+				});
+
+				sql = "UPDATE reservations SET room = ? WHERE room = ?";
+
+				con.query(sql, [newName, oldName], function (err, result, fields) {
+					if (err) throw err;				
+				});
 			}
 			//we have a new entry
 			if (!(key in currentRooms)){

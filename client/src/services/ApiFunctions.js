@@ -41,8 +41,14 @@ export default {
     },
     async roomDict(roomDictionary) {
         return Api().post('roomDict', roomDictionary)
+    },
+    async getEmployeeList(employeeList) {
+        return Api().post('getEmployeeList', employeeList)
     }
 
+
+
+    
 
 
     /* 

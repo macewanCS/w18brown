@@ -28,6 +28,7 @@
       single-line
     ></v-select>
     <v-flex> <!-- grid system -->
+    
         <v-btn type="submit" id="Submit" @click="submit">
             <!-- calls the login method below in scripts-->
             Submit
@@ -39,7 +40,24 @@
     </v-flex>
     <br/>
     <h1>Current Employee Accounts</h1>
-    <p>To come!</p>
+
+
+
+
+    <v-text name="employees" type="text" id="employees" label="employees"  v-model="employees"/>
+  
+  <!-- snackbars modified from https://github.com/harryho/vue2crm/blob/master/src/components/Login.vue -->
+    <v-snackbar v-if="lengthError" :timeout="6000" :top="true" :multi-line="mode === 'multi-line'" :vertical="mode === 'vertical'" v-model="lengthError">
+      {{ "Usernames should be between 5 and 15 characters" }}
+      <v-btn flat class="red--text" @click.native="lengthError = false">Close</v-btn> <!-- @click.native resets the error to false -->
+    </v-snackbar>
+
+    <v-snackbar v-if="usedError" :timeout="6000" :top="true" :multi-line="mode === 'multi-line'" :vertical="mode === 'vertical'" v-model="usedError">
+      {{ "This username is unavailable" }}
+      <v-btn flat class="red--text" @click.native="usedError = false">Close</v-btn>
+    </v-snackbar>
+  
+  
   </div>
 </template>
 
@@ -53,13 +71,15 @@
 import ApiFunctions from "@/services/ApiFunctions";
 
 
+
 export default {
   data() {
     return {
       username: "", 
    //   employeeType: "", 
-      error: null,
-
+      lengthError: false,
+      usedError: false,
+  employees: "",
       employeeType: null, // should be null until input is selected
       
       items: [
@@ -92,13 +112,15 @@ export default {
         await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
 
         if (checkResponse.data === "tooLongOrEmpty") {
-
+          this.lengthError = true;
   /*
   put output error on screen here. username length requirements.
   */
 
         }
         else if (checkResponse.data === "alreadyUsed") {
+          this.usedError = true;
+
 
   /*
   put output error on screen here. username already used requirements.
@@ -133,6 +155,10 @@ export default {
         console.log("catch condition")
         this.error = error.checkResponse.data.error;
       } 
+
+      var employees = await ApiFunctions.getEmployeeList();
+      console.log(employees)
+
    
       /*
   insert into database

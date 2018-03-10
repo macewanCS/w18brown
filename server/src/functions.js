@@ -115,14 +115,15 @@ async function createEmployeeCheck(username, type){
 
 /**
  * 
- * @param {*} username username to insert
- * @param {*} type type of account
+ * @param {*} username username to be created
+ * @param {*} type type of the account
+ * @param {*} password password of the new account
  */
-async function createEmployeeConfirm(username, type){
+async function createEmployeeConfirm(username, type, password){
 	return new Promise(function(fulfill, reject){
-		var sql = "INSERT into account (accountID, type) VALUES (?, ?);"
+		var sql = "INSERT into account (accountID, type, password) VALUES (?, ?, ?);"
 
-		con.query(sql, [username, type], function (err, result, fields) {
+		con.query(sql, [username, type, password], function (err, result, fields) {
 			if (err){
 				fulfill(false);
 				throw err;

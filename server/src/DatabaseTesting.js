@@ -72,8 +72,8 @@ async function testcreateEmployeeCheck(input, type){
     console.log("input is:", input, "result is", test);
 }
 
-async function testcreateEmployeeConfirm(input, type){
-    let test = await functions.createEmployeeConfirm(input, type);
+async function testcreateEmployeeConfirm(input, type, password){
+    let test = await functions.createEmployeeConfirm(input, type, password);
     console.log("input is:", input, "result is", test);
 }
 
@@ -98,13 +98,13 @@ async function connectAndTest(){
         testEditRooms("bad");
         testEditRooms("good");
         testGetFamilyList();
-        testConfirmRoomChange();*/
+        testConfirmRoomChange();
         testcreateEmployeeCheck("", "admin");
         testcreateEmployeeCheck("Peter001", "admin");
-        testcreateEmployeeCheck("shouldWork", "board");
-        /*testcreateEmployeeConfirm("testBoard1", "board");
-        testcreateEmployeeConfirm("testBoard2", "board");
-        testcreateEmployeeConfirm("testTeacher1", "teacher");
-        testgetTypes();*/
+        testcreateEmployeeCheck("shouldWork", "board");*/
+        testcreateEmployeeConfirm("testBoard1", "board", "brown");
+        testcreateEmployeeConfirm("testBoard2", "board", "brown");
+        testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
+        //testgetTypes();
     }
 }

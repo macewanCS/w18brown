@@ -16,7 +16,10 @@ module.exports = {
 	createEmployeeConfirm,
 	getTypes,
 	getRoomReservationByWeek,
-	getEmployeeList
+	deleteEmployee,
+	getEmployeeList,
+	createReservation,
+	deleteReservation
 }
 
 
@@ -136,10 +139,10 @@ async function createEmployeeConfirm(username, type, password){
 
 /**
  * This function returns an object containing all room bookings for a room, for a given week.
- * @param {*} roomID the roomID desired
+ * @param {*} roomName the roomName desired
  * @param {*} startDate the start date desired
  */
-async function getRoomReservationByWeek(roomID, startDate){
+async function getRoomReservationByWeek(roomName, startDate){
 	var monday = new Date(startDate);
 
 	let blocks = await getBlocks();
@@ -147,7 +150,9 @@ async function getRoomReservationByWeek(roomID, startDate){
 	var json = {};
 
 	var days = [];
-	var daysOut = [];
+	var daysOut = {};
+	daysOut.room = roomName;
+	daysOut.reservations = [];
 	var blocksOut = [];
 
 	days.push(monday);
@@ -160,13 +165,13 @@ async function getRoomReservationByWeek(roomID, startDate){
 	//free person for Brucetopher
 	var free = {};
 	free.name = "free";
-	free.percentage = 100;
+	free.percentage = 1;
 
 	return new Promise(function(fulfill, reject){
 
-		var sql = "SELECT * from reservations WHERE date >= ? AND date <= ?";
+		var sql = "SELECT * from reservations WHERE date >= ? AND date <= ? AND room = ?";
 
-		con.query(sql, [days[0], days[4]], async function (err, result, fields) {
+		con.query(sql, [days[0], days[4], roomName], async function (err, result, fields) {
 			if (err){
 				fulfill(false);
 				throw err;
@@ -188,22 +193,115 @@ async function getRoomReservationByWeek(roomID, startDate){
 						if (reservation.start_time >= block.startTime && reservation.end_time <= block.endTime && reservation.date.getTime() === day.getTime()){
 							var person = {};
 							person.name = reservation.family_ID;
-							person.percentage = 100;
+							if (reservation.start_time === block.startTime && reservation.end_time === block.endTime){
+								person.percentage = 1;
+							}
+							else{
+								//need to parse strings into ints
+								var startSplit = reservation.start_time.split(":");
+								var stringcat = startSplit[0] + startSplit[1];
+								var startTime = parseInt(stringcat);
+
+								startSplit = reservation.end_time.split(":");
+								stringcat = startSplit[0] + startSplit[1];
+								var endTime = parseInt(stringcat);
+
+								startSplit = block.endTime.split(":");
+								stringcat = startSplit[0] + startSplit[1];
+								var blockEndTime = parseInt(stringcat);
+
+								startSplit = block.startTime.split(":");
+								stringcat = startSplit[0] + startSplit[1];
+								var blockStartTime = parseInt(stringcat);
+
+								person.percentage = (endTime - startTime) / (blockEndTime - blockStartTime);
+							}
+							
 							person.startTime = reservation.start_time;
 							person.endTime = reservation.end_time;
+							person.reservationID = reservation.reservation_ID;
 							blockOut.slot.push(person);
 						}
 					})
 					//fill with free person for Brucetopher
-					while (blockOut.slot.length < 3){
-						blockOut.slot.push(free);
+					i = 0;
+					currentPercent = 0;
+					while (currentPercent < 3){
+						//console.log("slot i is", blockOut.slot[i], i);
+						if (blockOut.slot[i] === undefined){
+							blockOut.slot.push(free);
+							currentPercent++;
+						}
+						else{
+							if (blockOut.slot[i].percentage != 1){
+								if (blockOut.slot[i].name != "free"){
+									var remaining = 1 - blockOut.slot[i].percentage;
+									var newFree = {};
+									newFree.percentage = remaining;
+									newFree.name = "free";
+									blockOut.slot.push(newFree);
+									currentPercent++;
+								}
+								else{
+
+								}
+							}
+							else{
+								currentPercent++;
+							}
+						}
+						i++;
 					}
 					today.blocks.push(blockOut);
 				})
-				daysOut.push(today);
+				daysOut.reservations.push(today);
 			})
 			var output = JSON.stringify(daysOut, null, 2);
 			fulfill(output);
+		});
+	})
+}
+/**
+ * Call this function to insert a reservation into the system. The return value is false for SQL error or the reservation ID if successful.
+ * @param {*} reservationJSON a JSON object. ***ALWAYS use property names as follows. Order doesnt matter but naming does*****!!!!
+ * familyID, facilitator, date, startTime, endTime, room
+ */
+async function createReservation(reservationJSON){
+	return new Promise(function(fulfill, reject){
+
+		var reservation = JSON.parse(reservationJSON);
+
+		var sql = "INSERT INTO reservations (family_ID, facilitator, date, start_time, end_time, room) VALUES (?, ?, ?, ?, ?, ?)";
+
+		con.query(sql, [reservation.familyID, reservation.facilitator, reservation.date, reservation.startTime, reservation.endTime, reservation.room],async function (err, result, fields) {
+			if (err){
+				reject(false);
+				throw err;
+			} 
+			else{
+				fulfill(result["insertId"]);
+			}
+		});
+	})
+}
+
+/**
+ * Use this function to delete a reservation. Pass a reservation id (int) value.
+ * Returns true if it was successfully deleted or false if there was an SQL error.
+ * @param {*} reservationID 
+ */
+async function deleteReservation(reservationID){
+	return new Promise(function(fulfill, reject){
+		var sql = "DELETE FROM reservations WHERE reservation_ID = ?";
+
+		con.query(sql, reservationID ,async function (err, result, fields) {
+			if (err){
+				reject(false);
+				throw err;
+			} 
+			else{
+				fulfill(true);
+			}
 		});
 	})
 }
@@ -274,6 +372,24 @@ async function getEmployeeList(){
 			})
 			var json = JSON.stringify(output, null, 2);
 			fulfill(json);
+		});
+	})
+}
+
+/**
+ * Deletes an employee account from the system. No error checking. Returns true if account was deleted and false if there was an SQL error.
+ * @param {*} username username to be deleted.
+ */
+async function deleteEmployee(username){
+	return new Promise(function(fulfill, reject){
+		var sql = "DELETE FROM account WHERE accountID = ?";
+
+		con.query(sql, username, async function (err, result, fields) {
+			if (err){
+				throw err;
+				fulfill(false);
+			} 
+			fulfill(true);
 		});
 	})
 }

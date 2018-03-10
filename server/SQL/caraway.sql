@@ -40,7 +40,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL),('Sarah001','sarahpw','family',0.00,'N/A','780)555-9874','her@email.com',45.25);
+INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL),('Sarah001','sarahpw','family',0.00,'N/A','780)555-9874','her@email.com',45.25),('testBoard1','brown','board',NULL,NULL,NULL,NULL,NULL),('testTeacher1','brown','teacher',NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -277,8 +277,10 @@ CREATE TABLE `reservations` (
   `date` date DEFAULT NULL,
   `start_time` time DEFAULT NULL,
   `end_time` time DEFAULT NULL,
-  `room` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `room` varchar(255) DEFAULT NULL,
+  `reservation_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`reservation_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -287,7 +289,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES ('Fac001','Charlie','2018-03-09','08:45:00','12:00:00','red'),('Fac002','Betty','2018-03-09','08:45:00','12:00:00','red'),('Fac002','Betty','2018-03-07','08:45:00','12:00:00','red'),('Fac002','Betty','2018-03-06','08:45:00','12:00:00','red'),('Fac002','Betty','2018-03-08','11:50:00','13:00:00','red'),('Fac002','Betty','2018-03-09','12:50:00','15:45:00','red'),('Fac002','Betty','2018-03-05','12:50:00','15:45:00','red');
+INSERT INTO `reservations` VALUES ('Fac001','Charlie','2018-03-09','08:45:00','12:00:00','red',1),('Fac002','Betty','2018-03-09','08:45:00','12:00:00','red',2),('Fac002','Betty','2018-03-07','08:45:00','12:00:00','red',3),('Fac002','Betty','2018-03-06','08:45:00','12:00:00','red',4),('Fac002','Betty','2018-03-08','11:50:00','13:00:00','red',5),('Fac002','Betty','2018-03-09','12:50:00','15:45:00','red',6),('Fac002','Betty','2018-03-05','12:50:00','15:45:00','red',7),('Fac007','Johnny Chan','2018-03-09','12:50:00','14:00:00','red',8);
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,4 +378,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-09 21:35:19
+-- Dump completed on 2018-03-10 11:11:20

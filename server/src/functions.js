@@ -16,6 +16,7 @@ module.exports = {
 	createEmployeeConfirm,
 	getTypes,
 	getRoomReservationByWeek,
+	deleteEmployee,
 	getEmployeeList
 }
 
@@ -274,6 +275,24 @@ async function getEmployeeList(){
 			})
 			var json = JSON.stringify(output, null, 2);
 			fulfill(json);
+		});
+	})
+}
+
+/**
+ * Deletes an employee account from the system. No error checking. Returns true if account was deleted and false if there was an SQL error.
+ * @param {*} username username to be deleted.
+ */
+async function deleteEmployee(username){
+	return new Promise(function(fulfill, reject){
+		var sql = "DELETE FROM account WHERE accountID = ?";
+
+		con.query(sql, username, async function (err, result, fields) {
+			if (err){
+				throw err;
+				fulfill(false);
+			} 
+			fulfill(true);
 		});
 	})
 }

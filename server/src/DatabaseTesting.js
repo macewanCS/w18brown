@@ -96,6 +96,12 @@ async function testgetEmployeeList(){
     console.log(test);
 }
 
+async function testdeleteEmployee(username){
+    let test = await functions.deleteEmployee(username);
+
+    console.log(test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -120,6 +126,8 @@ async function connectAndTest(){
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
         //testgetRoomReservationByWeek(1, "2018/03/05");
+        testgetEmployeeList();
+        testdeleteEmployee("testBoard2");
         testgetEmployeeList();
         //testgetTypes();
     }

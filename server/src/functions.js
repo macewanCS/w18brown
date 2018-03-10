@@ -16,7 +16,7 @@ module.exports = {
 	createEmployeeConfirm,
 	getTypes,
 	getRoomReservationByWeek,
-	createJSON
+	getEmployeeList
 }
 
 
@@ -250,6 +250,31 @@ async function isEmptyString(inString){
 		} else {
 			fulfill(false);
 		}
+	})
+}
+
+/**
+ * Returns all employees in the database. Currently sorted by type, we could alter this though to be type or accountID.
+ * JSON object returned and formatted in a pretty print format with spacing of 2.
+ */
+async function getEmployeeList(){
+	return new Promise(function(fulfill, reject){
+		var output = {};
+		output.name = "Employee List";
+		output.values = [];
+		var sql = "SELECT * FROM account WHERE type <> ('family') ORDER BY type";
+
+		con.query(sql, async function (err, result, fields) {
+			if (err) throw err;
+			result.forEach(element=>{
+				var field = {};
+				field.name = element.accountID;
+				field.type = element.type;
+				output.values.push(field);
+			})
+			var json = JSON.stringify(output, null, 2);
+			fulfill(json);
+		});
 	})
 }
 

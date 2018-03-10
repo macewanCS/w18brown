@@ -7,7 +7,7 @@
 
 <script>
 
-import NavDrawer from "@/components/NavDrawerAdmin.vue";
+import NavDrawer from "@/components/admin/NavDrawerAdmin.vue";
 export default {
   name: "app",
   components: {

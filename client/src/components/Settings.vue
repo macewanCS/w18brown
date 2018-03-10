@@ -63,12 +63,6 @@
                         </td>
                     </tr>
                 </table>
-                <h2>Date Settings</h2>
-                <h3>System Start Date
-                    <input id="yearStart" type="date" v-model="startDate">
-                    <!-- would like to wrap this next line. perhaps in a box -->
-                    <p>The start date must be set once. It marks the beginning of the system and is used to determine when to start requiring facilitation hours.</p>
-                </h3>
                 <!--@click.stop is used here for triggering only when the click is let go.-->
                 <v-btn color="success" @click.stop="applyDialog = true">Apply</v-btn>
                 <v-btn color="error" @click.stop="cancelDialog = true">Cancel</v-btn>
@@ -100,8 +94,12 @@
                 <!--End Dialog Boxes for Confirmation -->
             </v-tab-item>
             <v-tab-item key="tab2">
-                fffffff
-            </v-tab-item>
+                <h2>Date Settings</h2>
+                <h3>System Start Date
+                    <input id="yearStart" type="date" v-model="startDate">
+                    <!-- would like to wrap this next line. perhaps in a box -->
+                    <p>The start date must be set once. It marks the beginning of the system and is used to determine when to start requiring facilitation hours.</p>
+                </h3>            </v-tab-item>
         </v-tabs-items>
     </v-tabs>
 </template>

@@ -19,6 +19,8 @@ import Teacher from "@/components/Teacher";
 import Family from "@/components/Family";
 import ScheduleTeacher from "@/components/ScheduleTeacher";
 import ScheduleBoard from "@/components/ScheduleBoard";
+import ReportsBoard from "@/components/ReportsBoard";
+
 
 
 
@@ -52,6 +54,11 @@ export default new Router({
         path: '/dashboardboard',
         name: 'dashboardboard',
         component: DashboardBoard
+      },
+      {  
+        path: 'reportsboard',
+        name: 'reportsboard',
+        component: ReportsBoard
       },
       {  
         path: 'scheduleboard',

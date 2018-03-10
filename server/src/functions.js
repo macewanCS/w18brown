@@ -19,7 +19,9 @@ module.exports = {
 	deleteEmployee,
 	getEmployeeList,
 	createReservation,
-	deleteReservation
+	deleteReservation,
+	checkCreateFamily,
+	getGrades
 }
 
 
@@ -47,7 +49,13 @@ async function connect(){
 }
 
 /** 
- * returns dictionary of rooms contained in database.
+ * returns dictionary of rooms contained in database. No parameters
+ * Example output:
+ * { '0': 'red',
+  '1': 'green',
+  '2': 'blue',
+  '3': 'mauve',
+  '4': 'purple' }
  * 
  * */	
 async function roomDict(){
@@ -66,8 +74,14 @@ async function roomDict(){
     });
 }
 
-//this function checks whether a username/password combo is in the database.
-//Return: Promise containing account type.
+/**
+ * this function checks whether a username/password combo is in the database.
+ * Return: Promise containing account type if successful.
+ * If unsuccessful it passes the string 'incorrect'
+ *
+ * @param {*} name username to be checked
+ * @param {*} password password input by user
+ */
 async function checkName(name, password){
     return new Promise(function (fulfill, reject){
 		// ? is like %s in C. 
@@ -118,7 +132,7 @@ async function createEmployeeCheck(username, type){
 }
 
 /**
- * 
+ * If successful, returns true. If there is an SQL error it passes false.
  * @param {*} username username to be created
  * @param {*} type type of the account
  * @param {*} password password of the new account
@@ -286,6 +300,125 @@ async function createReservation(reservationJSON){
 }
 
 /**
+ * Call this function to create a family. Returns temp password (brown) if successful. Otherwise will pass back an object containing key that contains error with value being the error.
+ * @param {*} FamilyIn JSON object passed in.*****Please follow the following naming conventions*******
+ * accountID, bonusHours, bonusComment, phone, email, historicHours, facilitators (list), students (list)
+ * 
+ * For each facilitator object, pass me their name.
+ * 
+ * For every student object, pass me their room, name and grade.
+ * 
+ * For facilitators and students, please use the property names above
+ * If the account name is already in use, there will be a single return string of 'alreadyUsed'. If the username was blank, there will be a single return string of "emptyUsername"
+ * 
+ * I propose you have the user only select room and grade via a dropdown menu and therefore no error checking is required.
+ * 
+ * You can get the rooms using roomDict function and grades via getGrades.
+ */
+async function checkCreateFamily(familyIn){
+	//first parse the JSON
+	var family = JSON.parse(familyIn);
+
+	let exists = await alreadyExists(family.accountID);
+
+	var output = {};
+	errors = 0;
+
+	output.facilitators = [];
+	output.students = [];
+
+	for (var key in family){
+		//these are just single strings
+		if (key != "facilitators" && key != "students" && key != "accountID"){
+			if (family[key].length === 0 || family[key].length > 254){
+				output[key] = "tooLongOrEmpty";
+				errors++;
+			}
+		}
+		//now to handle facilitator checks
+		if (key === "facilitators"){
+			family[key].forEach(fac =>{
+				if (fac.name.length === 0 || fac.name.length > 254){
+					var person = {};
+					person.name = fac.name;
+					person.error = "tooLongOrEmpty";
+					output.facilitators.push(person);
+					errors++;
+				}
+			})
+		}
+		//now for student check
+		if (key === "students"){
+			family[key].forEach(stu =>{
+				if (stu.name.length === 0 || stu.name.length > 254){
+					var person = {};
+					person.name = stu.name;
+					person.error = "tooLongOrEmpty";
+					output.students.push(person);
+					errors++;
+				}
+			})
+		}
+	}
+
+	return new Promise(function(fulfill, reject){
+		//first 3 if statements return errors according to spec
+		if (family.accountID.length === 0){
+			fulfill("emptyUsername");
+		}
+		if (exists === true){
+			fulfill("alreadyUsed");
+		}
+
+		if (errors > 0){
+			var json = JSON.stringify(output);
+			fulfill(json);
+		}
+
+		//return the current default password
+		fulfill("brown");
+
+		
+	})
+}
+
+/**
+ * This function returns a list of all grades in order of youngest students to oldest.
+ * Example:
+ * [ 'K', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12' ]
+ */
+async function getGrades(){
+	return new Promise(function(fulfill, reject){
+		output = ["K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
+
+		fulfill(output);
+	})
+}
+
+/**
+ * Internal helper function for me. Don't touch!
+ * @param {*} username 
+ */
+async function alreadyExists(username){
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT * from account WHERE accountID = ?";
+
+		con.query(sql, username, async function (err, result, fields) {
+			if (err){
+				reject(false);
+				throw err;
+			} 
+			if (result.length > 0){
+				fulfill(true);
+			}
+			else{
+				fulfill(false);
+			}
+		});
+	})
+}
+
+/**
  * Use this function to delete a reservation. Pass a reservation id (int) value.
  * Returns true if it was successfully deleted or false if there was an SQL error.
  * @param {*} reservationID 
@@ -306,6 +439,9 @@ async function deleteReservation(reservationID){
 	})
 }
 
+/**
+ * Internal helper function for me. Don't touch!
+ */
 async function getBlocks(){
 
 	let settings = await getSettings();
@@ -394,6 +530,19 @@ async function deleteEmployee(username){
 	})
 }
 
+/**
+ * Returns the current settings in the database as a list of strings in the same order every time.
+ * Example:
+ * [ '08:45:00',
+  '12:00:00',
+  '11:50:00',
+  '13:00:00',
+  '12:50:00',
+  '15:45:00',
+  '2018/09/05',
+  '05:00:00' ]
+  This is start/end time of block1, block2 and block 3, respectively. Followed by year start date and the weekly requirements.
+ */
 async function getSettings(){
 	return new Promise(function(fulfill, reject){
         var output = [];
@@ -431,6 +580,7 @@ async function getSettings(){
 /**
  * 
  * @param {*} input pass in the format as follows: var input = ["08:45", "12:00", "11:50", "13:00", "12:50", "15:45", "2018/09/05", "5:00"];
+ * This is start/end time of block1, block2 and block 3, respectively. Followed by year start date and the weekly requirements.
  * Currently no return value but we will have error checking on this down the road.
  */
 async function setSettings(input){
@@ -460,6 +610,11 @@ async function below255(input){
 	})
 }
 
+/**
+ * Returns all account types in the database as a list of strings.
+ * Example:
+ * ["board", "teacher", "admin", "family"]
+ */
 async function getTypes(){
 	return new Promise(function(fulfill, reject){
 		var output = ["board", "teacher", "admin", "family"];
@@ -468,25 +623,13 @@ async function getTypes(){
 	})
 }
 
-async function createJSON(){
-	return new Promise(function(fulfill, reject){
-		var json = {};
-		var list = [];
-		list.push("help");
-		list.push("me");
-
-		json.test = list;
-
-		var output = JSON.stringify(json);
-
-		console.log("within the function json is", output);
-		fulfill(output);
-	})
-}
-
 /**
- * 
+ * This function is called to add or edit rooms.
  * @param {*} RoomsIn Pass me a dictionary with the rooms.
+ * If there are no problems, the return value is true.
+ * If there are problems with any of the rooms selected for deletion or editting, you will receive a dictionary of rooms back that have the problem.
+ * Deleted rooms cannot have students in them, thats their only error possible.
+ * Editted room names can only have an error of that name already being in use.
  */
 async function addEditRoom(RoomsIn){
 	//first get our existing rooms
@@ -541,8 +684,11 @@ async function addEditRoom(RoomsIn){
 }
 
 /**
+ * After room edit/delete is checked, call this function to actually edit the DB.
+ * @param {*} RoomsIn Takes a confirmed OK room Dictionary.
+ * Return value is true if suycessful.
+ * False if there was an SQL error.
  * 
- * @param {*} RoomsIn Takes a confirmed OK room Dictionary
  */
 async function finalRoomUpdate(RoomsIn){
 	let currentRooms = await roomDict();
@@ -574,7 +720,10 @@ async function finalRoomUpdate(RoomsIn){
 				var sql = "DELETE FROM room WHERE roomID = ?";
 
 				con.query(sql, key, function (err, result, fields) {
-					if (err) throw err;				
+					if (err){
+						fulfill(false);
+						throw err;
+					} 				
 				});
 			}
 		}
@@ -584,6 +733,7 @@ async function finalRoomUpdate(RoomsIn){
 
 /**
  * Returns the family ID of all families in the system.
+ * The return value is a list of IDs.
  */
 async function getFamilyList(){
 	return new Promise(function(fulfill, reject){
@@ -599,6 +749,11 @@ async function getFamilyList(){
 	})
 }
 
+/**
+ * Internal function for me. Dont touch!
+ * @param {*} dictionary 
+ * @param {*} value 
+ */
 async function getKey(dictionary, value){
 	return new Promise(function(fulfill, reject){
 		for (var key in dictionary){

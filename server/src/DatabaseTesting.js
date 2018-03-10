@@ -242,6 +242,12 @@ async function testcheckCreateFamilyStuError(name){
     console.log("for input", name, "result is:", test);
 }
 
+async function testgetGrades(){
+    let test = await functions.getGrades();
+
+    console.log(test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -249,19 +255,19 @@ async function testcheckCreateFamilyStuError(name){
 async function connectAndTest(){
     let test = await functions.connect();
     if (test === "connected"){
-        /*testRoom();
-        testName("Peter001", "peterpw");
-        testName("Sarah001", "sarahpw");
-        testName("sdf", "sdfsfg");
+        // testRoom();
+        // testName("Peter001", "peterpw");
+        // testName("Sarah001", "sarahpw");
+        // testName("sdf", "sdfsfg");
         testGetSettings();
-        testgetJSON();
-        testEditRooms("bad");
-        testEditRooms("good");
-        testGetFamilyList();
-        testConfirmRoomChange();
-        testcreateEmployeeCheck("", "admin");
-        testcreateEmployeeCheck("Peter001", "admin");
-        testcreateEmployeeCheck("shouldWork", "board");*/
+        // testgetJSON();
+        // testEditRooms("bad");
+        // testEditRooms("good");
+        // testGetFamilyList();
+        // testConfirmRoomChange();
+        // testcreateEmployeeCheck("", "admin");
+        // testcreateEmployeeCheck("Peter001", "admin");
+        // testcreateEmployeeCheck("shouldWork", "board");
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
@@ -272,10 +278,11 @@ async function connectAndTest(){
         // testcreateReservation();
         // testdeleteReservation(15);
         //testgetTypes();
-        testcheckCreateFamily("Peter001");
-        testcheckCreateFamily("");
-        testcheckCreateFamily("ShouldWork001");
-        testcheckCreateFamilyStuError("ShouldWork001");
-        testcheckCreateFamilyFacError("ShouldWork001");
+        // testcheckCreateFamily("Peter001");
+        // testcheckCreateFamily("");
+        // testcheckCreateFamily("ShouldWork001");
+        // testcheckCreateFamilyStuError("ShouldWork001");
+        // testcheckCreateFamilyFacError("ShouldWork001");
+        // testgetGrades();
     }
 }

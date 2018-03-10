@@ -1,6 +1,5 @@
 <template>
-
-        <!-- Begin Calendar -->
+<!-- Begin Calendar -->
         <v-container id="calendar" grid-list-md text-xs-center >
           <!-- Row 1: Header -->
           <v-layout row class="cal-header">

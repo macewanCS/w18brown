@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.7.21, for Linux (x86_64)
 --
--- Host: localhost    Database: carraway
+-- Host: localhost    Database: caraway
 -- ------------------------------------------------------
 -- Server version	5.7.21
 
@@ -14,6 +14,35 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `account`
+--
+
+DROP TABLE IF EXISTS `account`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `account` (
+  `accountID` varchar(25) DEFAULT NULL,
+  `password` varchar(25) DEFAULT NULL,
+  `type` varchar(25) DEFAULT NULL,
+  `bonusHours` decimal(7,2) DEFAULT NULL,
+  `bonusComment` varchar(255) DEFAULT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `historic` decimal(7,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `account`
+--
+
+LOCK TABLES `account` WRITE;
+/*!40000 ALTER TABLE `account` DISABLE KEYS */;
+INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL),('Sarah001','sarahpw','family',0.00,'N/A','780)555-9874','her@email.com',45.25);
+/*!40000 ALTER TABLE `account` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `cancelations`
@@ -109,35 +138,6 @@ CREATE TABLE `facilitator` (
 LOCK TABLES `facilitator` WRITE;
 /*!40000 ALTER TABLE `facilitator` DISABLE KEYS */;
 /*!40000 ALTER TABLE `facilitator` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `family`
---
-
-DROP TABLE IF EXISTS `account`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `account` (
-  `accountID` varchar(25) DEFAULT NULL,
-  `password` varchar(25) DEFAULT NULL,
-  `type` varchar(25) DEFAULT NULL,
-  `bonusHours` decimal(7,2) DEFAULT NULL,
-  `bonusComment` varchar(255) DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `email` varchar(255) DEFAULT NULL,
-  `historic` decimal(7,2) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `family`
---
-
-LOCK TABLES `account` WRITE;
-/*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL),('Sarah001','sarahpw','family',0.00,'N/A','780)555-9874','her@email.com',45.25);
-/*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -287,6 +287,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
+INSERT INTO `reservations` VALUES ('Fac001','Charlie','2018-03-09','08:45:00','12:00:00','red'),('Fac002','Betty','2018-03-09','08:45:00','12:00:00','red'),('Fac002','Betty','2018-03-07','08:45:00','12:00:00','red'),('Fac002','Betty','2018-03-06','08:45:00','12:00:00','red'),('Fac002','Betty','2018-03-08','11:50:00','13:00:00','red'),('Fac002','Betty','2018-03-09','12:50:00','15:45:00','red'),('Fac002','Betty','2018-03-05','12:50:00','15:45:00','red');
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,6 +310,7 @@ CREATE TABLE `room` (
 
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
+INSERT INTO `room` VALUES ('0','red'),('1','green'),('2','blue'),('3','mauve'),('4','purple');
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -374,4 +376,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-13 12:43:07
+-- Dump completed on 2018-03-09 21:35:19

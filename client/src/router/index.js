@@ -17,11 +17,9 @@ import Board from "@/components/Board";
 import Admin from "@/components/Admin";
 import Teacher from "@/components/Teacher";
 import Family from "@/components/Family";
-
-
-
-//import NavDrawerAdmin from "@/components/NavDrawerAdmin";
-
+import ScheduleTeacher from "@/components/ScheduleTeacher";
+import ScheduleBoard from "@/components/ScheduleBoard";
+import ReportsBoard from "@/components/ReportsBoard";
 
 Vue.use(Router)
 
@@ -50,6 +48,16 @@ export default new Router({
         path: '/dashboardboard',
         name: 'dashboardboard',
         component: DashboardBoard
+      },
+      {  
+        path: 'reportsboard',
+        name: 'reportsboard',
+        component: ReportsBoard
+      },
+      {  
+        path: 'scheduleboard',
+        name: 'scheduleboard',
+        component: ScheduleBoard
       }]      
     },
     {
@@ -60,7 +68,12 @@ export default new Router({
         path: '/dashboardteacher',
         name: 'dashboardteacher',
         component: DashboardTeacher
-    }]      
+      },
+      {  
+        path: 'scheduleteacher',
+        name: 'scheduleteacher',
+        component: ScheduleTeacher
+      }]      
 
     },
 

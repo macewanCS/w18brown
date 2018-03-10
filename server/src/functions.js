@@ -15,8 +15,12 @@ module.exports = {
 	createEmployeeCheck,
 	createEmployeeConfirm,
 	getTypes,
-	createJSON
+	getRoomReservationByWeek,
+	getEmployeeList
 }
+
+
+
 
 
 
@@ -90,48 +94,138 @@ async function checkName(name, password){
  * @param {*} type provided type
  */
 async function createEmployeeCheck(username, type){
-	let length = await below255(username);
-
-	if (length === true){
-		length = await isEmptyString(username);
-	}
 	return new Promise(function(fulfill, reject){
 		//confirm length
-		if (length === false){
+		if (username.length === 0 || username.length > 254){
 			fulfill("tooLongOrEmpty");
 		}
-		var sql = "SELECT * from account";
+		var sql = "SELECT * from account where accountID = ?";
 
 		//first lets make sure the username doesnt exist already
-		con.query(sql, function (err, result, fields) {
+		con.query(sql, username, function (err, result, fields) {
 			if (err) throw err;		
-			for (let account in result){
-				if (account.accountID === username){
-					fulfill("alreadyUsed");
-				}
-			}	
+			if (result.length === 0){
+				fulfill("brown");
+			}
+			else{
+				fulfill("alreadyUsed");
+			}
 		});
-		//we've gone this far, now we can create a username
-		fulfill("brown");
 	})
 }
 
 /**
  * 
- * @param {*} username username to insert
- * @param {*} type type of account
+ * @param {*} username username to be created
+ * @param {*} type type of the account
+ * @param {*} password password of the new account
  */
-async function createEmployeeConfirm(username, type){
+async function createEmployeeConfirm(username, type, password){
 	return new Promise(function(fulfill, reject){
-		var sql = "INSERT into account (accountID, type) VALUES (?, ?);"
+		var sql = "INSERT into account (accountID, type, password) VALUES (?, ?, ?);"
 
-		con.query(sql, [username, type], function (err, result, fields) {
+		con.query(sql, [username, type, password], function (err, result, fields) {
 			if (err){
 				fulfill(false);
 				throw err;
 			} 
 			fulfill(true);		
 		});
+	})
+}
+
+/**
+ * This function returns an object containing all room bookings for a room, for a given week.
+ * @param {*} roomID the roomID desired
+ * @param {*} startDate the start date desired
+ */
+async function getRoomReservationByWeek(roomID, startDate){
+	var monday = new Date(startDate);
+
+	let blocks = await getBlocks();
+
+	var json = {};
+
+	var days = [];
+	var daysOut = [];
+	var blocksOut = [];
+
+	days.push(monday);
+
+	for (let i = 1; i < 5; i++){
+		let day = await addDays(monday, i);
+		days.push(day);
+	}
+
+	//free person for Brucetopher
+	var free = {};
+	free.name = "free";
+	free.percentage = 100;
+
+	return new Promise(function(fulfill, reject){
+
+		var sql = "SELECT * from reservations WHERE date >= ? AND date <= ?";
+
+		con.query(sql, [days[0], days[4]], async function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			//go through each day
+			days.forEach(day =>{
+				var today = {};
+				today.date = day;
+				today.blocks = [];
+				today.fieldTrip = false;
+				//go through each block
+				blocks.forEach(block =>{
+					var blockOut = {};
+					blockOut.startTime = block.startTime;
+					blockOut.endTime = block.endTime;
+					blockOut.slot = [];
+					//go through each reservation during this week
+					result.forEach(reservation =>{
+						if (reservation.start_time >= block.startTime && reservation.end_time <= block.endTime && reservation.date.getTime() === day.getTime()){
+							var person = {};
+							person.name = reservation.family_ID;
+							person.percentage = 100;
+							person.startTime = reservation.start_time;
+							person.endTime = reservation.end_time;
+							blockOut.slot.push(person);
+						}
+					})
+					//fill with free person for Brucetopher
+					while (blockOut.slot.length < 3){
+						blockOut.slot.push(free);
+					}
+					today.blocks.push(blockOut);
+				})
+				daysOut.push(today);
+			})
+			var output = JSON.stringify(daysOut, null, 2);
+			fulfill(output);
+		});
+	})
+}
+
+async function getBlocks(){
+
+	let settings = await getSettings();
+
+	return new Promise(function(fulfill, reject){
+		var blocks = [];
+
+		for (i = 0; i < settings.length - 2; i++){
+			if (i % 2 == 0){
+				var block = {};
+				block.startTime = settings[i];
+			}
+			else{
+				block.endTime = settings[i];
+				blocks.push(block);
+			}
+		}
+		fulfill(blocks);
 	})
 }
 
@@ -156,6 +250,31 @@ async function isEmptyString(inString){
 		} else {
 			fulfill(false);
 		}
+	})
+}
+
+/**
+ * Returns all employees in the database. Currently sorted by type, we could alter this though to be type or accountID.
+ * JSON object returned and formatted in a pretty print format with spacing of 2.
+ */
+async function getEmployeeList(){
+	return new Promise(function(fulfill, reject){
+		var output = {};
+		output.name = "Employee List";
+		output.values = [];
+		var sql = "SELECT * FROM account WHERE type <> ('family') ORDER BY type";
+
+		con.query(sql, async function (err, result, fields) {
+			if (err) throw err;
+			result.forEach(element=>{
+				var field = {};
+				field.name = element.accountID;
+				field.type = element.type;
+				output.values.push(field);
+			})
+			var json = JSON.stringify(output, null, 2);
+			fulfill(json);
+		});
 	})
 }
 
@@ -373,6 +492,19 @@ async function getKey(dictionary, value){
 		}
 	})
 }
+
+/**
+ * Helper Function
+ * @param {*} date 
+ * @param {*} days 
+ */
+async function addDays(date, days) {
+    return new Promise(function(fulfill, reject){
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        fulfill(result);
+    })
+  }
 
 /*
 async for loop

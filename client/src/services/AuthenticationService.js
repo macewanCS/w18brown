@@ -4,8 +4,8 @@ import Api from '@/services/Api'
 
 // this file exports this object that has a login method.
 export default {
-    async login (logInfo) {
-        return Api().post('login', logInfo)
+    async login (logInfo) { // this login is on the frontend
+        return Api().post('login', logInfo) // this login is on the backend
     }
 }
 

@@ -21,12 +21,6 @@ import ScheduleTeacher from "@/components/ScheduleTeacher";
 import ScheduleBoard from "@/components/ScheduleBoard";
 import ReportsBoard from "@/components/ReportsBoard";
 
-
-
-
-//import NavDrawerAdmin from "@/components/NavDrawerAdmin";
-
-
 Vue.use(Router)
 
 export default new Router({

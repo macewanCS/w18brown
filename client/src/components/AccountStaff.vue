@@ -5,52 +5,88 @@
             fill-height - fill full height of screen
         v-layout - similar to above but different properties
     -->
+
+
+
+    
   <div>
     <h1>Create Employee Account</h1>
     <!-- added v-models for linking to script, added placeholders -->
     <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
+   <!--
     <v-text-field name="type" type="type" id="type" label="Type" v-model="employeeType" />
+  -->
     <!--
     <div class="flex xs6"><div tabindex="0" data-uid="734" role="combobox" class="input-group input-group--append-icon input-group--text-field input-group--select input-group--single-line primary--text"><label>Select</label><div class="input-group__input"><div class="input-group__selections" style="overflow: hidden;"><input disabled="disabled" tabindex="-1" class="input-group--select__autocomplete" style="display: none;"></div><div class="menu" style="display: inline-block;"></div><i aria-hidden="true" class="icon material-icons input-group__append-icon input-group__icon-cb">arrow_drop_down</i></div><div class="input-group__details"></div></div></div>
     -->
+      <!-- items is the list of items to be displayed -->
+      <!-- dropdownType is the variable to save the result into -->
+    <v-select
+      v-bind:items="items" 
+      v-model="employeeType"
+      label="Employee Type"
+      single-line
+    ></v-select>
     <v-flex> <!-- grid system -->
+    
         <v-btn type="submit" id="Submit" @click="submit">
             <!-- calls the login method below in scripts-->
             Submit
         </v-btn>
       
-      
-        <v-flex xs6>
-          <v-subheader>Type</v-subheader>
-        </v-flex>
-        <v-flex xs6>
-          <v-select
-            :items="items"
-            v-model="e1"
-            label="Type"
-            single-line
-          ></v-select>
-        </v-flex>
-  
-   
+
+
+
     </v-flex>
     <br/>
     <h1>Current Employee Accounts</h1>
-    <p>To come!</p>
+
+
+
+
+    <v-text name="employees" type="text" id="employees" label="employees"  v-model="employees"/>
+  
+  <!-- snackbars modified from https://github.com/harryho/vue2crm/blob/master/src/components/Login.vue -->
+    <v-snackbar v-if="lengthError" :timeout="6000" :top="true" :multi-line="mode === 'multi-line'" :vertical="mode === 'vertical'" v-model="lengthError">
+      {{ "Usernames should be between 5 and 15 characters" }}
+      <v-btn flat class="red--text" @click.native="lengthError = false">Close</v-btn> <!-- @click.native resets the error to false -->
+    </v-snackbar>
+
+    <v-snackbar v-if="usedError" :timeout="6000" :top="true" :multi-line="mode === 'multi-line'" :vertical="mode === 'vertical'" v-model="usedError">
+      {{ "This username is unavailable" }}
+      <v-btn flat class="red--text" @click.native="usedError = false">Close</v-btn>
+    </v-snackbar>
+  
+  
   </div>
 </template>
 
 <script>
+// drop down menu code from https://vuetifyjs.com/en/components/selects
+// This is a pre-styled object meant to be copied and used. It has been modified for use in this app.
+
+ 
+
 //import ApiFunctions from "@/services/ApiFunctions";
 import ApiFunctions from "@/services/ApiFunctions";
+
 
 
 export default {
   data() {
     return {
-      username, 
-      employeeType, 
-      error: null 
+      username: "", 
+   //   employeeType: "", 
+      lengthError: false,
+      usedError: false,
+  employees: "",
+      employeeType: null, // should be null until input is selected
+      
+      items: [
+        { text: 'Teacher' },
+        { text: 'Board' },
+        { text: 'Admin' }
+      ]
     };
   },
 
@@ -59,26 +95,32 @@ export default {
  
   //response = "Test Response";    // <-- this code wont work outside of the export default scope. It does work here. 
 
-   //   console.log("In AccountStaff.vue file:   username: ", this.username, "type: ", this.employeeType)
-   //   console.log("submit button was clicked");
+        console.log("In AccountStaff.vue file:\nusername: ", this.username, "\ntype: ", this.employeeType.text.toLowerCase())
+      console.log("submit button was clicked");
+      
+    //  console.log("Dropdown type: ", this.dropdownType.text.toLowerCase()  );
+      
    //   console.log("username and length: ", this.username, this.username.length)
+  
 
       try {
         const checkResponse = await ApiFunctions.createEmployeeCheck({
           username: this.username,
-          employeeType: this.employeeType
+          employeeType: this.employeeType.text.toLowerCase()
         })
         
         await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
 
         if (checkResponse.data === "tooLongOrEmpty") {
-
+          this.lengthError = true;
   /*
   put output error on screen here. username length requirements.
   */
 
         }
         else if (checkResponse.data === "alreadyUsed") {
+          this.usedError = true;
+
 
   /*
   put output error on screen here. username already used requirements.
@@ -90,7 +132,8 @@ export default {
           try {
             const addResponse = await ApiFunctions.createEmployeeConfirm({
               username: this.username,
-              employeeType: this.employeeType
+              employeeType: this.employeeType.text.toLowerCase(),
+              password: "brown" //////////----------------------------------------------- this default password should be replaced.
             })
 
             await console.log("response.data in AccountStaff.vue is: ", addResponse.data );
@@ -112,6 +155,10 @@ export default {
         console.log("catch condition")
         this.error = error.checkResponse.data.error;
       } 
+
+      var employees = await ApiFunctions.getEmployeeList();
+      console.log(employees)
+
    
       /*
   insert into database

@@ -70,7 +70,7 @@ app.post('/createEmployeeCheck', async function (req, res) {
 })
 
 app.post('/createEmployeeConfirm', async function (req, res) {
-    let addedBool = await functions.createEmployeeConfirm(req.body.username, req.body.employeeType);
+    let addedBool = await functions.createEmployeeConfirm(req.body.username, req.body.employeeType, req.body.password);
     res.send(addedBool)
 })
 
@@ -95,6 +95,18 @@ app.post('/finalRoomUpdate', async function (req, res) {
     let rooms2 = await functions.finalRoomUpdate(req.body.RoomsIn);
     res.send(rooms2)
 })
+
+
+/** Sends to frontend: 
+ * Returns all employees in the database. Currently sorted by type, we could alter this though to be type or accountID.
+ * JSON object returned and formatted in a pretty print format with spacing of 2.
+ */
+app.post('/getEmployeeList', async function (req, res) {
+    let employeeList = await functions.getEmployeeList(req.body.json);
+    res.send(employeeList)
+})
+
+
 
 
 

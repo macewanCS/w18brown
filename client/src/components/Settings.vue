@@ -171,7 +171,7 @@ export default {
           this.block2End = settings[3];
           this.block3Start = settings[4];
           this.block3End = settings[5];
-          this.startDate = this.changeDate(settings[6]);
+          this.startDate = this.changeDate(settings[6]);  //API returns date with /, Browser requires -
         } else {
           throw "Length of settings != 8";
         }

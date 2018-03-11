@@ -162,7 +162,7 @@ export default {
         const inData = await ApiFunctions.getSettings(); // inData hold the array from getSettings
         let settings = await inData.data;
         // Testing logs.  Feel free to explore in the Inspect, and see what this data is made out of.
-        console.log(test);
+        console.log(inData);
         console.log(settings);
         if (settings.length == 8) { // Sets all the data to the settings obtained from the server.
           this.block1Start = settings[0];
@@ -171,7 +171,7 @@ export default {
           this.block2End = settings[3];
           this.block3Start = settings[4];
           this.block3End = settings[5];
-          this.startDate = this.changeDate(settings[6]);
+          this.startDate = this.changeDate(settings[6]);  //API returns date with /, Browser requires -
         } else {
           throw "Length of settings != 8";
         }

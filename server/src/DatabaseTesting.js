@@ -53,7 +53,7 @@ async function testEditRooms(parameter){
 async function testConfirmRoomChange(){
     var testIn = {};
     testIn["0"] = "red";
-    testIn["1"] = "bluewithgreen";
+    testIn["1"] = "green";
     testIn["2"] = "blue";
     testIn["3"] = "mauve";
     testIn["4"] = "purple";
@@ -303,14 +303,14 @@ async function connectAndTest(){
         // testEditRooms("bad");
         // testEditRooms("good");
         // testGetFamilyList();
-         testConfirmRoomChange();
+        //  testConfirmRoomChange();
         // testcreateEmployeeCheck("", "admin");
         // testcreateEmployeeCheck("Peter001", "admin");
         // testcreateEmployeeCheck("shouldWork", "board");
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
-        // testgetRoomReservationByWeek("red", "2018/03/05");
+        testgetRoomReservationByWeek("red", "2018/03/05");
         // testgetEmployeeList();
         // testdeleteEmployee("testBoard2");
         // testgetEmployeeList();

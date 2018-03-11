@@ -8,7 +8,7 @@
                 <v-text-field name="lastName" type="text" label="Last Name" v-model="lastName" />
             </v-flex>
             <v-flex xs2 sm6>
-                <v-select :items="grades" v-model="a1" label="Select" autocomplete>
+                <v-select :items="grades" v-model="a1" label="Grade" autocomplete>
                 </v-select>
             </v-flex>
             <v-flex class="input" xs3>

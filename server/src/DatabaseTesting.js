@@ -52,12 +52,12 @@ async function testEditRooms(parameter){
 
 async function testConfirmRoomChange(){
     var testIn = {};
-    testIn["1"] = "bluewithgreen";
-    testIn["2"] = "red";
-    //testIn["3"] = "blue";
-    testIn["4"] = "mauve";
-    testIn["5"] = "purple";
-    testIn["6"] = "fancycolour";
+    testIn["0"] = "red";
+    testIn["1"] = "green";
+    testIn["2"] = "blue";
+    testIn["3"] = "mauve";
+    testIn["4"] = "purple";
+    testIn["5"] = "fancycolour";
     let test = await functions.finalRoomUpdate(testIn);
     console.log(test);
 }
@@ -125,6 +125,168 @@ async function testdeleteReservation(ID){
     console.log(test);
 }
 
+async function testcheckCreateFamily(name){
+    var input = {};
+    input.accountID = name;
+    input.bonusHours = 5;
+    input.bonusComment = "board";
+    input.phone = "780-258-3697";
+    input.email = "sdfsdfsdf@sdfsdf.com";
+    input.historicHours = 4356;
+
+    input.facilitators = [];
+    var fac = {};
+    fac.name = "Fred Flinstone";
+    input.facilitators.push(fac);
+    var fac2 = {};
+    fac2.name = "Misfkj sadf";
+    input.facilitators.push(fac2);
+    input.students = [];
+
+    var stu = {};
+    stu.name = "little girl";
+    stu.room = "red";
+    stu.grade = "K";
+
+    var stu2 = {};
+    stu2.name = "little boy";
+    stu2.room = "red";
+    stu2.grade = "5";
+
+    input.students.push(stu);
+    input.students.push(stu2);
+
+    json = JSON.stringify(input);
+
+
+    let test = await functions.checkCreateFamily(json);
+
+    console.log("for input", name, "result is:", test);
+}
+
+async function testcheckCreateFamilyFacError(name){
+    var input = {};
+    input.accountID = name;
+    input.bonusHours = 5;
+    input.bonusComment = "board";
+    input.phone = "780-258-3697";
+    input.email = "sdfsdfsdf@sdfsdf.com";
+    input.historicHours = 4356;
+
+    input.facilitators = [];
+    var fac = {};
+    fac.name = "";
+    input.facilitators.push(fac);
+    var fac2 = {};
+    fac2.name = "Misfkj sadf";
+    input.facilitators.push(fac2);
+    input.students = [];
+
+    var stu = {};
+    stu.name = "little girl";
+    stu.room = "red";
+    stu.grade = "K";
+
+    var stu2 = {};
+    stu2.name = "little boy";
+    stu2.room = "red";
+    stu2.grade = "5";
+
+    input.students.push(stu);
+    input.students.push(stu2);
+
+    json = JSON.stringify(input);
+
+
+    let test = await functions.checkCreateFamily(json);
+
+    console.log("for input", name, "result is:", test);
+}
+
+async function testcheckCreateFamilyStuError(name){
+    var input = {};
+    input.accountID = name;
+    input.bonusHours = 5;
+    input.bonusComment = "board";
+    input.phone = "780-258-3697";
+    input.email = "sdfsdfsdf@sdfsdf.com";
+    input.historicHours = 4356;
+
+    input.facilitators = [];
+    var fac = {};
+    fac.name = "Fred Flinstone";
+    input.facilitators.push(fac);
+    var fac2 = {};
+    fac2.name = "Misfkj sadf";
+    input.facilitators.push(fac2);
+    input.students = [];
+
+    var stu = {};
+    stu.name = "";
+    stu.room = "red";
+    stu.grade = "K";
+
+    var stu2 = {};
+    stu2.name = "little boy";
+    stu2.room = "red";
+    stu2.grade = "5";
+
+    input.students.push(stu);
+    input.students.push(stu2);
+
+    json = JSON.stringify(input);
+
+
+    let test = await functions.checkCreateFamily(json);
+
+    console.log("for input", name, "result is:", test);
+}
+
+async function testgetGrades(){
+    let test = await functions.getGrades();
+
+    console.log(test);
+}
+
+async function testconfirmCreateFamily(name){
+    var input = {};
+    input.accountID = name;
+    input.bonusHours = 5;
+    input.bonusComment = "board";
+    input.phone = "780-258-3697";
+    input.email = "sdfsdfsdf@sdfsdf.com";
+    input.historicHours = 4356;
+
+    input.facilitators = [];
+    var fac = {};
+    fac.name = "Fred Flinstone";
+    input.facilitators.push(fac);
+    var fac2 = {};
+    fac2.name = "Misfkj sadf";
+    input.facilitators.push(fac2);
+    input.students = [];
+
+    var stu = {};
+    stu.name = "little girl";
+    stu.room = "red";
+    stu.grade = "K";
+
+    var stu2 = {};
+    stu2.name = "little boy";
+    stu2.room = "red";
+    stu2.grade = "5";
+
+    input.students.push(stu);
+    input.students.push(stu2);
+
+    json = JSON.stringify(input);
+
+
+    let test = await functions.confirmCreateFamily(json);
+
+    console.log("for input", name, "result is:", test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -132,19 +294,19 @@ async function testdeleteReservation(ID){
 async function connectAndTest(){
     let test = await functions.connect();
     if (test === "connected"){
-        /*testRoom();
-        testName("Peter001", "peterpw");
-        testName("Sarah001", "sarahpw");
-        testName("sdf", "sdfsfg");
-        testGetSettings();
-        testgetJSON();
-        testEditRooms("bad");
-        testEditRooms("good");
-        testGetFamilyList();
-        testConfirmRoomChange();
-        testcreateEmployeeCheck("", "admin");
-        testcreateEmployeeCheck("Peter001", "admin");
-        testcreateEmployeeCheck("shouldWork", "board");*/
+        // testRoom();
+        // testName("Peter001", "peterpw");
+        // testName("Sarah001", "sarahpw");
+        // testName("sdf", "sdfsfg");
+        // testGetSettings();
+        // testgetJSON();
+        // testEditRooms("bad");
+        // testEditRooms("good");
+        // testGetFamilyList();
+        //  testConfirmRoomChange();
+        // testcreateEmployeeCheck("", "admin");
+        // testcreateEmployeeCheck("Peter001", "admin");
+        // testcreateEmployeeCheck("shouldWork", "board");
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
@@ -155,5 +317,12 @@ async function connectAndTest(){
         // testcreateReservation();
         // testdeleteReservation(15);
         //testgetTypes();
+        // testcheckCreateFamily("Peter001");
+        // testcheckCreateFamily("");
+        // testcheckCreateFamily("ShouldWork001");
+        // testcheckCreateFamilyStuError("ShouldWork001");
+        // testcheckCreateFamilyFacError("ShouldWork001");
+        // testgetGrades();
+        // testconfirmCreateFamily("ShouldWork001");
     }
 }

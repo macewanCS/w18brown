@@ -6,20 +6,20 @@ import Rooms from "@/components/Rooms";
 import Reserve from "@/components/Reserve";
 import Settings from "@/components/Settings";
 import UnderConstruction from "@/components/UnderConstruction";
-import DashboardFamily from "@/components/DashboardFamily";
-import DashboardAdmin from "@/components/DashboardAdmin";
-import DashboardBoard from "@/components/DashboardBoard";
-import DashboardTeacher from "@/components/DashboardTeacher";
-import HolidaysAdmin from "@/components/HolidaysAdmin";
-import FieldTripsAdmin from "@/components/FieldTripsAdmin";
-import AccountStaff from "@/components/AccountStaff";
-import Board from "@/components/Board";
-import Admin from "@/components/Admin";
-import Teacher from "@/components/Teacher";
-import Family from "@/components/Family";
-import ScheduleTeacher from "@/components/ScheduleTeacher";
-import ScheduleBoard from "@/components/ScheduleBoard";
-import ReportsBoard from "@/components/ReportsBoard";
+import DashboardFamily from "@/components/family/DashboardFamily";
+import DashboardAdmin from "@/components/admin/DashboardAdmin";
+import DashboardBoard from "@/components/board/DashboardBoard";
+import DashboardTeacher from "@/components/teacher/DashboardTeacher";
+import HolidaysAdmin from "@/components/admin/HolidaysAdmin";
+import FieldTripsAdmin from "@/components/admin/FieldTripsAdmin";
+import AccountStaff from "@/components/admin/AccountStaff";
+import Board from "@/components/board/Board";
+import Admin from "@/components/admin/Admin";
+import Teacher from "@/components/teacher/Teacher";
+import Family from "@/components/family/Family";
+import ScheduleTeacher from "@/components/teacher/ScheduleTeacher";
+import ScheduleBoard from "@/components/board/ScheduleBoard";
+import ReportsBoard from "@/components/board/ReportsBoard";
 
 Vue.use(Router)
 

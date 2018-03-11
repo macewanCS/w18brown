@@ -10,19 +10,28 @@ https://www.youtube.com/watch?v=Fa4cRMaTDUI -->
     -->
     <v-container fluid fill-height>
         <v-layout align-center justify-center>
-
             <div id="box">
-                <h1>Caraway Volunteer <br> Log-In Page</h1>
+                <h1 class="text-xs-center" >Caraway Volunteer <br> Log-In Page</h1>
                 <!-- added v-models for linking to script, added placeholders -->
                 <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
                 <v-text-field name="password" type="password" id="password" label="Password" v-model="password" />
 
-                <v-flex>
-                    <v-btn id="forgotPassword">Forgot your Password?</v-btn>
-                    <v-btn type="submit" id="login" @click="login">
+                  <!--  <v-btn id="forgotPassword">Forgot your Password?</v-btn> -->
+                  <v-flex >
+                    <div class="text-xs-center"> <!-- this centers the contents -->
+                      <v-btn type="submit" id="login"  @click="login">
                         <!-- calls the login method below in scripts-->
                         Login
-                    </v-btn>
+                      </v-btn>
+                    </div>
+                  </v-flex>
+
+                <!-- mt-3 is margin on the top with a size of 3. see link
+                https://vuetifyjs.com/en/layout/spacing
+                 -->
+                <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="error" v-model="error">
+                  {{ "Error: Incorrect username or password" }}
+                  <i class="material-icons">error</i>
                 </v-flex>
             </div>
 
@@ -39,9 +48,9 @@ import AuthenticationService from "@/services/AuthenticationService";
 export default {
   data() {
     return {
-      username, 
-      password, 
-      error: null 
+      username: "",
+      password: "", 
+      error: false 
     };
   },
 
@@ -92,11 +101,9 @@ export default {
           //
           //  Add redirect to error page?
           //
-          this.$router.push({
-              name: 'underconstruction'
-            })
-          }
+            this.error = true
 
+        }
       
         /*
         this.$store.dispatch('setToken', response.data.token)
@@ -131,5 +138,9 @@ h1 {
   font-size: 20pt;
   color: #0288d1;
   font-family: Lato;
+}
+#errorMessage {
+color: #D32F2F;
+font-size: 14pt;
 }
 </style>

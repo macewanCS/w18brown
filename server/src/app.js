@@ -69,16 +69,67 @@ app.post('/createEmployeeCheck', async function (req, res) {
     res.send(employeeExists)
 })
 
+app.post('/createEmployeeConfirm', async function (req, res) {
+    let addedBool = await functions.createEmployeeConfirm(req.body.username, req.body.employeeType, req.body.password);
+    res.send(addedBool)
+})
+
+
+/*
+    Functions linked in advance.
+
+    These can be used in the server side app.js file and in the client side vue files.
+
+*/
+
+
+// * @param {*} RoomsIn Pass me a dictionary with the rooms.
+
+app.post('/addEditRoom', async function (req, res) {
+    let rooms = await functions.addEditRoom(req.body.RoomsIn);
+    res.send(rooms)
+})
+
+//  * @param {*} RoomsIn Takes a confirmed OK room Dictionary
+app.post('/finalRoomUpdate', async function (req, res) {
+    let rooms2 = await functions.finalRoomUpdate(req.body.RoomsIn);
+    res.send(rooms2)
+})
+
+
+/** Sends to frontend: 
+ * Returns all employees in the database. Currently sorted by type, we could alter this though to be type or accountID.
+ * JSON object returned and formatted in a pretty print format with spacing of 2.
+ */
+app.post('/getEmployeeList', async function (req, res) {
+    let employeeList = await functions.getEmployeeList(req.body.json);
+    res.send(employeeList)
+})
 
 
 
 
-//////////// is /createEmployeeCheck a path in the index or a ApiFunctions.js link? /////////////////
+
+/*
+
+async checkName(info2) {
+    return Api().post('checkName', info2)
+},
+async getFamilyList(info4) {
+    return Api().post('getFamilyList', info4)
+},
+async roomDict(roomDictionary) {
+    return Api().post('roomDict', roomDictionary)
+}*/
 
 
+    /* 
+        backend functions not yet linked
 
-
-
+	connect,
+	getTypes,
+	createJSON
+    */
 
 
 
@@ -113,47 +164,5 @@ app.post("/setSettings", async (req, res) => {
     console.log(req.body);
     pFunctions.setSettings(req.body);
 })
-
-/* checkName - this function checks whether a username/password combo is in the database and
-* returns their account type if found.
-*
-* returns: promise containing account type
-*//*
-async function checkName(name, password) {
-    return new Promise(function (fulfill, reject) {
-
-        // creates a connection to the database saved in the con variable.
-        var con = mysql.createConnection({
-            host: "localhost",
-            user: "browncar",
-            password: "brown",
-            database: "caraway"
-        });
-
-        // sql query code
-        con.connect(function (err) {
-            if (err) throw err;
-            // ? is like %s in C.
-            var sql = "SELECT * FROM account WHERE accountID = ? and password = ?";
-            // this array gives order. name is the first ?, password is the 2nd ?
-            con.query(sql, [name, password], function (err, result, fields) {
-                if (err) throw err;
-                if (result.length === 0) {
-                    fulfill("incorrect");
-
-                    // -- test output -- PLO
-                    console.log("checkName function. user not found in database.")
-
-                }
-                else {
-                    fulfill(result[0].type); // this returns account type
-
-                    // -- test output -- PLO
-                    console.log("checkName function. User found with type: ", result[0].type)
-                }
-            });
-        });
-    })
-};*/
 
 app.listen(8081)

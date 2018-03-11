@@ -5,31 +5,25 @@
             fill-height - fill full height of screen
         v-layout - similar to above but different properties
     -->
-
-
   <v-flex ma-5> <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
-
     <div class="text-xs-center"> <!-- this centers the contents -->
 
       <h1>Create Employee Account</h1>
+
       <!-- added v-models for linking to script, added placeholders -->
       <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
-    <!--
-      <v-text-field name="type" type="type" id="type" label="Type" v-model="employeeType" />
-    -->
-      <!--
-      <div class="flex xs6"><div tabindex="0" data-uid="734" role="combobox" class="input-group input-group--append-icon input-group--text-field input-group--select input-group--single-line primary--text"><label>Select</label><div class="input-group__input"><div class="input-group__selections" style="overflow: hidden;"><input disabled="disabled" tabindex="-1" class="input-group--select__autocomplete" style="display: none;"></div><div class="menu" style="display: inline-block;"></div><i aria-hidden="true" class="icon material-icons input-group__append-icon input-group__icon-cb">arrow_drop_down</i></div><div class="input-group__details"></div></div></div>
-      -->
+
         <!-- items is the list of items to be displayed -->
-        <!-- dropdownType is the variable to save the result into -->
+        <!-- employeeType is the variable to save the result into -->
       <v-select
         v-bind:items="items" 
         v-model="employeeType"
         label="Employee Type"
         single-line
       ></v-select>
+
       <v-flex> <!-- grid system -->
-      
+
         <v-btn type="submit" id="Submit" @click="submit">
             <!-- calls the login method below in scripts-->
             Submit
@@ -44,27 +38,41 @@
           {{ "This username is unavailable" }}
           <i class="material-icons">error</i>
         </v-flex>
+
+        <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="typeError" v-model="typeError">
+          {{ "An employee type must be selected" }}
+          <i class="material-icons">error</i>
+        </v-flex>
+
+
+
       </v-flex>
+
       <br/>
+
       <v-layout align-center justify-center> <!-- this centers the contents -->
         <v-flex id="box2" class="text-xs-center" mt-2 v-if="confirm" v-model="confirm">
             <h2>User Created <i class="material-icons">check_circle</i></h2>
-            Username:  {{this.username}}
-            <br>Employee Type:  {{this.employeeType.text}}
-            <br>Temporary Password: {{this.password}}
+            Username:  {{this.savedUser}}
+            <br>Employee Type:  {{this.savedType}}
+            <br>Temporary Password: {{this.savedPass}}
         </v-flex>
       </v-layout>
+
     <br>
     <v-divider/>
     <br/>
+
     <h1>Current Employee Accounts</h1>
-    <br>
-     <v-flex> <!-- grid system -->  
+
+<!--     <br>
+
+     <v-flex> 
         <v-btn type="load" id="Load" @click="load">
-            <!-- calls the login method below in scripts-->
             Refresh
         </v-btn>
-    </v-flex>
+    </v-flex> -->
+
     <br>
 
     <v-flex align-center>
@@ -75,21 +83,16 @@
             class="elevation-1"
         >
             <template slot="items" slot-scope="props">
-            <td class="text-xs-right">{{ props.item.name }}</td>
-            <td class="text-xs-right">{{ props.item.type }}</td>
+              <td class="text-xs-right">{{ props.item.name }}</td>
+              <td class="text-xs-right">{{ props.item.type }}</td>
             </template>
         </v-data-table>
     </v-flex>
 
-
-
-
-      <v-text name="employees" type="text" id="employees" label="employees"  v-model="employees"/>
+    <v-text name="employees" type="text" id="employees" label="employees"  v-model="employees"/>
     
-        <!-- snackbars modified from https://github.com/harryho/vue2crm/blob/master/src/components/Login.vue -->
-
+    <!-- snackbars modified from https://github.com/harryho/vue2crm/blob/master/src/components/Login.vue -->
     <!-- PLO snackbar code
-
       <v-snackbar v-if="lengthError" :timeout="6000" :top="true" :multi-line="mode === 'multi-line'" :vertical="mode === 'vertical'" v-model="lengthError">
         {{ "Usernames should be between 5 and 15 characters" }}
         <v-btn flat class="red--text" @click.native="lengthError = false">Close</v-btn> -->
@@ -121,9 +124,13 @@ export default {
    //   employeeType: "", 
       lengthError: false,
       usedError: false,
+      typeError: false,
       employeeType: null, // should be null until input is selected
       confirm: false,
       password: "red",
+      savedUser: "",
+      savedType: "",
+      savedPass: "",
       // dropdown items
       items: [    // this is for the dropdown
         { text: 'Teacher' },
@@ -145,10 +152,6 @@ export default {
           value: 'type' },
       ],
       users: {} // this items is for the datatable
-      
-   
-      
-  
 
     };
   },
@@ -169,49 +172,19 @@ export default {
     async submit() {
  
       // reset messages
-
       this.lengthError = false
       this.usedError = false
       this.confirm = false
-
-  //response = "Test Response";    // <-- this code wont work outside of the export default scope. It does work here. 
-
-      console.log("In AccountStaff.vue file:\nusername: ", this.username, "\ntype: ", this.employeeType.text.toLowerCase())
-      console.log("submit button was clicked");
-
-
-  
-
-
- 
-
-
-
-
-
-    //  this.users = employees.data.values
-   
-    //  console.log("Dropdown type: ", this.dropdownType.text.toLowerCase()  );
-      
-   //   console.log("username and length: ", this.username, this.username.length)
-  
+      this.typeError = false
 
       try {
         const checkResponse = await ApiFunctions.createEmployeeCheck({
           username: this.username,
           employeeType: this.employeeType.text.toLowerCase()
         })
-        
+  
 
-
-
-
-
-
-
-
-
-        await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
+   //     await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
 
         if (checkResponse.data === "tooLongOrEmpty") {
           this.lengthError = true;
@@ -239,31 +212,37 @@ export default {
            })
         
             // insert into database
-            await console.log("response.data in AccountStaff.vue is: ", addResponse.data );
+   //         await console.log("response.data in AccountStaff.vue is: ", addResponse.data );
 
             if (addResponse.data = true) {
-              console.log("user has been added (need to confirm)")
+  //            console.log("user has been added (need to confirm)")
               this.confirm = true
+              // saved values prevent changes to the displayed popup.
+              // the variables username and employeeType are linked to the inputs and will change if modified.
+              this.savedUser = this.username
+              this.savedType = this.employeeType.text.toLowerCase()
+              this.savedPass = this.password
+
+              await this.load(); // refreshes the current employee table
             }
           }
 
           catch (error) {
-            console.log("catch condition")
+            console.log("catch condition 1")
             this.error = error.addResponse.data.error;
           } 
 
         } // end of add user 
+    
 
       } // end of first try
       catch (error) {
-        console.log("catch condition")
-        this.error = error.checkResponse.data.error;
+        this.typeError = true
+        console.log("catch condition 2")
+
       } 
 
-
-  
-      /*
-      */
+      
 
   }
 }

@@ -34,13 +34,13 @@ app.post('/login', async function (req, res) {
     //Checkname is passed username/password and the resolution to redirect the user to the correct page.
 
     // -- test output -- PLO
-    console.log("In app.js file:   username: ", req.body.username, "password: ", req.body.password)
+  //  console.log("In app.js file:   username: ", req.body.username, "password: ", req.body.password)
 
     // calls checkName. Gives it username and password from the login page. Returns type to user.
     let type = await databaseFunc.checkName(req.body.username, req.body.password);
 
     // -- test output -- PLO
-    console.log("In app.js file: type: ", type)
+ //  console.log("In app.js file: type: ", type)
 
     res.send(type)
 })
@@ -102,14 +102,10 @@ app.post('/finalRoomUpdate', async function (req, res) {
  */
 app.get('/getEmployeeList', async function (req, res) {
     let employeeList = await functions.getEmployeeList();
-    await console.log(employeeList)
+  //  await console.log(employeeList)
     res.send(JSON.stringify(employeeList))
-
-  res.send(employeeList)
+    res.send(employeeList)
 })
-
-
-
 
 
 /*

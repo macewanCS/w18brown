@@ -7,7 +7,7 @@ const express = require('express')
 const bodyParser = require('body-parser') // process json data easily.
 const cors = require('cors') // allows any client around the world to hit the server. security risk.
 const app = express() // builds an express server
-const pFunctions = require('./functions.js');
+const functions = require('./functions');
 
 //var mysql = require("mysql"); // this has been moved to databaseFunctions.js
 var request = require("request-promise");
@@ -15,7 +15,7 @@ var request = require("request-promise");
 
 // code to import functions file
 var databaseFunc = require('./databaseFunctions')
-var functions = require('./functions')
+
 
 /*
     Note: to use databaseFunctions, use dot notation.
@@ -44,7 +44,6 @@ app.post('/login', async function (req, res) {
 
     res.send(type)
 })
-
 
 
 /*
@@ -118,9 +117,7 @@ async checkName(info2) {
 async getFamilyList(info4) {
     return Api().post('getFamilyList', info4)
 },
-async roomDict(roomDictionary) {
-    return Api().post('roomDict', roomDictionary)
-}*/
+*/
 
 
     /* 
@@ -155,14 +152,27 @@ async roomDict(roomDictionary) {
     ]
 */
 app.get('/getSettings', async function (req, res) {
-    let settings = await pFunctions.getSettings();
+    let settings = await functions.getSettings();
     res.send(settings);
 })
 /* POST:  setSettings
 */
 app.post("/setSettings", async (req, res) => {
     console.log(req.body);
-    pFunctions.setSettings(req.body);
+    functions.setSettings(req.body);
+})
+
+
+app.post("/getReservations", async (req, res) => {
+    console.log(req.body.room, req.body.startDate);
+    let reservations = await functions.getRoomReservationByWeek(req.body.room, req.body.startDate);
+    console.log(reservations);
+    res.send(JSON.stringify(reservations));
+})
+
+app.get("/roomDict", async function(req, res) {
+    let rooms = await functions.roomDict();
+    res.send(rooms);
 })
 
 app.listen(8081)

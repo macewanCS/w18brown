@@ -7,6 +7,16 @@ export default {
     async setSettings (currentSettings) {
         Api().post("setSettings", currentSettings);
     },
+    async getRooms() {
+        return Api().get("roomDict");
+    },
+    async getReservations(in_room, in_startDate) {
+        var reservationParam = {
+            room: in_room,
+            startDate: in_startDate
+        }
+        return Api().post("getReservations", reservationParam);
+    },
 /* // this doesnt exist.
     async createEmployee (info) {
         return Api().post('createEmployee', info)
@@ -39,17 +49,9 @@ export default {
     async getFamilyList(info4) {
         return Api().post('getFamilyList', info4)
     },
-    async roomDict(roomDictionary) {
-        return Api().post('roomDict', roomDictionary)
-    },
     async getEmployeeList(employeeList) {
         return Api().post('getEmployeeList', employeeList)
     }
-
-
-
-    
-
 
     /* 
         backend functions not yet linked

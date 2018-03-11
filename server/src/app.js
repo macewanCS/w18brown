@@ -100,9 +100,10 @@ app.post('/finalRoomUpdate', async function (req, res) {
  * Returns all employees in the database. Currently sorted by type, we could alter this though to be type or accountID.
  * JSON object returned and formatted in a pretty print format with spacing of 2.
  */
-app.post('/getEmployeeList', async function (req, res) {
-    let employeeList = await functions.getEmployeeList(req.body.json);
-    res.send(employeeList)
+app.get('/getEmployeeList', async function (req, res) {
+    let employeeList = await functions.getEmployeeList();
+    await console.log(employeeList)
+    res.send(JSON.stringify(employeeList))
 })
 
 

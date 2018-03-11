@@ -178,11 +178,6 @@ async function getRoomReservationByWeek(roomName, startDate){
 		days.push(day);
 	}
 
-	//free person for Brucetopher
-	var free = {};
-	free.name = "free";
-	free.percentage = 1;
-
 	return new Promise(function(fulfill, reject){
 
 		var sql = "SELECT * from reservations WHERE date >= ? AND date <= ? AND room = ?";
@@ -246,6 +241,13 @@ async function getRoomReservationByWeek(roomName, startDate){
 					while (currentPercent < 3){
 						//console.log("slot i is", blockOut.slot[i], i);
 						if (blockOut.slot[i] === undefined){
+							//free person for Brucetopher
+							var free = {};
+							free.name = "free";
+							free.percentage = 1;
+							free.startTime = blockOut.startTime;
+							free.endTime = blockOut.endTime;
+							free.reservationID = 0;
 							blockOut.slot.push(free);
 							currentPercent++;
 						}
@@ -256,6 +258,9 @@ async function getRoomReservationByWeek(roomName, startDate){
 									var newFree = {};
 									newFree.percentage = remaining;
 									newFree.name = "free";
+									newFree.startTime = blockOut.startTime;
+									newFree.endTime = blockOut.endTime;
+									newFree.reservationID = 0;
 									blockOut.slot.push(newFree);
 									currentPercent++;
 								}

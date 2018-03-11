@@ -73,7 +73,6 @@
     <template slot="items" slot-scope="props">
       <td>{{ props.item.name }}</td>
       <td class="text-xs-right">{{ props.item.type }}</td>
-      <td class="text-xs-right">{{ props.item.fat }}</td>
     </template>
   </v-data-table>
 
@@ -189,8 +188,8 @@ export default {
       var employees = await ApiFunctions.getEmployeeList();
      // console.log(employees.data.values)
  //    await console.log("in accountstaff1: ", employees.data.values)
-      await console.log("in accountstaff: ", JSON.parse(employees.data.values))
-      this.users = this.employees.data.values
+      await console.log(JSON.parse(employees.data))
+      this.users = this.employees.data
 
 
     //  this.users = employees.data.values

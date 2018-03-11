@@ -35,7 +35,6 @@
             Submit
         </v-btn>
         
-
         <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="lengthError" v-model="lengthError">
           {{ "Usernames should be between 5 and 15 characters" }}
           <i class="material-icons">error</i>
@@ -45,46 +44,42 @@
           {{ "This username is unavailable" }}
           <i class="material-icons">error</i>
         </v-flex>
-
       </v-flex>
       <br/>
       <v-layout align-center justify-center> <!-- this centers the contents -->
-          <v-flex id="box2" class="text-xs-center" mt-2 v-if="confirm" v-model="confirm">
+        <v-flex id="box2" class="text-xs-center" mt-2 v-if="confirm" v-model="confirm">
             <h2>User Created <i class="material-icons">check_circle</i></h2>
             Username:  {{this.username}}
             <br>Employee Type:  {{this.employeeType.text}}
             <br>Temporary Password: {{this.password}}
-            </v-flex>
+        </v-flex>
       </v-layout>
- <br> <br>
-      <v-divider/>
-      <br/>
-      <h1>Current Employee Accounts</h1>
+    <br>
+    <v-divider/>
+    <br/>
+    <h1>Current Employee Accounts</h1>
+    <br>
+     <v-flex> <!-- grid system -->  
+        <v-btn type="load" id="Load" @click="load">
+            <!-- calls the login method below in scripts-->
+            Refresh
+        </v-btn>
+    </v-flex>
+    <br>
 
-<br>
-
-
-  <v-data-table
-    :headers="headers"
-    :items="users"
-    hide-actions
-    class="elevation-1"
-  >
-    <template slot="items" slot-scope="props">
-      <td>{{ props.item.name }}</td>
-      <td class="text-xs-right">{{ props.item.type }}</td>
-    </template>
-  </v-data-table>
-
-
-
-
-
-
-
-
-
-
+    <v-flex align-center>
+        <v-data-table light
+            :headers="headers"
+            :items="users"    
+            hide-actions
+            class="elevation-1"
+        >
+            <template slot="items" slot-scope="props">
+            <td class="text-xs-right">{{ props.item.name }}</td>
+            <td class="text-xs-right">{{ props.item.type }}</td>
+            </template>
+        </v-data-table>
+    </v-flex>
 
 
 
@@ -126,12 +121,11 @@ export default {
    //   employeeType: "", 
       lengthError: false,
       usedError: false,
-      employees: "",
       employeeType: null, // should be null until input is selected
       confirm: false,
       password: "red",
       // dropdown items
-      items: [
+      items: [    // this is for the dropdown
         { text: 'Teacher' },
         { text: 'Board' },
         { text: 'Admin' }
@@ -150,26 +144,28 @@ export default {
           sortable: true,
           value: 'type' },
       ],
-      users: {}
+      users: {} // this items is for the datatable
       
-      /* example row
-      {
-            value: false,
-            name: 'Frozen Yogurt',
-            calories: 159,
-            fat: 6.0,
-            carbs: 24,
-            protein: 4.0,
-            iron: '1%'
-          }
-      */
+   
       
   
 
     };
   },
+  created() {
+      this.load();
+  },
 
   methods: {
+
+
+    async load(){
+        var employees = await ApiFunctions.getEmployeeList();
+        var parsedData = JSON.parse(employees.data);
+        this.users = parsedData.values;
+
+    },
+
     async submit() {
  
       // reset messages
@@ -178,18 +174,19 @@ export default {
       this.usedError = false
       this.confirm = false
 
-
   //response = "Test Response";    // <-- this code wont work outside of the export default scope. It does work here. 
 
       console.log("In AccountStaff.vue file:\nusername: ", this.username, "\ntype: ", this.employeeType.text.toLowerCase())
       console.log("submit button was clicked");
 
 
-      var employees = await ApiFunctions.getEmployeeList();
-     // console.log(employees.data.values)
- //    await console.log("in accountstaff1: ", employees.data.values)
-      await console.log(JSON.parse(employees.data))
-      this.users = this.employees.data
+  
+
+
+ 
+
+
+
 
 
     //  this.users = employees.data.values

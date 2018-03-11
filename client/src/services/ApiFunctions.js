@@ -50,7 +50,7 @@ export default {
         return Api().post('getFamilyList', info4)
     },
     async getEmployeeList(employeeList) {
-        return Api().post('getEmployeeList', employeeList)
+        return Api().get('getEmployeeList')
     }
 
     /* 

@@ -187,10 +187,12 @@ export default {
 
 
       var employees = await ApiFunctions.getEmployeeList();
-      console.log("type of employees: ", typeof(employees))
-      console.log(employees.data.values)
+     // console.log(employees.data.values)
+      this.employees = JSON.parse(employees)
+      console.log("parsed: ", this.employees)
+      this.users = this.employees
+      console.log("type of employees: ", typeof(this.employees))
 
-      this.users = employees.data.values
 
     //  this.users = employees.data.values
    

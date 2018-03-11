@@ -32,6 +32,7 @@ module.exports = {
 
 
 var mysql = require('mysql');
+var dateFormat = require('dateformat');
 
 var con = mysql.createConnection({
 	host: "localhost",
@@ -194,7 +195,8 @@ async function getRoomReservationByWeek(roomName, startDate){
 			//go through each day
 			days.forEach(day =>{
 				var today = {};
-				today.date = day;
+
+				today.date = dateFormat(day, "yyyy/mm/dd");
 				today.blocks = [];
 				today.fieldTrip = false;
 				//go through each block

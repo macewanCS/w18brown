@@ -102,8 +102,10 @@ app.post('/finalRoomUpdate', async function (req, res) {
  */
 app.get('/getEmployeeList', async function (req, res) {
     let employeeList = await functions.getEmployeeList();
-    await console.log(employeeList)
-    res.send(JSON.stringify(employeeList))
+  //  await console.log(employeeList)
+  //  res.send(JSON.stringify(employeeList))
+
+  res.send(employeeList)
 })
 
 

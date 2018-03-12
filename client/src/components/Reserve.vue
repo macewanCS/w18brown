@@ -61,17 +61,17 @@
           <v-card v-bind:color="blockDay_color" light class="cal-block-day">
             <v-layout row>
               <v-flex>
-                <v-card hover v-for="fac in MonB1" :key="fac" v-bind:style="{height: fac.height}" v-bind:color="fac.color" class="facilitator">
-                  <p class="verticaltext">{{fac.name}}</p>
-                </v-card>
-              </v-flex>
-              <v-flex>
-                <v-card hover v-for="fac in MonB2" :key="fac" v-bind:style="{height: fac.height}" v-bind:color="blockFree_color" class="facilitator">
+                <v-card hover v-for="fac in Calendar[0][0]" :key="fac.index" v-bind:style="{height: fac.height}" v-bind:color="fac.color" class="facilitator">
                   {{fac.name}}
                 </v-card>
               </v-flex>
               <v-flex>
-                <v-card hover v-for="fac in MonB3" :key="fac" v-bind:style="{height: fac.height}" v-bind:color="fac.color" class="facilitator">
+                <v-card hover v-for="fac in Calendar[0][0][1]" :key="fac.index" v-bind:style="{height: fac.height}" v-bind:color="fac.color" class="facilitator">
+                  {{fac.name}}
+                </v-card>
+              </v-flex>
+              <v-flex>
+                <v-card hover v-for="fac in Calendar[0][0][2]" :key="fac.index" v-bind:style="{height: fac.height}" v-bind:color="fac.color" class="facilitator">
                   {{fac.name}}
                 </v-card>
               </v-flex>
@@ -210,15 +210,28 @@ import ApiFunctions from "@/services/ApiFunctions";
 export default {
   data() {
     return {
-      MonB1: [
-        { name: "Reserved", height: "100px", color: "red" },
-        { name: "Reserved", height: "100px", color: "blue" }
+      // MonB1: [
+      //   { name: "Reserved", height: "100px", color: "red" },
+      //   { name: "Reserved", height: "100px", color: "blue" }
+      // ],
+      // MonB2: [{ name: "Free", height: "280px", color: "grey darken-3" }],
+      // MonB3: [{ name: "Free", height: "280px", color: "grey darken-3" }],
+      Mon_B1: [],
+      Mon_B2: [],
+      Mon_B3: [],
+
+      Calendar: [
+        [[], [], []],
+        [[], [], []],
+        [[], [], []],
+        [[], [], []],
+        [[], [], []]
       ],
-      MonB2: [{ name: "Free", height: "280px", color: "grey darken-3" }],
-      MonB3: [{ name: "Free", height: "280px", color: "grey darken-3" }],
+
       blocktime_color: "red",
       headerDay_color: "red",
       blockDay_color: "blue-grey darken-3",
+      blockFree_color: "white",
       cal_color: "slategrey"
     };
   },
@@ -232,11 +245,49 @@ export default {
     },
     async getReservations() {
       try {
-        let reserves = await ApiFunctions.getReservations("red", "2018/03/05");
-        await console.log(JSON.parse(reserves.data));
-        //let v = await JSON.parse(reserves);
+        let incomingReserves = await ApiFunctions.getReservations(
+          "red",
+          "2018/03/05"
+        );
+        await console.log(JSON.parse(incomingReserves.data));
+        let reserves = await JSON.parse(incomingReserves.data);
+
+        this.setCalendar(reserves);
+        console.log(this.Calendar[0][0][0]);
       } catch (error) {
         this.error = error.response.data.error;
+      }
+    },
+    setCalendar(weekReserves) {
+      if (weekReserves.reservations.length != 5) {
+        throw "weekReserves doesn't have a length of 5(missing 5 days of the week)";
+      }
+      let arr_reservations = weekReserves.reservations;
+      console.log(arr_reservations);
+
+      for (let day = 0; day < arr_reservations.length; day++) {
+        let curDay = arr_reservations[day].blocks;
+
+        for (let block = 0; block < curDay.length; block++) {
+          let curSlot = curDay[block].slot;
+
+          for (let slot = 0; slot < curSlot.length; slot++) {
+            let curFacil = curSlot[slot];
+            var isFree = false;
+            //Should have a name and percentage available.
+            if (curFacil.name.valueOf() == "free") {
+              isFree = true;
+            }
+            var myHeight = 280 * curFacil.percentage;
+
+            var newFacil = {
+              name: curFacil.name,
+              height: myHeight + "px",
+              color: isFree ? "white" : "blue"
+            };
+            this.Calendar[day][block][slot] = newFacil;
+          }
+        }
       }
     }
   }

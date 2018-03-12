@@ -1,5 +1,15 @@
 import Api from '@/services/Api';
 
+
+
+/*
+A POST request is a request used when you are sending parameters or 
+information to the backend and also requesting a response from the back-end.
+
+A GET Request is a request used when you are asking the backend to give 
+you information, without sending any parameters, just that you want to get information.
+*/
+
 export default {
     async getSettings () {
         return Api().get("getSettings");

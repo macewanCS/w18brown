@@ -178,11 +178,6 @@ async function getRoomReservationByWeek(roomName, startDate){
 		days.push(day);
 	}
 
-	//free person for Brucetopher
-	var free = {};
-	free.name = "free";
-	free.percentage = 1;
-
 	return new Promise(function(fulfill, reject){
 
 		var sql = "SELECT * from reservations WHERE date >= ? AND date <= ? AND room = ?";
@@ -237,7 +232,34 @@ async function getRoomReservationByWeek(roomName, startDate){
 							person.startTime = reservation.start_time;
 							person.endTime = reservation.end_time;
 							person.reservationID = reservation.reservation_ID;
-							blockOut.slot.push(person);
+
+							if (person.percentage === 1){
+								var outputList = [];
+								outputList.push(person);
+								blockOut.slot.push(outputList);
+							}
+							else{
+								//if this was the first slot
+								if (blockOut.slot.length === 0){
+									var outputList = [];
+									outputList.push(person);
+									blockOut.slot.push(outputList);
+								}
+
+								//if we are creating a new slot because the current last slot is full
+								else if (blockOut.slot[blockOut.slot.length -1][0].percentage === 1){
+									var outputList = [];
+									outputList.push(person);
+									blockOut.slot.push(outputList);
+								}
+
+								//or we need to add to an existing slot
+								else{
+									blockOut.slot[blockOut.slot.length -1].push(person);
+								}
+								
+							}
+
 						}
 					})
 					//fill with free person for Brucetopher
@@ -246,18 +268,32 @@ async function getRoomReservationByWeek(roomName, startDate){
 					while (currentPercent < 3){
 						//console.log("slot i is", blockOut.slot[i], i);
 						if (blockOut.slot[i] === undefined){
-							blockOut.slot.push(free);
+							outputList = [];
+							//free person for Brucetopher
+							var free = {};
+							free.name = "free";
+							free.percentage = 1;
+							free.startTime = blockOut.startTime;
+							free.endTime = blockOut.endTime;
+							free.reservationID = 0;
+							outputList.push(free);
+							blockOut.slot.push(outputList);
 							currentPercent++;
 						}
 						else{
 							if (blockOut.slot[i].percentage != 1){
 								if (blockOut.slot[i].name != "free"){
 									var remaining = 1 - blockOut.slot[i].percentage;
-									var newFree = {};
-									newFree.percentage = remaining;
-									newFree.name = "free";
-									blockOut.slot.push(newFree);
-									currentPercent++;
+									if (remaining > 0.05){
+										var newFree = {};
+										newFree.percentage = remaining;
+										newFree.name = "free";
+										newFree.startTime = blockOut.startTime;
+										newFree.endTime = blockOut.endTime;
+										newFree.reservationID = 0;
+										blockOut.slot.push(newFree);
+										currentPercent++;
+									}
 								}
 								else{
 

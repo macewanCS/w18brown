@@ -1,5 +1,7 @@
 <template>
+<!--
     <v-tabs fixed-tabs dark id="allTabs">
+        
         <v-tab key="tab1">
             Date/Time Settings
         </v-tab>
@@ -7,101 +9,143 @@
             Other Settings
         </v-tab>
 
+
         <v-tabs-items id="content">
             <v-tab-item key="tab1">
+-->
+<v-flex ma-5> <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
+    <div class="text-xs-center"> <!-- this centers the contents -->
 
-                <h2>Date/Time Settings</h2>
+        <h1>Date/Time Settings</h1>
+        <br>
+        <table class="center">
+            <v-flex id="box3" class="text-xs-center" mt-2>
+                <tr>
+                    <th>
+                        <h3>Morning: </h3>
+                        <br>
+                    </th>
+                </tr>
+                <tr>
+                    <td>Start Time</td>
+                    <td>
+                        <input id="b1Start" type="time" v-model="block1Start">
+                    </td>
+                    <td>End Time</td>
+                    <td>
+                        <input id="b1End" type="time" v-model="block1End">
+                    </td>
+                </tr>
                 <br>
-                <h3>Block Times</h3>
-                <table class="center">
-                    <tr>
-                        <th>
-                            <h3>Block 1</h3>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>Start Time</td>
-                        <td>
-                            <input id="b1Start" type="time" v-model="block1Start">
-                        </td>
+                <v-divider/>
+                <tr>
+                    <th>
+                        <br>
+                        <h3>Lunch: </h3>
+                        <br>
+                    </th>
+                </tr>
+                <tr>
+                    <td>Start Time</td>
+                    <td>
+                        <input id="b2Start" type="time" v-model="block2Start">
+                    </td>
+                    <td>End Time</td>
+                    <td>
+                        <input id="b2End" type="time" v-model="block2End">
+                    </td>
+                </tr>
+                <br>
+                <v-divider/>
+                <tr>
+                    <th>
+                        <br>
+                        <h3>Afternoon: </h3>
+                        <br>
+                    </th>
+                </tr>
+                <tr>
+                    <td>Start Time</td>
+                    <td>
+                        <input id="b3Start" type="time" v-model="block3Start">
+                    </td>
+                    <td>End Time</td>
+                    <td>
+                        <input id="b3End" type="time" v-model="block3End">
+                    </td>
+                </tr>
 
-                        <td>End Time</td>
-                        <td>
-                            <input id="b1End" type="time" v-model="block1End">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <h3>Block 2</h3>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>Start Time</td>
-                        <td>
-                            <input id="b2Start" type="time" v-model="block2Start">
-                        </td>
+            </v-flex>
 
-                        <td>End Time</td>
-                        <td>
-                            <input id="b2End" type="time" v-model="block2End">
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <h3>Block 3</h3>
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>Start Time</td>
-                        <td>
-                            <input id="b3Start" type="time" v-model="block3Start">
-                        </td>
+        </table>
+        <br>
+        <h1>System Start Date</h1>
+        <h3>
+            <input id="yearStart" type="date" v-model="startDate">
+            <!-- would like to wrap this next line. perhaps in a box -->
+            <!-- <p>The start date must be set once. It marks the beginning of the system and is used to determine when to start requiring facilitation hours.</p>
+    -->        
+        </h3>  
 
-                        <td>End Time</td>
-                        <td>
-                            <input id="b3End" type="time" v-model="block3End">
-                        </td>
-                    </tr>
-                </table>
-                <!--@click.stop is used here for triggering only when the click is let go.-->
-                <v-btn color="success" @click.stop="applyDialog = true">Apply</v-btn>
-                <v-btn color="error" @click.stop="cancelDialog = true">Cancel</v-btn>
 
-                <!--Begin Dialog Boxes for Confirmation -->
-                <v-dialog v-model="applyDialog" max-width="250">
-                    <v-card>
-                        <v-card-text>Are you sure you want to apply changes?</v-card-text>
-                        <v-card-actions>
-                            <v-spacer />
-                            <v-btn color="success" @click="applySettings">Yes</v-btn>
-                            <v-btn color="error" @click.native="applyDialog = false">No</v-btn>
-                            <v-spacer />
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
+            <br>
+            <!--@click.stop is used here for triggering only when the click is let go.-->
+            <v-btn color="success" @click.stop="applyDialog = true">Apply</v-btn>
+            <v-btn color="error" @click.stop="cancelDialog = true">Cancel</v-btn>
 
-                <v-dialog v-model="cancelDialog" max-width="250">
-                    <v-card>
-                        <v-card-text>Cancel Changes?</v-card-text>
-                        <v-card-actions>
-                            <v-spacer />
-                            <v-btn color="success" @click="cancelSettings">Yes</v-btn>
-                            <v-btn color="error" @click.native="cancelDialog = false">No</v-btn>
-                            <v-spacer />
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
-                <!--End Dialog Boxes for Confirmation -->
+            <!--Begin Dialog Boxes for Confirmation -->
+            <v-dialog v-model="applyDialog" max-width="250">
+                <v-card>
+                    <v-card-text>Are you sure you want to apply changes?</v-card-text>
+                    <v-card-actions>
+                        <v-spacer />
+                        <v-btn color="success" @click="applySettings">Yes</v-btn>
+                        <v-btn color="error" @click.native="applyDialog = false">No</v-btn>
+                        <v-spacer />
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+
+            <v-dialog v-model="cancelDialog" max-width="250">
+                <v-card>
+                    <v-card-text>Cancel Changes?</v-card-text>
+                    <v-card-actions>
+                        <v-spacer />
+                        <v-btn color="success" @click="cancelSettings">Yes</v-btn>
+                        <v-btn color="error" @click.native="cancelDialog = false">No</v-btn>
+                        <v-spacer />
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <!--End Dialog Boxes for Confirmation -->
+            
+            <br>
+        <v-divider/>
+        <br/>
+
+
+  
+
+
+
+    </div>
+  </v-flex>
+     
+<!--
             </v-tab-item>
+
+
+           
+
+
+        
+
             <v-tab-item key="tab2">
-                <h2>Date Settings</h2>
-                <h3>System Start Date
-                    <input id="yearStart" type="date" v-model="startDate">
-                    <!-- would like to wrap this next line. perhaps in a box -->
-                    <p>The start date must be set once. It marks the beginning of the system and is used to determine when to start requiring facilitation hours.</p>
-                </h3>            </v-tab-item>
+               </v-tab-item>
         </v-tabs-items>
+        
     </v-tabs>
+    -->
 </template>
 
 <script>
@@ -209,7 +253,42 @@ table.center {
 #allTabs {
   text-align: center;
 }
+h1 {
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 20pt;
+  color: #0288d1;
+  font-family: Lato;
+}
+h2 {
+  padding: 5px;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: 15pt;
+  color: #0288d1;
+  font-family: Lato;
 
+}
+h3 {
+  padding: 5px;
+  letter-spacing: 3px;
+   font-family: Lato;
+
+
+}
+#box3 {
+  padding: 20px;
+  background-color: #ffffff;
+  box-shadow: 5px 5px #bdbdbd;
+  border-style: solid;
+  border-color: #bdbdbd;
+  align-self: center;
+  max-width: 500px;
+}
+#errorMessage {
+color: #D32F2F;
+font-size: 14pt;
+}
 /*
 For table centering in IE 5.5
 body {text-align:center;}

@@ -818,16 +818,16 @@
             <v-select v-bind:items="availFacilitators" v-model="selectedFacil" label="Select a Facilitator" single-line></v-select>
             <v-layout row>
               <v-spacer />
-              <v-select v-bind:items="availableTimes" v-model="selectedStartTime" label="Start-Time" single-line></v-select>
+              <v-select v-bind:items="availableTimes" v-model="selectedStartTime" label="Start-Time" single-line v-on:input="updateEndTimes"></v-select>
               <v-spacer />
-              <v-select v-bind:items="availableTimes" v-model="selectedEndTime" label="End-Time" single-line></v-select>
+              <v-select v-bind:items="availableEndTimes" v-model="selectedEndTime" label="End-Time" single-line></v-select>
               <v-spacer />
             </v-layout>
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="success" @click.native="ReserveDialog = false">Reserve</v-btn>
-            <v-btn color="error" @click.native="ReserveDialog = false">Cancel</v-btn>
+            <v-btn color="success" @click.native="clearDialogBoxes">Reserve</v-btn>
+            <v-btn color="error" @click.native="clearDialogBoxes">Cancel</v-btn>
             <v-spacer />
           </v-card-actions>
         </v-card>
@@ -866,6 +866,7 @@ export default {
       startTime: "",
       endTime: "",
       availableTimes: [],
+      availableEndTimes: [],
       selectedStartTime: "",
       selectedEndTime: "",
       room: ""
@@ -933,12 +934,12 @@ export default {
       this.calendar_ready = true;
     },
     newReserve(origin) {
-      console.log(origin);
+      //console.log(origin);
       this.availableTimes = this.create5MinIntervals(
         origin.startTime,
         origin.endTime
       );
-      console.log(this.availableTimes);
+      //console.log(this.availableTimes);
       this.ReserveDialog = true; //Display ReserveDialog
     },
     // Taken and altered from https://codereview.stackexchange.com/questions/128260/populating-an-array-with-times-with-half-hour-interval-between-them
@@ -962,8 +963,23 @@ export default {
     // Taken from https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers?noredirect=1
     doubleZeros(time) {
       return ("0" + time).slice(-2);
-    }
+    },
     // End of taken functions
+    updateEndTimes() {
+      var newTimes = [];
+      var index = this.availableTimes.indexOf(this.selectedStartTime) + 1;
+      for (; index < this.availableTimes.length; index++) {
+        newTimes.push(this.availableTimes[index]);
+      }
+      this.availableEndTimes = newTimes;
+    },
+    clearDialogBoxes() {
+      this.ReserveDialog = false;
+      this.selectedStartTime = "";
+      this.selectedEndTime = "";
+      this.availableTimes = [];
+      this.availableEndTimes = [];
+    }
   }
 };
 </script>

@@ -127,6 +127,15 @@ app.get("/getRoomList", async function(req, res) {
    // res.send(room5);
 })
 
+app.post("/addRoom", async function(req, res) {
+     let addRoomCheck = await functions.addRoom(req.body.roomName);
+     await console.log("addroom app boolean: ", addRoomCheck)
+     res.send(addRoomCheck);
+    // res.send(room5);
+ })
+
+
+
 /*
 
 async checkName(info2) {

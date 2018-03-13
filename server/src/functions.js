@@ -22,7 +22,8 @@ module.exports = {
 	deleteReservation,
 	checkCreateFamily,
 	confirmCreateFamily,
-	getGrades
+	getGrades,
+	getRoomList
 }
 
 
@@ -599,6 +600,41 @@ async function getEmployeeList(){
 		});
 	})
 }
+
+/*
+Added by Terry for demo speed. Working. Replace old version instead...
+
+
+*/
+async function getRoomList(){
+	console.log("calling get room list in functions")
+	return new Promise(function(fulfill, reject){
+		var output = {};
+		output.name = "RoomList";
+		output.values = [];
+		var sql = "SELECT roomName FROM room";
+
+		con.query(sql, async function (err, result, fields) {
+			if (err) throw err;
+			result.forEach(element=>{
+				var field = {};
+				field.roomName = element.roomName;
+				output.values.push(field);
+			})
+			var json = JSON.stringify(output, null, 2);
+			fulfill(json);
+		});
+	})
+}
+
+
+
+
+
+
+
+
+
 
 /**
  * Deletes an employee account from the system. No error checking. Returns true if account was deleted and false if there was an SQL error.

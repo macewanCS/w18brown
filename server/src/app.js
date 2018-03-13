@@ -119,6 +119,13 @@ app.get('/getEmployeeList', async function (req, res) {
     res.send(employeeList)
 })
 
+app.get("/getRoomList", async function(req, res) {
+   console.log("get room list in app.js");
+    let room5 = await functions.getRoomList();
+  //  await console.log(room5.data)
+    res.send(JSON.stringify(room5));
+   // res.send(room5);
+})
 
 /*
 
@@ -185,5 +192,12 @@ app.get("/roomDict", async function(req, res) {
     let rooms = await functions.roomDict();
     res.send(rooms);
 })
+
+
+
+
+
+
+
 
 app.listen(8081)

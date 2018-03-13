@@ -39,7 +39,10 @@ export default {
     },
     async deleteEmployee(deleteUser) {
         return Api().post('deleteEmployee', deleteUser);
-    }
+    },
+    async getRoomList() {
+        return Api().get("getRoomList");
+    },
 
 
 
@@ -54,7 +57,7 @@ export default {
 */
 
 
-    ,
+    
     async addEditRoom(info1) { // this addEditRoom function matches to frontend
         return Api().post('addEditRoom', info1) // this addEditRoom string matches the same on on the backend
     },

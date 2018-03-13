@@ -203,6 +203,7 @@ export default {
             roomName: this.roomNameField
           })
           await console.log("response.data in rooms.vue is: ", addResponse);
+          this.load();
 
         }
 
@@ -415,7 +416,13 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
+.center {
+min-width: 500px;
+max-width: 500px;
+margin-left: auto;
+margin-right: auto;
+}
 #box {
   padding: 50px;
   background-color: #ffffff;

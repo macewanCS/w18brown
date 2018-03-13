@@ -606,6 +606,7 @@ async function getEmployeeList(){
  */
 async function deleteEmployee(username){
 	return new Promise(function(fulfill, reject){
+		console.log("in function delete employee: ", username)
 		var sql = "DELETE FROM account WHERE accountID = ?";
 
 		con.query(sql, username, async function (err, result, fields) {

@@ -25,7 +25,7 @@
         </v-btn>
         
         <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="lengthError" v-model="lengthError">
-          {{ "Usernames should be between 3 and 10 characters" }}
+          {{ "Room Name should be between 3 and 10 characters" }}
           <i class="material-icons">error</i>
         </v-flex>
 
@@ -140,7 +140,6 @@ export default {
    //   employeeType: "", 
       lengthError: false,
       usedError: false,
-      typeError: false,
       confirm: false,
       password: "red",
       savedUser: "",
@@ -182,7 +181,109 @@ export default {
         this.rooms = parsedData.values;
         console.log(this.rooms);
 
+    },
+
+    async submit() {
+
+ 
+      // reset messages
+      this.lengthError = false
+      this.usedError = false
+      this.confirm = false
+      this.deleteError = false
+      this.deleteConfirm = false
+
+      if (this.roomNameField.length < 3 || this.roomNameField.length > 10) {
+        this.lengthError = true
+      }
+      else {
+
+        try {
+          const addResponse = await ApiFunctions.addRoom({
+            roomName: this.roomNameField
+          })
+          await console.log("response.data in rooms.vue is: ", addResponse);
+
+        }
+
+
+        catch (error) {
+          console.log("catch condition 1")
+        } 
+
+      }
+      
+/*
+      }
+
+
+  
+
+   //     await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
+
+        if (addResponse.data === "tooLongOrEmpty") {
+          this.lengthError = true;
+
+          
+  /*
+  put output error on screen here. username length requirements.
+  */
+/* 
+        }
+        else if (checkResponse.data === "alreadyUsed") {
+          this.usedError = true;
+ */
+
+  /*
+  put output error on screen here. username already used requirements.
+  */
+     /*      
+        }
+        else if (checkResponse.data === "brown") {
+          this.password = (Math.floor(Math.random()* 10000) + 10000)
+          try {
+            const addResponse = await ApiFunctions.createEmployeeConfirm({
+              username: this.username,
+              employeeType: this.employeeType.text.toLowerCase(),
+              password: this.password
+           })
+        
+            // insert into database
+   //         await console.log("response.data in AccountStaff.vue is: ", addResponse.data );
+
+            if (addResponse.data = true) {
+  //            console.log("user has been added (need to confirm)")
+              this.confirm = true
+              // saved values prevent changes to the displayed popup.
+              // the variables username and employeeType are linked to the inputs and will change if modified.
+              this.savedUser = this.username
+              this.savedType = this.employeeType.text.toLowerCase()
+              this.savedPass = this.password
+
+              await this.load(); // refreshes the current employee table
+            }
+          }
+
+          catch (error) {
+            console.log("catch condition 1")
+            this.error = error.addResponse.data.error;
+          } 
+
+        } // end of add user 
+    
+
+      } // end of first try
+      catch (error) {
+        this.typeError = true
+        console.log("catch condition 2")
+
+      } 
+
+
     }
+
+
+
     /*
     async deleteBtn() {
 
@@ -307,9 +408,11 @@ export default {
       
 
   }*/
-}
+    }
+  }
+};
 
-}; 
+
 </script>
 
 <style>

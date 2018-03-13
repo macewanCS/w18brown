@@ -43,11 +43,14 @@ export default {
     async getRoomList() {
         return Api().get("getRoomList");
     },
+    async addRoom(deleteRoom) {
+        return Api().post('addRoom', deleteRoom);
+    },
 
 
 
     
-
+    
 
 /*
     Functions linked in advance.

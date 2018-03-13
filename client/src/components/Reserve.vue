@@ -59,9 +59,9 @@
         <v-flex xs3 class="cal-block-col">
           <v-card v-bind:color="blockDay_color" light class="cal-block-day">
             <v-layout row>
-              <v-flex>
+              <v-flex v-on:click="newReserve">
                 <v-tooltip left v-for="fac in Calendar[0][0][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -75,7 +75,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[0][0][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -89,7 +89,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[0][0][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator"  class="facilitator">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -109,7 +109,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[1][0][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -123,7 +123,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[1][0][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -137,7 +137,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[1][0][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -157,7 +157,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][0][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -171,7 +171,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][0][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -185,7 +185,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][0][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -205,7 +205,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[3][0][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -219,7 +219,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[3][0][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -233,7 +233,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[3][0][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -253,7 +253,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[4][0][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -267,7 +267,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[4][0][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -281,7 +281,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[4][0][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -312,7 +312,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[0][1][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -326,7 +326,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[0][1][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -340,7 +340,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[0][1][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -360,7 +360,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[1][1][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -374,7 +374,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[1][1][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -388,7 +388,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[1][1][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -408,8 +408,8 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][1][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
-                    {{fac.name}}
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
+                    {{fac.name}}s
                   </v-card>
                   <span class="tooltips">
                     <v-card class="tooltips">
@@ -422,8 +422,8 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][1][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
-                    {{fac.name}}
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
+                    {{fac.name}}s
                   </v-card>
                   <span class="tooltips">
                     <v-card class="tooltips">
@@ -436,7 +436,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][1][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -456,7 +456,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[3][1][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -470,7 +470,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[3][1][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -484,7 +484,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[3][1][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -504,7 +504,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[4][1][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -518,7 +518,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[4][1][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -532,7 +532,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[4][1][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -564,7 +564,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[0][2][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -578,7 +578,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[0][2][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -592,7 +592,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[0][2][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -612,7 +612,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[1][2][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -626,7 +626,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[1][2][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -640,7 +640,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[1][2][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -660,7 +660,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][2][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -674,7 +674,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][2][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -688,7 +688,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][2][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -708,7 +708,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[3][2][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -722,7 +722,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[3][2][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -736,7 +736,7 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[3][2][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -756,7 +756,7 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[4][2][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
+                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
                     {{fac.name}}
                   </v-card>
                   <span class="tooltips">
@@ -770,9 +770,11 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[4][2][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
-                    {{fac.name}}
-                  </v-card>
+                  <div v-on:click.stop="newReserve(fac)" slot="activator">
+                    <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click.stop="newReserve">
+                      {{fac.name}}
+                    </v-card>
+                  </div>
                   <span class="tooltips">
                     <v-card class="tooltips">
                       <v-card-text>
@@ -784,9 +786,11 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[4][2][2]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" @click="reserveClick">
-                    {{fac.name}}s
-                  </v-card>
+                  <div v-on:click.stop="newReserve(fac)" slot="activator">
+                    <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
+                      {{fac.name}}
+                    </v-card>
+                  </div>
                   <span class="tooltips">
                     <v-card class="tooltips">
                       <v-card-text>
@@ -800,6 +804,27 @@
           </v-card>
         </v-flex>
       </v-layout>
+      <v-dialog v-model="ReserveDialog" max-width="50%">
+        <v-card>
+          <h1 class="h1Dialog">Reserve a time</h1>
+          <v-card-text>
+            <v-select v-bind:items="availFacilitators" v-model="selectedFacil" label="Select a Facilitator" single-line></v-select>
+            <v-layout row>
+              <v-spacer />
+              <v-select v-bind:items="availableTimes" v-model="selectedStartTime" label="Start-Time" single-line></v-select>
+              <v-spacer />
+              <v-select v-bind:items="availableTimes" v-model="selectedEndTime" label="End-Time" single-line></v-select>
+              <v-spacer />
+            </v-layout>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn color="success" @click.native="ReserveDialog = false">Reserve</v-btn>
+            <v-btn color="error" @click.native="ReserveDialog = false">Cancel</v-btn>
+            <v-spacer />
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-container>
     <!-- End Calendar -->
   </div>
@@ -823,7 +848,19 @@ export default {
       headerDay_color: "grey lighten-2",
       blockDay_color: "grey lighten-2",
       blockFree_color: "white",
-      cal_color: "#BDBDBD"
+      cal_color: "#BDBDBD",
+      // Below is used for new Reservations
+      ReserveDialog: "",
+      familyID: "",
+      availFacilitators: [],
+      selectedFacil: null,
+      date: "",
+      startTime: "",
+      endTime: "",
+      availableTimes: [],
+      selectedStartTime: "",
+      selectedEndTime: "",
+      room: ""
     };
   },
   components: {},
@@ -885,7 +922,39 @@ export default {
           }
         }
       }
+    },
+    newReserve(origin) {
+      console.log(origin);
+      this.availableTimes = this.create5MinIntervals(
+        origin.startTime,
+        origin.endTime
+      );
+      console.log(this.availableTimes);
+      this.ReserveDialog = true; //Display ReserveDialog
+    },
+    // Taken and altered from https://codereview.stackexchange.com/questions/128260/populating-an-array-with-times-with-half-hour-interval-between-them
+    create5MinIntervals(from, until) {
+      //"01/01/2001" is just an arbitrary date
+      var until = Date.parse("01/01/2001 " + until);
+      var from = Date.parse("01/01/2001 " + from);
+      //*12 because because we want every 5 minutes instead of every hour
+      var max = Math.abs(until - from) / (60 * 60 * 1000) * 12;
+      var time = new Date(from);
+      var hours = [];
+      for (var i = 0; i <= max; i++) {
+        //doubleZeros just adds a zero in front of the value if it's smaller than 10.
+        var hour = this.doubleZeros(time.getHours());
+        var minute = this.doubleZeros(time.getMinutes());
+        hours.push(hour + ":" + minute);
+        time.setMinutes(time.getMinutes() + 5);
+      }
+      return hours;
+    },
+    // Taken from https://stackoverflow.com/questions/8043026/how-to-format-numbers-by-prepending-0-to-single-digit-numbers?noredirect=1
+    doubleZeros(time) {
+      return ("0" + time).slice(-2);
     }
+    // End of taken functions
   }
 };
 </script>
@@ -898,6 +967,9 @@ h1 {
   color: #0288d1;
   font-family: Lato;
   text-align: center;
+}
+h1Dialog {
+  font-size: 16pt;
 }
 #calendar {
   min-width: 1013px;
@@ -975,7 +1047,5 @@ h1 {
 }
 .headerDay {
   font-size: 13pt;
-}
-.tooltips {
 }
 </style>

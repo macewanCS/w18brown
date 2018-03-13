@@ -54,19 +54,17 @@ async function connect(){
 }
 
 async function addRoom(roomIn){
+	return new Promise(function(fulfill, reject){
 	var sql = "SELECT * FROM room WHERE roomName = ?";
 	var count = 0;
 
 	con.query(sql, roomIn, function (err, result, fields) {
 		if (err) throw err;
 		count = result.length;
-	})
-
-	return new Promise(function(fulfill, reject){
 		if (count > 0){
 			fulfill(false);
 		}
-		else{
+	})
 			sql = "INSERT INTO room (roomName) VALUES (?)";
 
 			con.query(sql, roomIn, function (err, result, fields) {
@@ -78,7 +76,6 @@ async function addRoom(roomIn){
 				}
 				
 			})
-		}
 	})
 }
 

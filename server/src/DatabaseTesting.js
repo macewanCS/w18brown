@@ -336,9 +336,10 @@ async function connectAndTest(){
         // testcheckCreateFamilyFacError("ShouldWork001");
         // testgetGrades();
         // testconfirmCreateFamily("ShouldWork001");
-        testaddRoom("CheeseColour");
+        testaddRoom("Orange");
         testRoom();
-        testdeleteRoom("CheeseColour");
+        testaddRoom("Orange");
+        testaddRoom("Orange");
         testRoom();
     }
 }

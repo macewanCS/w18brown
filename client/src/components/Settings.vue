@@ -254,7 +254,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #content {
   background-color: aliceblue;
   align-content: center;

@@ -324,7 +324,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #box {
   padding: 50px;
   background-color: #ffffff;
@@ -371,5 +371,9 @@ h2 {
 #errorMessage {
 color: #D32F2F;
 font-size: 14pt;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

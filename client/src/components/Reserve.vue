@@ -1,6 +1,7 @@
 <template>
   <div>
-    TESTING
+    <br>
+    <h1>Create a Reservation</h1>
     <!-- Begin Calendar -->
     <v-container id="calendar" v-bind:style="{background: cal_color}" grid-list-md text-xs-center>
 
@@ -10,50 +11,52 @@
 
         </v-flex>
         <v-flex md3 class="cal-header-days">
-          <v-card v-bind:color="headerDay_color" dark>
-            <v-card-text>
-              Monday
+          <v-card v-bind:color="headerDay_color" light>
+            <v-card-text class="headerDay">
+             Monday
             </v-card-text>
           </v-card>
         </v-flex>
         <v-flex md3 class="cal-header-days">
-          <v-card v-bind:color="headerDay_color" dark>
-            <v-card-text>
+          <v-card v-bind:color="headerDay_color" light>
+            <v-card-text class="headerDay">
               Tuesday
             </v-card-text>
           </v-card>
         </v-flex>
         <v-flex md3 class="cal-header-days">
-          <v-card v-bind:color="headerDay_color" dark>
-            <v-card-text>
+          <v-card v-bind:color="headerDay_color" light>
+            <v-card-text class="headerDay">
               Wednesday
             </v-card-text>
           </v-card>
         </v-flex>
         <v-flex md3 class="cal-header-days">
-          <v-card v-bind:color="headerDay_color" dark>
-            <v-card-text>
+          <v-card v-bind:color="headerDay_color" light>
+            <v-card-text class="headerDay">
               Thursday
             </v-card-text>
           </v-card>
         </v-flex>
         <v-flex md3 class="cal-header-days">
-          <v-card v-bind:color="headerDay_color" dark>
-            <v-card-text>
+          <v-card v-bind:color="headerDay_color" light>
+            <v-card-text class="headerDay">
               Friday
             </v-card-text>
           </v-card>
         </v-flex>
       </v-layout>
-      <v-divider />
+      
 
       <!-- Row 2: Block 1 -->
       <v-layout row class="cal-block">
         <v-flex md1 class="cal-times">
-          <v-card v-bind:color=blocktime_color dark class="cal-block-time">
+          <v-card v-bind:color=blocktime_color light class="cal-block-time">
             <div class="block-time">
-              Block 1
-              <br>(8:00 - 11:00)
+              8:00
+              <br><br>
+              Morning
+              <br><br>11:00
             </div>
           </v-card>
         </v-flex>
@@ -166,10 +169,11 @@
       <!-- Row 3: Block 2 -->
       <v-layout row class="cal-block">
         <v-flex md1 class="cal-times">
-          <v-card v-bind:color=blocktime_color dark class="cal-block-time">
+          <v-card v-bind:color=blocktime_color light class="cal-block-time">
             <div class="block-time">
-              Block 2
-              <br>(11:00 - 1:00)
+              11:00<br><br>
+              Lunch
+              <br><br>1:00
             </div>
           </v-card>
         </v-flex>
@@ -282,10 +286,13 @@
       <!-- Row 4: Block 3 -->
       <v-layout row class="cal-block">
         <v-flex md1 class="cal-times">
-          <v-card v-bind:color=blocktime_color dark class="cal-block-time">
+          <v-card v-bind:color=blocktime_color light class="cal-block-time">
             <div class="block-time">
-              Block 3
-              <br>(1:00 - 3:00)
+              12:50
+              <br><br>
+              Afternoon
+              <br><br>
+              3:45
             </div>
           </v-card>
         </v-flex>
@@ -341,7 +348,7 @@
               </v-flex>
               <v-flex>
                 <v-card hover v-for="fac in Calendar[2][2][1]" :key="fac.index" v-bind:style="{height: fac.height}" v-bind:color="fac.color" class="facilitator">
-                  {{fac.name}}s
+                  {{fac.name}}
                 </v-card>
               </v-flex>
               <v-flex>
@@ -406,16 +413,6 @@ import ApiFunctions from "@/services/ApiFunctions";
 export default {
   data() {
     return {
-      // MonB1: [
-      //   { name: "Reserved", height: "100px", color: "red" },
-      //   { name: "Reserved", height: "100px", color: "blue" }
-      // ],
-      // MonB2: [{ name: "Free", height: "280px", color: "grey darken-3" }],
-      // MonB3: [{ name: "Free", height: "280px", color: "grey darken-3" }],
-      Mon_B1: [],
-      Mon_B2: [],
-      Mon_B3: [],
-
       Calendar: [
         [[], [], []],
         [[], [], []],
@@ -424,11 +421,11 @@ export default {
         [[], [], []]
       ],
 
-      blocktime_color: "red",
-      headerDay_color: "red",
-      blockDay_color: "blue-grey darken-3",
+      blocktime_color: "grey lighten-2",
+      headerDay_color: "grey lighten-2",
+      blockDay_color: "grey lighten-2",
       blockFree_color: "white",
-      cal_color: "slategrey"
+      cal_color: ""
     };
   },
   components: {},
@@ -482,9 +479,9 @@ export default {
               this.Calendar[day][block][slot][i].height =
                 280 * this.Calendar[day][block][slot][i].percentage + "px";
               if (this.Calendar[day][block][slot][i].name.valueOf() == "free") {
-                this.Calendar[day][block][slot][i].color = "white";
+                this.Calendar[day][block][slot][i].color = "grey lighten-5";
               } else {
-                this.Calendar[day][block][slot][i].color = "blue";
+                this.Calendar[day][block][slot][i].color = "red";
               }
             }
 
@@ -527,6 +524,7 @@ h1 {
   font-size: 20pt;
   color: #0288d1;
   font-family: Lato;
+  text-align: center;
 }
 #calendar {
   min-width: 1000px;
@@ -562,21 +560,23 @@ h1 {
   padding: 5px;
 }
 .cal-times {
-  min-width: 90px;
-  max-width: 90px;
+  min-width: 95px;
+  max-width: 95px;
 }
 .block-time {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 300px;
-  font-size: 0.9em;
+  font-size: 15pt;
 }
 .facilitator {
   margin: 2px, 0px, 0px, 0px;
   width: 50px;
   max-width: 50px;
   overflow: hidden;
+  border-radius: 8px;
+  
 
   flex: 10 0 auto;
 
@@ -594,5 +594,12 @@ h1 {
   -webkit-transform: rotate(-90deg);
   -webkit-transform-origin: right, top;
   position: absolute;
+  font-size: 20pt;
+  font-style: italic;
+  letter-spacing: 2px;
+  font-family: Lato;
+}
+.headerDay {
+  font-size: 13pt;
 }
 </style>

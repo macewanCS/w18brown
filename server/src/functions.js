@@ -115,7 +115,7 @@ async function checkName(name, password){
 async function createEmployeeCheck(username, type){
 	return new Promise(function(fulfill, reject){
 		//confirm length
-		if (username.length === 0 || username.length > 254){
+		if (username.length < 5 || username.length > 15){
 			fulfill("tooLongOrEmpty");
 		}
 		var sql = "SELECT * from account where accountID = ?";

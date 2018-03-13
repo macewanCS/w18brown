@@ -266,7 +266,7 @@ async function getRoomReservationByWeek(roomName, startDate){
 					i = 0;
 					currentPercent = 0;
 					while (currentPercent < 3){
-						//console.log("slot i is", blockOut.slot[i], i);
+						//console.log("slot i[0] is undefined", blockOut.slot[i][0] === undefined, i);
 						if (blockOut.slot[i] === undefined){
 							outputList = [];
 							//free person for Brucetopher
@@ -281,23 +281,24 @@ async function getRoomReservationByWeek(roomName, startDate){
 							currentPercent++;
 						}
 						else{
-							if (blockOut.slot[i].percentage != 1){
-								if (blockOut.slot[i].name != "free"){
-									var remaining = 1 - blockOut.slot[i].percentage;
-									if (remaining > 0.05){
-										var newFree = {};
-										newFree.percentage = remaining;
-										newFree.name = "free";
-										newFree.startTime = blockOut.startTime;
-										newFree.endTime = blockOut.endTime;
-										newFree.reservationID = 0;
-										blockOut.slot.push(newFree);
-										currentPercent++;
+								if (blockOut.slot[i][0].percentage != 1){
+									if (blockOut.slot[i][0].name != "free"){
+										var remaining = 1 - blockOut.slot[i][0].percentage;
+										if (remaining > 0.05){
+											var newFree = {};
+											newFree.percentage = remaining;
+											newFree.name = "free";
+											newFree.startTime = blockOut.startTime;
+											newFree.endTime = blockOut.endTime;
+											newFree.reservationID = 0;
+											console.log("we are pushing", newFree);
+											blockOut.slot[i].push(newFree);
+											currentPercent++;
+										}
 									}
-								}
-								else{
-
-								}
+									else{
+	
+									}
 							}
 							else{
 								currentPercent++;

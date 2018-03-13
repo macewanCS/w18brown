@@ -287,6 +287,18 @@ async function testconfirmCreateFamily(name){
     console.log("for input", name, "result is:", test);
 }
 
+async function testaddRoom(roomIn){
+    let test = await functions.addRoom(roomIn);
+
+    console.log(test);
+}
+
+async function testdeleteRoom(roomIn){
+    let test = await functions.deleteRoom(roomIn);
+
+    console.log(test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -310,7 +322,7 @@ async function connectAndTest(){
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
-        testgetRoomReservationByWeek("red", "2018/03/05");
+        // testgetRoomReservationByWeek("red", "2018/03/05");
         // testgetEmployeeList();
         // testdeleteEmployee("testBoard2");
         // testgetEmployeeList();
@@ -324,5 +336,9 @@ async function connectAndTest(){
         // testcheckCreateFamilyFacError("ShouldWork001");
         // testgetGrades();
         // testconfirmCreateFamily("ShouldWork001");
+        testaddRoom("CheeseColour");
+        testRoom();
+        testdeleteRoom("CheeseColour");
+        testRoom();
     }
 }

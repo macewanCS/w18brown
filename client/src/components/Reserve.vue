@@ -3,7 +3,7 @@
     <br>
     <h1>Create a Reservation</h1>
     <!-- Begin Calendar -->
-    <v-container id="calendar" v-bind:style="{background: cal_color}" grid-list-md text-xs-center>
+    <v-container id="calendar" v-bind:style="{background: cal_color}" grid-list-md text-xs-center v-if="calendar_ready">
 
       <!-- Row 1: Header -->
       <v-layout row class="cal-header">
@@ -849,6 +849,7 @@ export default {
       blockDay_color: "grey lighten-2",
       blockFree_color: "white",
       cal_color: "#BDBDBD",
+      calendar_ready: false,
       // Below is used for new Reservations
       ReserveDialog: "",
       familyID: "",
@@ -922,6 +923,7 @@ export default {
           }
         }
       }
+      this.calendar_ready = true;
     },
     newReserve(origin) {
       console.log(origin);

@@ -2,6 +2,7 @@
   <div>
     <br>
     <h1>Create a Reservation</h1>
+    <v-divider />
     <!-- Begin Calendar -->
     <v-container id="calendar" v-bind:style="{background: cal_color}" grid-list-md text-xs-center v-if="calendar_ready">
 
@@ -52,18 +53,20 @@
         <v-flex md1 class="cal-times">
           <v-card v-bind:color=blocktime_color light class="cal-block-time">
             <div class="block-time">
-              8:00 Morning 11:00
+              8:45 Morning 12:00
             </div>
           </v-card>
         </v-flex>
         <v-flex xs3 class="cal-block-col">
           <v-card v-bind:color="blockDay_color" light class="cal-block-day">
             <v-layout row>
-              <v-flex v-on:click="newReserve">
+              <v-flex>
                 <v-tooltip left v-for="fac in Calendar[0][0][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator">
-                    {{fac.name}}
-                  </v-card>
+                  <div v-on:click.stop="newReserve(fac)" slot="activator">
+                    <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator">
+                      {{fac.name}}
+                    </v-card>
+                  </div>
                   <span class="tooltips">
                     <v-card class="tooltips">
                       <v-card-text>
@@ -75,9 +78,11 @@
               </v-flex>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[0][0][1]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
-                    {{fac.name}}
-                  </v-card>
+                  <div v-on:click.stop="newReserve(fac)" slot="activator">
+                    <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
+                      {{fac.name}}
+                    </v-card>
+                  </div>
                   <span class="tooltips">
                     <v-card class="tooltips">
                       <v-card-text>
@@ -302,7 +307,7 @@
         <v-flex md1 class="cal-times">
           <v-card v-bind:color=blocktime_color light class="cal-block-time">
             <div class="block-time">
-              11:00<br> Lunch
+              11:50<br> Lunch
               <br>1:00
             </div>
           </v-card>
@@ -409,7 +414,7 @@
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][1][0]" :key="fac.index">
                   <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
-                    {{fac.name}}s
+                    {{fac.name}}
                   </v-card>
                   <span class="tooltips">
                     <v-card class="tooltips">
@@ -423,7 +428,7 @@
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[2][1][1]" :key="fac.index">
                   <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
-                    {{fac.name}}s
+                    {{fac.name}}
                   </v-card>
                   <span class="tooltips">
                     <v-card class="tooltips">
@@ -756,9 +761,11 @@
             <v-layout row>
               <v-flex>
                 <v-tooltip left v-for="fac in Calendar[4][2][0]" :key="fac.index">
-                  <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
-                    {{fac.name}}
-                  </v-card>
+                  <div v-on:click.stop="newReserve(fac)" slot="activator">
+                    <v-card hover v-bind:style="{height: fac.height}" v-bind:color="fac.color" slot="activator" class="facilitator" v-on:click="newReserve">
+                      {{fac.name}}
+                    </v-card>
+                  </div>
                   <span class="tooltips">
                     <v-card class="tooltips">
                       <v-card-text>
@@ -853,7 +860,7 @@ export default {
       // Below is used for new Reservations
       ReserveDialog: "",
       familyID: "",
-      availFacilitators: [],
+      availFacilitators: ["Test Facilitator 001", "Test Facilitator 002"],
       selectedFacil: null,
       date: "",
       startTime: "",

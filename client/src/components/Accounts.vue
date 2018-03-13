@@ -180,4 +180,8 @@ h3 {
 color: #D32F2F;
 font-size: 14pt;
 }
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>

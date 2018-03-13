@@ -74,6 +74,18 @@ app.post('/createEmployeeConfirm', async function (req, res) {
 })
 
 
+/// ------------ post request?
+//
+//
+app.post('/deleteEmployee', async function (req, res) {
+    let deleteData = await functions.deleteEmployee(req.body.username);
+    res.send(deleteData)
+})
+
+
+
+
+
 /*
     Functions linked in advance.
 

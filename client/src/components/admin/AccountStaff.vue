@@ -8,7 +8,7 @@
   <v-flex ma-5> <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
     <div class="text-xs-center"> <!-- this centers the contents -->
 
-      <h1>Create Employee Account</h1>
+      <h1>Create Employee Accounts</h1>
 
       <!-- added v-models for linking to script, added placeholders -->
       <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
@@ -63,15 +63,28 @@
     <v-divider/>
     <br/>
 
+    <h1>Delete Employee Accounts</h1>
+
+    <v-text-field name="deleteName" type="text" id="deleteName" label="Username" v-model="deleteName" />
+
+    <v-flex> <!-- grid system -->
+      <v-btn type="deleteBtn" id="deleteBtn" @click="deleteBtn">
+          <!-- calls the login method below in scripts-->
+          Delete
+      </v-btn>
+      
+      <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="deleteError" v-model="deleteError">
+        {{ "Usernames not found" }}
+        <i class="material-icons">error</i>
+      </v-flex>
+    </v-flex>
+
+    <br>
+    <br>
+    <v-divider/>
+    <br/>
+
     <h1>Current Employee Accounts</h1>
-
-<!--     <br>
-
-     <v-flex> 
-        <v-btn type="load" id="Load" @click="load">
-            Refresh
-        </v-btn>
-    </v-flex> -->
 
     <br>
 
@@ -110,12 +123,8 @@
 // drop down menu code from https://vuetifyjs.com/en/components/selects
 // This is a pre-styled object meant to be copied and used. It has been modified for use in this app.
 
- 
-
 //import ApiFunctions from "@/services/ApiFunctions";
 import ApiFunctions from "@/services/ApiFunctions";
-
-
 
 export default {
   data() {
@@ -131,6 +140,9 @@ export default {
       savedUser: "",
       savedType: "",
       savedPass: "",
+      deleteError: false,
+      deleteName: "",
+
       // dropdown items
       items: [    // this is for the dropdown
         { text: 'Teacher' },
@@ -168,6 +180,45 @@ export default {
         this.users = parsedData.values;
 
     },
+    async deleteBtn() {
+
+      // reset messages
+      this.lengthError = false
+      this.usedError = false
+      this.confirm = false
+      this.typeError = false
+      this.deleteError = false
+
+      console.log("delete was pressed")
+      console.log("name: ", this.deleteName)
+
+      try {
+        const deleteResponse = await ApiFunctions.createEmployeeCheck({
+          username: this.deleteName,
+          employeeType: ""
+        })
+        await console.log(deleteResponse.data)
+
+        // alreadyUsed in this case means found which is good.
+        if (deleteResponse.data === "alreadyUsed") {
+          const deletedConfirm = await ApiFunctions.deleteEmployee({
+          username: this.deleteName
+        })
+
+        this.load();
+
+        }
+        else {
+          this.deleteError = true;
+        }
+      }
+      catch (error) {
+        console.log("catch condition 1")
+      } 
+
+    },
+
+
 
     async submit() {
  
@@ -176,6 +227,7 @@ export default {
       this.usedError = false
       this.confirm = false
       this.typeError = false
+      this.deleteError = false
 
       try {
         const checkResponse = await ApiFunctions.createEmployeeCheck({

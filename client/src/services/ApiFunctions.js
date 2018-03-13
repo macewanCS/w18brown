@@ -32,11 +32,19 @@ export default {
         return Api().post('createEmployee', info)
     },*/
     async createEmployeeCheck(employeeCheckResult) {
-        return Api().post('createEmployeeCheck', employeeCheckResult)
+        return Api().post('createEmployeeCheck', employeeCheckResult);
     },
     async createEmployeeConfirm(employeeAddedBool) {
-        return Api().post('createEmployeeConfirm', employeeAddedBool)
+        return Api().post('createEmployeeConfirm', employeeAddedBool);
+    },
+    async deleteEmployee(deleteUser) {
+        return Api().post('deleteEmployee', deleteUser);
     }
+
+
+
+    
+
 
 /*
     Functions linked in advance.

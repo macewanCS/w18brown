@@ -28,7 +28,6 @@
       <v-flex> <!-- grid system -->
 
         <v-btn type="submit" color="success" id="Submit" @click="submit">
-            <!-- calls the login method below in scripts-->
             Submit
         </v-btn>
         
@@ -278,12 +277,12 @@ export default {
           
         }
         else if (checkResponse.data === "brown") {
-          this.password = checkResponse.data
+          this.password = "caraway" + (Math.floor(Math.random()* 10000) + 10000)
           try {
             const addResponse = await ApiFunctions.createEmployeeConfirm({
               username: this.username,
               employeeType: this.employeeType.text.toLowerCase(),
-              password: "brown" //////////----------------------------------------------- this default password should be replaced.
+              password: this.password
            })
         
             // insert into database

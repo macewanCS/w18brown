@@ -1,11 +1,10 @@
 <template>
 
- <v-flex ma-2> <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
+ <v-flex ma-5> <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
     <div class="text-xs-center"> <!-- this centers the contents -->
 
 
       <table class="center">
-<br>
         <h1>Create Family Accounts</h1>
         <br>
 
@@ -69,10 +68,15 @@
             <v-text-field name="Historic Hours" type="text" label="Historic Hours" v-model="historic" />
           </v-flex>
         </div>
+
+          <v-btn type="submitFamily" color="success" id="submitFamily" @click="submitFamily">
+            Submit
+        </v-btn>
     </div>
   </table>
 
     </div>
+ 
   </v-flex>
 
 </template>
@@ -121,7 +125,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #box {
   padding: 50px;
   background-color: #ffffff;
@@ -168,8 +172,8 @@ h2 {
 h3 {
   padding: 5px;
   letter-spacing: 3px;
-   font-family: Lato;
-
+  font-family: Lato;
+  text-align: left;
 
 }
 #errorMessage {

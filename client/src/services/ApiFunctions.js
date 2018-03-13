@@ -15,7 +15,7 @@ export default {
         return Api().get("getSettings");
     },
     async setSettings (currentSettings) {
-        Api().post("setSettings", currentSettings);
+        return Api().post("setSettings", currentSettings);
     },
     async getRooms() {
         return Api().get("roomDict");

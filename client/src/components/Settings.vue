@@ -1,5 +1,5 @@
 <template>
-<!--
+    <!--
     <v-tabs fixed-tabs dark id="allTabs">
         
         <v-tab key="tab1">
@@ -13,80 +13,102 @@
         <v-tabs-items id="content">
             <v-tab-item key="tab1">
 -->
-<v-flex ma-5> <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
-    <div class="text-xs-center"> <!-- this centers the contents -->
+    <v-flex ma-5>
+        <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
+        <div class="text-xs-center">
+            <!-- this centers the contents -->
 
-        <h1>Date/Time Settings</h1>
-        <br>
-        <table class="center">
-            <v-flex id="box3" class="text-xs-center" mt-2>
-                <tr>
-                    <th>
-                        <h3>Morning: </h3>
-                        <br>
-                    </th>
-                </tr>
-                <tr>
-                    <td>Start Time</td>
-                    <td>
-                        <input id="b1Start" type="time" v-model="block1Start">
-                    </td>
-                    <td>End Time</td>
-                    <td>
-                        <input id="b1End" type="time" v-model="block1End">
-                    </td>
-                </tr>
-                <br>
-                <v-divider/>
-                <tr>
-                    <th>
-                        <br>
-                        <h3>Lunch: </h3>
-                        <br>
-                    </th>
-                </tr>
-                <tr>
-                    <td>Start Time</td>
-                    <td>
-                        <input id="b2Start" type="time" v-model="block2Start">
-                    </td>
-                    <td>End Time</td>
-                    <td>
-                        <input id="b2End" type="time" v-model="block2End">
-                    </td>
-                </tr>
-                <br>
-                <v-divider/>
-                <tr>
-                    <th>
-                        <br>
-                        <h3>Afternoon: </h3>
-                        <br>
-                    </th>
-                </tr>
-                <tr>
-                    <td>Start Time</td>
-                    <td>
-                        <input id="b3Start" type="time" v-model="block3Start">
-                    </td>
-                    <td>End Time</td>
-                    <td>
-                        <input id="b3End" type="time" v-model="block3End">
-                    </td>
-                </tr>
+            <h1>Date/Time Settings</h1>
+            <br>
+            <table class="center">
+                <v-flex id="box3" class="text-xs-center" mt-2>
+                    <tr>
 
-            </v-flex>
+                        <h3 class="h3Settings">Morning: </h3>
+                        <br>
 
-        </table>
-        <br>
-        <h1>System Start Date</h1>
-        <h3>
-            <input id="yearStart" type="date" v-model="startDate">
+                    </tr>
+                    <tr>
+                        <v-flex d-inline-flex>
+                            <div>
+                                <b>Start Time</b>
+                                <input class="startTime" id="b1Start" type="time" v-model="block1Start">
+                            </div>
+                            <div>
+                                <b>End Time</b>
+                                <input class="endTime" id="b1End" type="time" v-model="block1End">
+                            </div>
+                        </v-flex>
+                        <!--                         
+                        <td>Start Time</td>
+                        <td>
+                            <input id="b1Start" type="time" v-model="block1Start">
+                        </td>
+                        <td>End Time</td>
+                        <td>
+                            
+                        </td> -->
+                    </tr>
+                    <br>
+                    <v-divider/>
+                    <tr>
+
+                        <h3 class="h3Settings">Lunch: </h3>
+                        <br>
+
+                    </tr>
+                    <tr>
+                        <v-flex d-inline-flex>
+                            <div>
+                                <b>Start Time</b>
+                                <input class="startTime" id="b2Start" type="time" v-model="block2Start">
+                            </div>
+                            <div>
+                                <b>End Time</b>
+                                <input class="endTime" id="b2End" type="time" v-model="block2End">
+                            </div>
+                        </v-flex>
+                    </tr>
+                    <br>
+                    <v-divider/>
+                    <tr>
+
+                        <h3 class="h3Settings">Afternoon: </h3>
+                        <br>
+
+                    </tr>
+                    <tr>
+                        <v-flex d-inline-flex>
+                            <div>
+                                <b>Start Time</b>
+                                <input class="startTime" id="b3Start" type="time" v-model="block3Start">
+                            </div>
+                            <div>
+                                <b>End Time</b>
+                                <input class="endTime" id="b3End" type="time" v-model="block3End">
+                            </div>
+                        </v-flex>
+                    </tr>
+                </v-flex>
+
+            </table>
+            <br>
+            <h1>System Start Date</h1>
+
+            <!-- <input id="yearStart" type="date" v-model="startDate"> -->
+            <v-layout justify-center>
+            <v-menu ref="menu" lazy :close-on-content-click="false" v-model="menu" transition="scale-transition" offset-y full-width :nudge-right="40" min-width="290px" :return-value.sync="startDate">
+                <v-text-field slot="activator" v-model="startDate" prepend-icon="event" readonly></v-text-field>
+                <v-date-picker v-model="startDate" no-title scrollable>
+                    <v-spacer></v-spacer>
+                    <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+                    <v-btn flat color="primary" @click="$refs.menu.save(startDate)">OK</v-btn>
+                </v-date-picker>
+            </v-menu>
+            </v-layout>
             <!-- would like to wrap this next line. perhaps in a box -->
             <!-- <p>The start date must be set once. It marks the beginning of the system and is used to determine when to start requiring facilitation hours.</p>
-    -->        
-        </h3>  
-
+    -->
 
             <br>
             <!--@click.stop is used here for triggering only when the click is let go.-->
@@ -118,32 +140,18 @@
                 </v-card>
             </v-dialog>
             <!--End Dialog Boxes for Confirmation -->
-            
+
             <br>
-        <v-divider/>
-        <br/>
+            <v-divider/>
+            <br/>
+        </div>
+    </v-flex>
 
-
-  
-
-
-
-    </div>
-  </v-flex>
-     
-<!--
+    <!--
             </v-tab-item>
-
-
-           
-
-
-        
-
             <v-tab-item key="tab2">
                </v-tab-item>
         </v-tabs-items>
-        
     </v-tabs>
     -->
 </template>
@@ -163,10 +171,13 @@ export default {
       startDate: "",
       requiredHours: "",
       applyDialog: "",
-      cancelDialog: ""
+      cancelDialog: "",
+
+      menu: false
     };
   },
-  created() { // Created = run these things upon the page fully loading
+  created() {
+    // Created = run these things upon the page fully loading
     this.pullSettings();
   },
   methods: {
@@ -174,7 +185,8 @@ export default {
         applySettings():
 
         Closes the confirmation box. Pulls the current data from this vue and sends it to pushSettings.
-    */  
+    */
+
     applySettings() {
       this.applyDialog = false; // close applyDialog box
       var curSettings = [
@@ -208,14 +220,15 @@ export default {
         // Testing logs.  Feel free to explore in the Inspect, and see what this data is made out of.
         console.log(inData);
         console.log(settings);
-        if (settings.length == 8) { // Sets all the data to the settings obtained from the server.
+        if (settings.length == 8) {
+          // Sets all the data to the settings obtained from the server.
           this.block1Start = settings[0];
           this.block1End = settings[1];
           this.block2Start = settings[2];
           this.block2End = settings[3];
           this.block3Start = settings[4];
           this.block3End = settings[5];
-          this.startDate = this.changeDate(settings[6]);  //API returns date with /, Browser requires -
+          this.startDate = this.changeDate(settings[6]); //API returns date with /, Browser requires -
         } else {
           throw "Length of settings != 8";
         }
@@ -267,14 +280,23 @@ h2 {
   font-size: 15pt;
   color: #0288d1;
   font-family: Lato;
-
 }
 h3 {
   padding: 5px;
   letter-spacing: 3px;
-   font-family: Lato;
-
-
+  font-family: Lato;
+}
+.startTime {
+  margin-left: 5px;
+  margin-right: 10px;
+}
+.endTime {
+  margin-left: 5px;
+}
+.h3Settings {
+  text-align: left;
+  margin: 0;
+  padding: 0;
 }
 #box3 {
   padding: 20px;
@@ -286,9 +308,10 @@ h3 {
   max-width: 500px;
 }
 #errorMessage {
-color: #D32F2F;
-font-size: 14pt;
+  color: #d32f2f;
+  font-size: 14pt;
 }
+
 /*
 For table centering in IE 5.5
 body {text-align:center;}

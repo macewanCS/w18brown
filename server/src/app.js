@@ -134,6 +134,15 @@ app.post("/addRoom", async function(req, res) {
     // res.send(room5);
  })
 
+ app.post('/deleteRoom', async function (req, res) {
+    let deleteRoomData = await functions.deleteRoom(req.body.roomIn);
+    await console.log("app.js deleting: ", deleteRoomData)
+    res.send(deleteRoomData)
+})
+
+
+
+
 
 
 /*

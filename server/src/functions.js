@@ -83,6 +83,8 @@ async function addRoom(roomIn){
 }
 
 async function deleteRoom(roomIn){
+	console.log("in delete rooms function")
+	console.log("printing: ", roomIn)
 	return new Promise(function(fulfill, reject){
 
 		var sql = "DELETE FROM room WHERE roomName = ?";

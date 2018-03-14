@@ -299,6 +299,12 @@ async function testdeleteRoom(roomIn){
     console.log(test);
 }
 
+async function testroomList(){
+    let test = await functions.roomList();
+
+    console.log(test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -336,10 +342,12 @@ async function connectAndTest(){
         // testcheckCreateFamilyFacError("ShouldWork001");
         // testgetGrades();
         // testconfirmCreateFamily("ShouldWork001");
-        testaddRoom("Orange");
-        testRoom();
-        testaddRoom("Orange");
-        testaddRoom("Orange");
-        testRoom();
+        //  testaddRoom("Orange");
+        // testRoom();
+        //  testaddRoom("Orange");
+        // testaddRoom("Orange");
+        // testRoom();
+        testdeleteRoom("Orange");
+        testroomList();
     }
 }

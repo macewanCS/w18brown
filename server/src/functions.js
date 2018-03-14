@@ -25,7 +25,8 @@ module.exports = {
 	getGrades,
 	getRoomList,
 	addRoom,
-	deleteRoom
+	deleteRoom,
+	roomList
 }
 
 
@@ -55,27 +56,29 @@ async function connect(){
 
 async function addRoom(roomIn){
 	return new Promise(function(fulfill, reject){
-	var sql = "SELECT * FROM room WHERE roomName = ?";
-	var count = 0;
+		var sql = "SELECT * FROM room WHERE roomName = ?";
+		var count = 0;
 
-	con.query(sql, roomIn, function (err, result, fields) {
-		if (err) throw err;
-		count = result.length;
-		if (count > 0){
-			fulfill(false);
-		}
-	})
-			sql = "INSERT INTO room (roomName) VALUES (?)";
-
-			con.query(sql, roomIn, function (err, result, fields) {
-				if (err){
-					throw err;
-				} 
-				else{
-					fulfill(true);
-				}
-				
-			})
+		con.query(sql, roomIn, async function (err, result, fields) {
+			if (err) throw err;
+			count = result.length;
+			if (count > 0){
+				fulfill(false);
+			}
+			else{
+				sql = "INSERT INTO room (roomName) VALUES (?)";
+		
+				con.query(sql, roomIn, function (err, result, fields) {
+					if (err){
+						throw err;
+					} 
+					else{
+						fulfill(true);
+					}
+					
+				})
+			}
+		})
 	})
 }
 
@@ -89,8 +92,34 @@ async function deleteRoom(roomIn){
 			if (err){
 				throw err;
 			} 
-			else{
+			if (result['affectedRows'] > 0){
 				fulfill(true);
+			}
+			else{
+				fulfill(false);
+			}
+				
+			
+		})
+	})
+}
+
+async function roomList(){
+	return new Promise(function(fulfill, reject){
+
+		output = [];
+
+		var sql = "SELECT * FROM room";
+
+		con.query(sql, function (err, result, fields) {
+			if (err){
+				throw err;
+			} 
+			else{
+				result.forEach(room =>{
+					output.push(room.roomName);
+				})
+				fulfill(output);
 			}
 		})
 	})

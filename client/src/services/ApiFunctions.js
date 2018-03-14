@@ -46,10 +46,13 @@ export default {
     async addRoom(deleteRoom) {
         return Api().post('addRoom', deleteRoom);
     },
+    async deleteRoom(roomIn) {
+        console.log("in apifunctions delete room")
+        console.log("roomin in api functions: ", roomIn)
+        return Api().post('deleteRoom', roomIn);
+    },
 
 
-
-    
     
 
 /*
@@ -61,15 +64,15 @@ export default {
 
 
     
-    async addEditRoom(info1) { // this addEditRoom function matches to frontend
+    /* async addEditRoom(info1) { // this addEditRoom function matches to frontend
         return Api().post('addEditRoom', info1) // this addEditRoom string matches the same on on the backend
-    },
+    }, */
     async checkName(info2) {
         return Api().post('checkName', info2)
     },
-    async finalRoomUpdate(info3) {
+  /*   async finalRoomUpdate(info3) {
         return Api().post('finalRoomUpdate', info3)
-    },
+    }, */
     async getFamilyList(info4) {
         return Api().post('getFamilyList', info4)
     },

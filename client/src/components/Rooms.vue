@@ -132,6 +132,7 @@ export default {
     return {
       roomNameField: "", 
       deleteRoom: "",
+      savedDeleteRoom: "",
 
 
 
@@ -147,7 +148,6 @@ export default {
       savedPass: "",
       deleteError: false,
       deleteName: "",
-      savedDeleteName: "",
       deleteConfirm: false,
 
 
@@ -180,9 +180,7 @@ export default {
 
         this.rooms = parsedData.values;
         console.log(this.rooms);
-
     },
-
     async submit() {
 
  
@@ -213,7 +211,39 @@ export default {
         } 
 
       }
-      
+    },
+    async deleteBtn() {
+
+      // reset messages
+      this.lengthError = false
+      this.usedError = false
+      this.confirm = false
+      this.typeError = false
+      this.deleteError = false
+      this.deleteConfirm = false
+
+      console.log("delete was pressed")
+      console.log("name: ", this.deleteRoom)
+
+      try {
+        console.log("sending to ApiFunctions: ", this.deleteRoom)
+          const deletedConfirm = await ApiFunctions.deleteRoom(this.deleteRoom)
+          this.savedDeleteRoom = this.deleteName
+          this.load();
+       //   this.deleteConfirm = true
+        
+        if (this.deletedConfirm = false) {
+          this.deleteError = true;
+        }
+      }
+      catch (error) {
+        console.log("catch condition 1")
+      } 
+
+    },
+    
+  }
+};
 /*
       }
 
@@ -391,27 +421,14 @@ export default {
             }
           }
 
-          catch (error) {
-            console.log("catch condition 1")
-            this.error = error.addResponse.data.error;
-          } 
-
-        } // end of add user 
     
 
-      } // end of first try
-      catch (error) {
-        this.typeError = true
-        console.log("catch condition 2")
 
-      } 
 
       
 
   }*/
-    }
-  }
-};
+
 
 
 </script>

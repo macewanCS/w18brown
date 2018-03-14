@@ -328,7 +328,7 @@ async function connectAndTest(){
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
-        // testgetRoomReservationByWeek("red", "2018/03/05");
+        testgetRoomReservationByWeek("red", "2018/03/05");
         // testgetEmployeeList();
         // testdeleteEmployee("testBoard2");
         // testgetEmployeeList();
@@ -347,7 +347,7 @@ async function connectAndTest(){
         //  testaddRoom("Orange");
         // testaddRoom("Orange");
         // testRoom();
-        testdeleteRoom("Orange");
-        testroomList();
+        // testdeleteRoom("Orange");
+        // testroomList();
     }
 }

@@ -3,13 +3,16 @@
     <br>
     <h1>Create a Reservation</h1>
     <v-divider />
+    <v-card>
+      <v-layout column>
+
+      </v-layout>
+    </v-card>
     <!-- Begin Calendar -->
     <v-container id="calendar" v-bind:style="{background: cal_color}" grid-list-md text-xs-center v-if="calendar_ready">
-
       <!-- Row 1: Header -->
       <v-layout row class="cal-header">
         <v-flex md1 class="cal-times">
-
         </v-flex>
         <v-flex md3 class="cal-header-days">
           <v-card v-bind:color="headerDay_color" light>
@@ -47,7 +50,6 @@
           </v-card>
         </v-flex>
       </v-layout>
-
       <!-- Row 2: Block 1 -->
       <v-layout row class="cal-block">
         <v-flex md1 class="cal-times">
@@ -235,7 +237,6 @@
             <v-layout row>
               <v-flex>
                 <calFacil v-for="fac in Calendar[0][2][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
-
               </v-flex>
               <v-flex>
                 <calFacil v-for="fac in Calendar[0][2][1]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
@@ -332,11 +333,9 @@
     <!-- End Calendar -->
   </div>
 </template>
-
 <script>
 import ApiFunctions from "@/services/ApiFunctions";
 import calFacil from "@/components/family/children/CalFacilitator";
-
 export default {
   data() {
     return {
@@ -347,7 +346,6 @@ export default {
         [[], [], []],
         [[], [], []]
       ],
-
       blocktime_color: "grey lighten-2",
       headerDay_color: "grey lighten-2",
       blockDay_color: "grey lighten-2",
@@ -403,7 +401,6 @@ export default {
       }
       let arr_reservations = weekReserves.reservations;
       console.log(arr_reservations);
-
       for (let day = 0; day < arr_reservations.length; day++) {
         for (
           let block = 0;
@@ -416,7 +413,6 @@ export default {
             slot++
           ) {
             let curFacil = arr_reservations[day].blocks[block].slot[slot];
-
             this.Calendar[day][block][slot] = curFacil;
             for (let i = 0; i < this.Calendar[day][block][slot].length; i++) {
               this.Calendar[day][block][slot][i].height =
@@ -482,7 +478,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 h1 {
   text-transform: uppercase;
@@ -498,7 +493,6 @@ h1Dialog {
 #calendar {
   min-width: 1013px;
   max-width: 1013px;
-
   padding-left: -5px;
 }
 .cal-header {
@@ -508,14 +502,12 @@ h1Dialog {
   min-width: 182px;
   max-width: 182px;
 }
-
 .cal-block {
   height: 250px;
   max-height: 250px;
   min-height: 250px;
   min-width: 1000px;
 }
-
 .cal-block-time {
   min-height: 100%;
   max-height: 100%;
@@ -547,9 +539,7 @@ h1Dialog {
   max-width: 50px;
   overflow: hidden;
   border-radius: 8px;
-
   flex: 10 0 auto;
-
   /* Centers text */
   display: flex;
   justify-content: center;

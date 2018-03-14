@@ -14,7 +14,6 @@
         </span>
     </v-tooltip>
 </template>
-
 <script>
 export default {
   props: {
@@ -23,14 +22,12 @@ export default {
     }
   },
   methods: {
-      clicked() {
-          this.$emit("clicked", this.myProp);
-      }
-
+    clicked() {
+      this.$emit("clicked", this.myProp);
+    }
   }
 };
 </script>
-
 <style>
 .facilitator {
   margin: 2px, 0px, 0px, 0px;
@@ -38,9 +35,7 @@ export default {
   max-width: 50px;
   overflow: hidden;
   border-radius: 8px;
-
   flex: 10 0 auto;
-
   /* Centers text */
   display: flex;
   justify-content: center;

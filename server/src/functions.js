@@ -364,7 +364,7 @@ async function getRoomReservationByWeek(roomName, startDate){
 											var newFree = {};
 											newFree.percentage = remaining;
 											newFree.name = "free";
-											newFree.startTime = blockOut.startTime;
+											newFree.startTime = blockOut.slot[i][0].endTime;
 											newFree.endTime = blockOut.endTime;
 											newFree.reservationID = 0;
 											console.log("we are pushing", newFree);

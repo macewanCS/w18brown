@@ -47,8 +47,6 @@ export default {
         return Api().post('addRoom', deleteRoom);
     },
     async deleteRoom(roomIn) {
-        console.log("in apifunctions delete room")
-        console.log("roomin in api functions: ", roomIn)
         return Api().post('deleteRoom', roomIn);
     },
 

@@ -1,10 +1,4 @@
 <template>
-  <!-- 
-        v-container - Somewhat like a div, but from Vuetify
-            fluid - try and expand to full length of screen
-            fill-height - fill full height of screen
-        v-layout - similar to above but different properties
-    -->
   <v-flex ma-5> <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
     <div class="text-xs-center"> <!-- this centers the contents -->
 
@@ -104,15 +98,6 @@
 
     <v-text name="employees" type="text" id="employees" label="employees"  v-model="employees"/>
     
-    <!-- snackbars modified from https://github.com/harryho/vue2crm/blob/master/src/components/Login.vue -->
-    <!-- PLO snackbar code
-      <v-snackbar v-if="lengthError" :timeout="6000" :top="true" :multi-line="mode === 'multi-line'" :vertical="mode === 'vertical'" v-model="lengthError">
-        {{ "Usernames should be between 5 and 15 characters" }}
-        <v-btn flat class="red--text" @click.native="lengthError = false">Close</v-btn> -->
-        <!-- @click.native resets the error to false -->
-        <!--
-      </v-snackbar>
-      -->
      </table>
 
     </div>
@@ -121,10 +106,6 @@
 </template>
 
 <script>
-// drop down menu code from https://vuetifyjs.com/en/components/selects
-// This is a pre-styled object meant to be copied and used. It has been modified for use in this app.
-
-//import ApiFunctions from "@/services/ApiFunctions";
 import ApiFunctions from "@/services/ApiFunctions";
 
 export default {
@@ -132,6 +113,7 @@ export default {
     return {
       roomNameField: "", 
       deleteRoom: "",
+      savedDeleteRoom: "",
 
 
 
@@ -147,7 +129,6 @@ export default {
       savedPass: "",
       deleteError: false,
       deleteName: "",
-      savedDeleteName: "",
       deleteConfirm: false,
 
 
@@ -177,12 +158,8 @@ export default {
 
         var roomResponse = await ApiFunctions.getRoomList();
         var parsedData = JSON.parse(roomResponse.data);
-
         this.rooms = parsedData.values;
-        console.log(this.rooms);
-
     },
-
     async submit() {
 
  
@@ -202,7 +179,6 @@ export default {
           const addResponse = await ApiFunctions.addRoom({
             roomName: this.roomNameField
           })
-          await console.log("response.data in rooms.vue is: ", addResponse);
           this.load();
 
         }
@@ -213,79 +189,7 @@ export default {
         } 
 
       }
-      
-/*
-      }
-
-
-  
-
-   //     await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
-
-        if (addResponse.data === "tooLongOrEmpty") {
-          this.lengthError = true;
-
-          
-  /*
-  put output error on screen here. username length requirements.
-  */
-/* 
-        }
-        else if (checkResponse.data === "alreadyUsed") {
-          this.usedError = true;
- */
-
-  /*
-  put output error on screen here. username already used requirements.
-  */
-     /*      
-        }
-        else if (checkResponse.data === "brown") {
-          this.password = (Math.floor(Math.random()* 10000) + 10000)
-          try {
-            const addResponse = await ApiFunctions.createEmployeeConfirm({
-              username: this.username,
-              employeeType: this.employeeType.text.toLowerCase(),
-              password: this.password
-           })
-        
-            // insert into database
-   //         await console.log("response.data in AccountStaff.vue is: ", addResponse.data );
-
-            if (addResponse.data = true) {
-  //            console.log("user has been added (need to confirm)")
-              this.confirm = true
-              // saved values prevent changes to the displayed popup.
-              // the variables username and employeeType are linked to the inputs and will change if modified.
-              this.savedUser = this.username
-              this.savedType = this.employeeType.text.toLowerCase()
-              this.savedPass = this.password
-
-              await this.load(); // refreshes the current employee table
-            }
-          }
-
-          catch (error) {
-            console.log("catch condition 1")
-            this.error = error.addResponse.data.error;
-          } 
-
-        } // end of add user 
-    
-
-      } // end of first try
-      catch (error) {
-        this.typeError = true
-        console.log("catch condition 2")
-
-      } 
-
-
-    }
-
-
-
-    /*
+    },
     async deleteBtn() {
 
       // reset messages
@@ -295,28 +199,16 @@ export default {
       this.typeError = false
       this.deleteError = false
       this.deleteConfirm = false
-
-      console.log("delete was pressed")
-      console.log("name: ", this.deleteName)
-
       try {
-        const deleteResponse = await ApiFunctions.createEmployeeCheck({
-          username: this.deleteName,
-          employeeType: ""
+        console.log("sending to ApiFunctions: ", this.deleteRoom)
+          const deletedConfirm = await ApiFunctions.deleteRoom({
+          roomIn: this.deleteRoom
         })
-        await console.log(deleteResponse.data)
-
-        // alreadyUsed in this case means found which is good.
-        if (deleteResponse.data === "alreadyUsed") {
-          const deletedConfirm = await ApiFunctions.deleteEmployee({
-          username: this.deleteName
-          
-          })
-          this.savedDeleteName = this.deleteName
+          this.savedDeleteRoom = this.deleteName
           this.load();
-          this.deleteConfirm = true
-        }
-        else {
+       //   this.deleteConfirm = true
+        
+        if (this.deletedConfirm = false) {
           this.deleteError = true;
         }
       }
@@ -325,95 +217,9 @@ export default {
       } 
 
     },
-
-
-
-    async submit() {
- 
-      // reset messages
-      this.lengthError = false
-      this.usedError = false
-      this.confirm = false
-      this.typeError = false
-      this.deleteError = false
-      this.deleteConfirm = false
-
-
-      try {
-        const checkResponse = await ApiFunctions.createEmployeeCheck({
-          username: this.username,
-          employeeType: this.employeeType.text.toLowerCase()
-        })
-  
-
-   //     await console.log("response.data in AccountStaff.vue is: ", checkResponse.data );
-
-        if (checkResponse.data === "tooLongOrEmpty") {
-          this.lengthError = true;
-
-          */
-  /*
-  put output error on screen here. username length requirements.
-  */
-/* 
-        }
-        else if (checkResponse.data === "alreadyUsed") {
-          this.usedError = true;
- */
-
-  /*
-  put output error on screen here. username already used requirements.
-  */
-     /*      
-        }
-        else if (checkResponse.data === "brown") {
-          this.password = (Math.floor(Math.random()* 10000) + 10000)
-          try {
-            const addResponse = await ApiFunctions.createEmployeeConfirm({
-              username: this.username,
-              employeeType: this.employeeType.text.toLowerCase(),
-              password: this.password
-           })
-        
-            // insert into database
-   //         await console.log("response.data in AccountStaff.vue is: ", addResponse.data );
-
-            if (addResponse.data = true) {
-  //            console.log("user has been added (need to confirm)")
-              this.confirm = true
-              // saved values prevent changes to the displayed popup.
-              // the variables username and employeeType are linked to the inputs and will change if modified.
-              this.savedUser = this.username
-              this.savedType = this.employeeType.text.toLowerCase()
-              this.savedPass = this.password
-
-              await this.load(); // refreshes the current employee table
-            }
-          }
-
-          catch (error) {
-            console.log("catch condition 1")
-            this.error = error.addResponse.data.error;
-          } 
-
-        } // end of add user 
     
-
-      } // end of first try
-      catch (error) {
-        this.typeError = true
-        console.log("catch condition 2")
-
-      } 
-
-      
-
-  }*/
-    }
   }
 };
-
-
 </script>
 
 <style scoped>

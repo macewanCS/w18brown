@@ -25,7 +25,8 @@ module.exports = {
 	getGrades,
 	getRoomList,
 	addRoom,
-	deleteRoom
+	deleteRoom,
+	roomList
 }
 
 
@@ -55,31 +56,35 @@ async function connect(){
 
 async function addRoom(roomIn){
 	return new Promise(function(fulfill, reject){
-	var sql = "SELECT * FROM room WHERE roomName = ?";
-	var count = 0;
+		var sql = "SELECT * FROM room WHERE roomName = ?";
+		var count = 0;
 
-	con.query(sql, roomIn, function (err, result, fields) {
-		if (err) throw err;
-		count = result.length;
-		if (count > 0){
-			fulfill(false);
-		}
-	})
-			sql = "INSERT INTO room (roomName) VALUES (?)";
-
-			con.query(sql, roomIn, function (err, result, fields) {
-				if (err){
-					throw err;
-				} 
-				else{
-					fulfill(true);
-				}
-				
-			})
+		con.query(sql, roomIn, async function (err, result, fields) {
+			if (err) throw err;
+			count = result.length;
+			if (count > 0){
+				fulfill(false);
+			}
+			else{
+				sql = "INSERT INTO room (roomName) VALUES (?)";
+		
+				con.query(sql, roomIn, function (err, result, fields) {
+					if (err){
+						throw err;
+					} 
+					else{
+						fulfill(true);
+					}
+					
+				})
+			}
+		})
 	})
 }
 
 async function deleteRoom(roomIn){
+	console.log("in delete rooms function")
+	console.log("printing: ", roomIn)
 	return new Promise(function(fulfill, reject){
 
 		var sql = "DELETE FROM room WHERE roomName = ?";
@@ -88,8 +93,34 @@ async function deleteRoom(roomIn){
 			if (err){
 				throw err;
 			} 
-			else{
+			if (result['affectedRows'] > 0){
 				fulfill(true);
+			}
+			else{
+				fulfill(false);
+			}
+				
+			
+		})
+	})
+}
+
+async function roomList(){
+	return new Promise(function(fulfill, reject){
+
+		output = [];
+
+		var sql = "SELECT * FROM room";
+
+		con.query(sql, function (err, result, fields) {
+			if (err){
+				throw err;
+			} 
+			else{
+				result.forEach(room =>{
+					output.push(room.roomName);
+				})
+				fulfill(output);
 			}
 		})
 	})
@@ -333,7 +364,7 @@ async function getRoomReservationByWeek(roomName, startDate){
 											var newFree = {};
 											newFree.percentage = remaining;
 											newFree.name = "free";
-											newFree.startTime = blockOut.startTime;
+											newFree.startTime = blockOut.slot[i][0].endTime;
 											newFree.endTime = blockOut.endTime;
 											newFree.reservationID = 0;
 											console.log("we are pushing", newFree);

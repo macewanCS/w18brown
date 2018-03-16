@@ -7,24 +7,25 @@ https://www.youtube.com/watch?v=Fa4cRMaTDUI -->
             fill-height - fill full height of screen
         v-layout - similar to above but different properties
     -->
-  <v-container fluid fill-height>
-    <v-layout align-center justify-center>
-      <div id="box">
-        <h1 class="text-xs-center">Caraway Facilitation<br> Log-In Page</h1>
-        <!-- added v-models for linking to script, added placeholders -->
-        <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
-        <v-text-field name="password" type="password" id="password" label="Password" v-model="password" />
-        <!--  <v-btn id="forgotPassword">Forgot your Password?</v-btn> -->
-        <v-flex>
-          <div class="text-xs-center">
-            <!-- this centers the contents -->
-            <v-btn type="submit" id="login" color="success" @click="login">
-              <!-- calls the login method below in scripts-->
-              Login
-            </v-btn>
-          </div>
-        </v-flex>
-        <!-- mt-3 is margin on the top with a size of 3. see link
+    <v-container fluid fill-height>
+        <v-layout align-center justify-center>
+            <div id="box">
+                <h1 class="text-xs-center" >Caraway Facilitation<br> Log In Page</h1>
+                <!-- added v-models for linking to script, added placeholders -->
+                <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
+                <v-text-field name="password" type="password" id="password" label="Password" v-model="password" />
+
+                  <!--  <v-btn id="forgotPassword">Forgot your Password?</v-btn> -->
+                  <v-flex >
+                    <div class="text-xs-center"> <!-- this centers the contents -->
+                      <v-btn type="submit" id="login" color="success" @click="login">
+                        <!-- calls the login method below in scripts-->
+                        Login
+                      </v-btn>
+                    </div>
+                  </v-flex>
+
+                <!-- mt-3 is margin on the top with a size of 3. see link
                 https://vuetifyjs.com/en/layout/spacing
                  -->
         <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="error" v-model="error">

@@ -1,8 +1,7 @@
 <template>
   <div>
-    <br>
-    <h1>Create a Reservation</h1>
-    <v-divider class="divider" />
+    <h1 class="h1Title">Create a Reservation</h1>
+
     <div class="selector">
       <v-card class="selectorCard">
         <v-layout justify-space-between wrap>
@@ -12,7 +11,7 @@
           </v-flex>
           <v-spacer></v-spacer>
           <v-flex xs5>
-            <v-menu ref="menu" lazy v-model="menu" transition="scale-transition" offset-y full-width min-width="350px" max-width="350px">
+            <v-menu ref="menu" lazy v-model="menu" transition="scale-transition" offset-y full-width min-width="415px" max-width="415px">
               <v-text-field slot="activator" v-model="selectedDate" prepend-icon="event" readonly label="Select a Date"></v-text-field>
               <v-date-picker v-model="selectedDate" no-title scrollable full-width :first-day-of-week="1">
               </v-date-picker>
@@ -21,7 +20,7 @@
         </v-layout>
       </v-card>
     </div>
-    <v-divider class="divider" />
+
     <!-- Begin Calendar -->
     <v-container id="calendar" v-bind:style="{background: cal_color}" grid-list-md text-xs-center v-if="calendar_ready">
       <!-- Row 1: Header -->
@@ -363,27 +362,28 @@ export default {
       blocktime_color: "grey lighten-2",
       headerDay_color: "grey lighten-2",
       blockDay_color: "grey lighten-2",
-      blockFree_color: "white",
+      blockFree_color: "grey lighten-5",
+      blockReserved_color: "red",
       cal_color: "#BDBDBD",
       calendar_ready: "false",
       // Below is used for new Reservations
       ReserveDialog: "",
       familyID: "",
       availFacilitators: ["Test Facilitator 001", "Test Facilitator 002"],
-      availRooms: [],
       selectedFacil: null,
-      date: "",
       startTime: "",
       endTime: "",
       availableTimes: [],
       availableEndTimes: [],
       selectedStartTime: "",
       selectedEndTime: "",
+
+      //Used for Date Selector and Room Selector
+      menu: "",
+      availRooms: [],
       selectedRoom: "",
       selectedDate: "",
-      selectedMonday: "",
-
-      menu: ""
+      selectedMonday: ""
     };
   },
   components: {
@@ -438,9 +438,11 @@ export default {
               this.Calendar[day][block][slot][i].height =
                 230 * this.Calendar[day][block][slot][i].percentage + "px";
               if (this.Calendar[day][block][slot][i].name.valueOf() == "free") {
-                this.Calendar[day][block][slot][i].color = "grey lighten-5";
+                this.Calendar[day][block][slot][i].color = this.blockFree_color;
+                this.Calendar[day][block][slot][i].isFree = true;
               } else {
-                this.Calendar[day][block][slot][i].color = "red";
+                this.Calendar[day][block][slot][i].color = this.blockReserved_color;
+                this.Calendar[day][block][slot][i].isFree = false;
               }
             }
           }
@@ -549,7 +551,11 @@ h1 {
   font-family: Lato;
   text-align: center;
 }
-h1Dialog {
+.h1Title {
+  margin-top: 13px;
+  margin-bottom: 12px;
+}
+.h1Dialog {
   font-size: 16pt;
 }
 #calendar {
@@ -628,12 +634,11 @@ h1Dialog {
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
-  margin-bottom: 10px;
-  max-width: 800px;
+  max-width: 1013px;
 }
 .selectorCard {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .divider {
   margin-bottom: 5px;

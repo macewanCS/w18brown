@@ -106,11 +106,11 @@ async function testcreateReservation(){
     var jsonIn = {};
 
     jsonIn.familyID = "Fac006";
-    jsonIn.date = "2018/03/09";
+    jsonIn.date = "2018/02/28";
     jsonIn.facilitator = "Smiley Face";
-    jsonIn.startTime = "14:00:00";
-    jsonIn.endTime = "15:45:00";
-    jsonIn.room = "red";
+    jsonIn.startTime = "08:45:00";
+    jsonIn.endTime = "12:00:00";
+    jsonIn.room = "mauve";
 
     var input = JSON.stringify(jsonIn);
 
@@ -305,6 +305,18 @@ async function testroomList(){
     console.log(test);
 }
 
+async function testchangePassword(username, password){
+    let test = await functions.changePassword(username, password);
+
+    console.log(test);
+}
+
+async function testgetReservationByFamily(username){
+    let test = await functions.getReservationByFamily(username);
+
+    console.log(test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -328,7 +340,7 @@ async function connectAndTest(){
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
-        testgetRoomReservationByWeek("red", "2018/03/05");
+        // testgetRoomReservationByWeek("blue", "2018/03/05");
         // testgetEmployeeList();
         // testdeleteEmployee("testBoard2");
         // testgetEmployeeList();
@@ -349,5 +361,7 @@ async function connectAndTest(){
         // testRoom();
         // testdeleteRoom("Orange");
         // testroomList();
+        // testchangePassword("Sarah001", "brown");
+        testgetReservationByFamily("Fac002");
     }
 }

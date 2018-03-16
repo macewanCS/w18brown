@@ -194,15 +194,14 @@ app.get('/getSettings', async function (req, res) {
 /* POST:  setSettings
 */
 app.post("/setSettings", async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
     functions.setSettings(req.body);
 })
 
-
 app.post("/getReservations", async (req, res) => {
-    console.log(req.body.room, req.body.startDate);
+    // console.log(req.body.room, req.body.startDate);
     let reservations = await functions.getRoomReservationByWeek(req.body.room, req.body.startDate);
-    console.log(reservations);
+    // console.log(reservations);
     res.send(JSON.stringify(reservations));
 })
 
@@ -210,12 +209,11 @@ app.get("/roomDict", async function(req, res) {
     let rooms = await functions.roomDict();
     res.send(rooms);
 })
-
-
-
-
-
-
+app.get("/roomList", async function(req, res) {
+    let rooms = await functions.roomList();
+    console.log(rooms);
+    res.send(JSON.stringify(rooms));
+})
 
 
 app.listen(8081)

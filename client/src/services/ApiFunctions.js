@@ -16,6 +16,9 @@ export default {
     async getRooms() {
         return Api().get("roomDict");
     },
+    async B_RoomList() {
+        return Api().get("roomList");
+    },
     async getReservations(in_room, in_startDate) {
         var reservationParam = {
             room: in_room,

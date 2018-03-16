@@ -2,12 +2,26 @@
   <div>
     <br>
     <h1>Create a Reservation</h1>
-    <v-divider />
-    <v-card>
-      <v-layout column>
+    <v-divider class="divider" />
+    <div class="selector">
+      <v-card class="selectorCard">
+        <v-layout justify-space-between wrap>
+          <v-flex xs5>
+            <v-select :items="availRooms" v-model="selectedRoom" label="Select a Room" single-line />
 
-      </v-layout>
-    </v-card>
+          </v-flex>
+          <v-spacer></v-spacer>
+          <v-flex xs5>
+            <v-menu ref="menu" lazy v-model="menu" transition="scale-transition" offset-y full-width min-width="350px" max-width="350px">
+              <v-text-field slot="activator" v-model="selectedDate" prepend-icon="event" readonly label="Select a Date"></v-text-field>
+              <v-date-picker v-model="selectedDate" no-title scrollable full-width :first-day-of-week="1">
+              </v-date-picker>
+            </v-menu>
+          </v-flex>
+        </v-layout>
+      </v-card>
+    </div>
+    <v-divider class="divider" />
     <!-- Begin Calendar -->
     <v-container id="calendar" v-bind:style="{background: cal_color}" grid-list-md text-xs-center v-if="calendar_ready">
       <!-- Row 1: Header -->
@@ -351,11 +365,12 @@ export default {
       blockDay_color: "grey lighten-2",
       blockFree_color: "white",
       cal_color: "#BDBDBD",
-      calendar_ready: false,
+      calendar_ready: "false",
       // Below is used for new Reservations
       ReserveDialog: "",
       familyID: "",
       availFacilitators: ["Test Facilitator 001", "Test Facilitator 002"],
+      availRooms: [],
       selectedFacil: null,
       date: "",
       startTime: "",
@@ -364,28 +379,33 @@ export default {
       availableEndTimes: [],
       selectedStartTime: "",
       selectedEndTime: "",
-      room: ""
+      selectedRoom: "",
+      selectedDate: "",
+      selectedMonday: "",
+
+      menu: ""
     };
   },
   components: {
     calFacil
   },
   async mounted() {
-    console.log("Before");
-    console.log(this.Calendar);
-    let myVar = await this.getReservations();
-    await this.setCalendar(myVar);
-    console.log(this.Calendar);
+    this.getRoomList();
   },
   methods: {
     async getRooms() {
       let rooms = ApiFunctions.getRooms();
     },
+    async updateCalendar() {
+      let myVar = await this.getReservations();
+      await this.setCalendar(myVar);
+    },
     async getReservations() {
       try {
+        // Room/Date that has any entries "red","2018/03/05"
         let incomingReserves = await ApiFunctions.getReservations(
-          "red",
-          "2018/03/05"
+          this.selectedRoom,
+          this.selectedMonday
         );
         //await console.log(JSON.parse(incomingReserves.data));
         let reserves = await JSON.parse(incomingReserves.data);
@@ -429,7 +449,7 @@ export default {
       this.calendar_ready = true;
     },
     newReserve(origin) {
-      console.log(origin);
+      // console.log(origin);
       this.availableTimes = this.create5MinIntervals(
         origin.startTime,
         origin.endTime
@@ -474,6 +494,48 @@ export default {
       this.selectedEndTime = "";
       this.availableTimes = [];
       this.availableEndTimes = [];
+    },
+    async getRoomList() {
+      let unparsed = await ApiFunctions.B_RoomList();
+      this.availRooms = await unparsed.data;
+    },
+    getMonday(d) {
+      //Taken from https://stackoverflow.com/questions/4156434/javascript-get-the-first-day-of-the-week-from-current-date
+      d = new Date(d);
+      var day = d.getDay();
+      if (day == 0) {
+        return d;
+      } else {
+        var diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+        return new Date(d.setDate(diff));
+      }
+    }
+  },
+  watch: {
+    selectedRoom: function(newValue) {
+      this.calendar_ready = "false";
+      if (this.selectedDate.valueOf() == "") {
+        return;
+      } else {
+        this.updateCalendar();
+      }
+    },
+    selectedDate: function(newValue) {
+      this.calendar_ready = "false";
+      var Monday = this.getMonday(newValue);
+      this.selectedMonday =
+        Monday.getFullYear() +
+        "/" +
+        (Monday.getMonth() + 1) +
+        "/" +
+        Monday.getDate();
+    },
+    selectedMonday: function(newValue) {
+      if (this.selectedRoom.valueOf() == "") {
+        return;
+      } else {
+        this.updateCalendar();
+      }
     }
   }
 };
@@ -561,5 +623,19 @@ h1Dialog {
 }
 .headerDay {
   font-size: 13pt;
+}
+.selector {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  max-width: 800px;
+}
+.selectorCard {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.divider {
+  margin-bottom: 5px;
 }
 </style>

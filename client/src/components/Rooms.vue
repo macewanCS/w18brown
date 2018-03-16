@@ -24,63 +24,70 @@
             <i class="material-icons">error</i>
           </v-flex>
 
+          <br/>
+
+          <v-layout align-center justify-center>
+            <!-- this centers the contents -->
+            <v-flex id="box2" class="text-xs-center" mt-2 v-if="confirm" v-model="confirm">
+              <h2>Room Created
+                <i class="material-icons">check_circle</i>
+              </h2>
+              Room Name: {{this.savedRoomAdd}}
+            </v-flex>
+            <br>
+            <v-layout align-center justify-center>
+              <!-- this centers the contents -->
+
+              <v-text-field name="deleteRoom" type="text" id="deleteRoom" label="Room Name" v-model="deleteRoom" />
+              <v-flex>
+                <!-- grid system -->
+                <v-btn type="deleteBtn" id="deleteBtn" color="error" @click="deleteBtn">
+                  <!-- calls the login method below in scripts-->
+                  Delete
+                </v-btn>
+
+                <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="deleteError" v-model="deleteError">
+                  {{ "This room was not found" }}
+                  <i class="material-icons">error</i>
+                </v-flex>
+
+                <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="deleteLengthError" v-model="deleteLengthError">
+                  {{ "Room Name should be between 3 and 10 characters" }}
+                  <i class="material-icons">error</i>
+                </v-flex>
+
+              </v-flex>
+              <br>
+              <v-layout align-center justify-center>
+                <!-- this centers the contents -->
+
+                <v-flex id="boxDelete" class="text-xs-center" mt-2 v-if="deleteConfirm" v-model="deleteConfirm">
+                  <h2>Room Deleted</h2>
+                  Room Name: {{this.savedDeleteRoom}}
+                </v-flex>
+              </v-layout>
+
+              <br>
+              <v-divider/>
+              <br/>
+
+              <h1>Current Rooms</h1>
+
+              <br>
+
+              <v-flex align-center>
+                <v-data-table light :headers="headers" :items="rooms" hide-actions class="elevation-1">
+                  <template slot="items" slot-scope="props">
+                    <td class="text-xs-right">{{ props.item.roomName }}</td>
+                  </template>
+                </v-data-table>
+              </v-flex>
+            </v-layout>
+          </v-layout>
         </v-flex>
-        <br/>
-        <v-layout align-center justify-center>
-          <!-- this centers the contents -->
-          <v-flex id="box2" class="text-xs-center" mt-2 v-if="confirm" v-model="confirm">
-            <h2>User Created
-              <i class="material-icons">check_circle</i>
-            </h2>
-            Username: {{this.savedUser}}
-            <br>Employee Type: {{this.savedType}}
-            <br>Temporary Password: {{this.savedPass}}
-          </v-flex>
-        </v-layout>
-
-        <br>
-        <v-divider/>
-        <br/>
-        <h1>Delete Rooms</h1>
-        <v-text-field name="deleteRoom" type="text" id="deleteRoom" label="Room Name" v-model="deleteRoom" />
-        <v-flex>
-          <!-- grid system -->
-          <v-btn type="deleteBtn" id="deleteBtn" color="error" @click="deleteBtn">
-            <!-- calls the login method below in scripts-->
-            Delete
-          </v-btn>
-
-          <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="deleteError" v-model="deleteError">
-            {{ "Usernames not found" }}
-            <i class="material-icons">error</i>
-          </v-flex>
-        </v-flex>
-        <br>
-        <v-layout align-center justify-center>
-          <!-- this centers the contents -->
-
-          <v-flex id="boxDelete" class="text-xs-center" mt-2 v-if="deleteConfirm" v-model="deleteConfirm">
-            <h2>User Deleted</h2>
-            Username: {{this.savedDeleteName}}
-          </v-flex>
-        </v-layout>
-        <br>
-        <v-divider/>
-        <br/>
-        <h1>Current Rooms</h1>
-        <br>
-        <v-flex align-center>
-          <v-data-table light :headers="headers" :items="rooms" hide-actions class="elevation-1">
-            <template slot="items" slot-scope="props">
-              <td class="text-xs-right">{{ props.item.roomName }}</td>
-            </template>
-          </v-data-table>
-        </v-flex>
-        <v-text name="employees" type="text" id="employees" label="employees" v-model="employees" />
-
       </table>
     </div>
-  </v-flex>
+    </v-flex>
 </template>
 <script>
 import ApiFunctions from "@/services/ApiFunctions";
@@ -90,18 +97,13 @@ export default {
       roomNameField: "",
       deleteRoom: "",
       savedDeleteRoom: "",
-
-      //   employeeType: "",
+      savedRoomAdd: "",
+      deleteConfirm: false,
+      confirm: false,
       lengthError: false,
       usedError: false,
-      confirm: false,
-      password: "red",
-      savedUser: "",
-      savedType: "",
-      savedPass: "",
       deleteError: false,
-      deleteName: "",
-      deleteConfirm: false,
+      deleteLengthError: false,
 
       // table columns
       headers: [
@@ -115,6 +117,7 @@ export default {
       rooms: {} // this items is for the datatable
     };
   },
+
   created() {
     this.load();
   },
@@ -124,13 +127,19 @@ export default {
       var parsedData = JSON.parse(roomResponse.data);
       this.rooms = parsedData.values;
     },
-    async submit() {
-      // reset messages
+
+    async resetMessages() {
       this.lengthError = false;
       this.usedError = false;
       this.confirm = false;
       this.deleteError = false;
       this.deleteConfirm = false;
+      this.deleteLengthError = false;
+    },
+
+    async submit() {
+      this.resetMessages();
+
       if (this.roomNameField.length < 3 || this.roomNameField.length > 10) {
         this.lengthError = true;
       } else {
@@ -139,33 +148,34 @@ export default {
             roomName: this.roomNameField
           });
           this.load();
+          this.savedRoomAdd = this.roomNameField;
+          this.confirm = addResponse.data;
+          this.usedError = !addResponse.data; // false add changed to true error
         } catch (error) {
           console.log("catch condition 1");
         }
       }
     },
     async deleteBtn() {
-      // reset messages
-      this.lengthError = false;
-      this.usedError = false;
-      this.confirm = false;
-      this.typeError = false;
-      this.deleteError = false;
-      this.deleteConfirm = false;
-      try {
-        console.log("sending to ApiFunctions: ", this.deleteRoom);
-        const deletedConfirm = await ApiFunctions.deleteRoom({
-          roomIn: this.deleteRoom
-        });
-        this.savedDeleteRoom = this.deleteName;
-        this.load();
-        //   this.deleteConfirm = true
+      this.resetMessages();
 
-        if ((this.deletedConfirm = false)) {
-          this.deleteError = true;
+      if (this.deleteRoom.length < 3 || this.deleteRoom.length > 10) {
+        this.deleteLengthError = true;
+      } else {
+        try {
+          const deletedConfirm = await ApiFunctions.deleteRoom({
+            roomIn: this.deleteRoom
+          });
+          this.deleteError = !deletedConfirm.data;
+          this.savedDeleteRoom = this.deleteRoom;
+          this.load();
+
+          if (this.deleteError == false) {
+            this.deleteConfirm = true;
+          }
+        } catch (error) {
+          console.log("catch condition 1");
         }
-      } catch (error) {
-        console.log("catch condition 1");
       }
     }
   }

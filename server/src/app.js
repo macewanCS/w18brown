@@ -120,7 +120,7 @@ app.get('/getEmployeeList', async function (req, res) {
 })
 
 app.get("/getRoomList", async function(req, res) {
-   console.log("get room list in app.js");
+ //  console.log("get room list in app.js");
     let room5 = await functions.getRoomList();
   //  await console.log(room5.data)
     res.send(JSON.stringify(room5));
@@ -129,14 +129,14 @@ app.get("/getRoomList", async function(req, res) {
 
 app.post("/addRoom", async function(req, res) {
      let addRoomCheck = await functions.addRoom(req.body.roomName);
-     await console.log("addroom app boolean: ", addRoomCheck)
+ //    await console.log("addroom app boolean: ", addRoomCheck)
      res.send(addRoomCheck);
     // res.send(room5);
  })
 
  app.post('/deleteRoom', async function (req, res) {
     let deleteRoomData = await functions.deleteRoom(req.body.roomIn);
-    await console.log("app.js deleting: ", deleteRoomData)
+  //  await console.log("app.js deleting: ", deleteRoomData)
     res.send(deleteRoomData)
 })
 

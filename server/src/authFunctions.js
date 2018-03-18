@@ -1,20 +1,7 @@
-const jwt = require("jsonwebtoken");
-const enviro = require("./config/globals");
-
 var mysql = require("mysql");
 var request = require("request-promise");
 
 
-
-/*
-    Signs a JSON Web Token which expires in an hour.
-*/
-function jwtSignUser (user) {
-    const timeLimit = 60 * 60  //Give each token a 1 hour limit
-    return jwt.sign(user, enviro.authentication.jwtToken, {
-        expiresIn: timeLimit
-    })
-}
 
 /*
 File Export Instructions:
@@ -59,7 +46,6 @@ module.exports = {
 
                     }
                     else {
-                        console.log(result[0]);
                         fulfill(result[0].type); // this returns account type
 
                         //Insert stuff here to return a fulfill with a user object.

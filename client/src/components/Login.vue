@@ -65,28 +65,28 @@ export default {
         });
         await console.log("response.data is: ", response.data);
 
-        if (response.data == "admin") {
+        if (response.data.type == "admin") {
           console.log("admin detected");
           this.$router.push({
             name: "dashboardadmin"
           });
-        } else if (response.data == "family") {
+        } else if (response.data.type == "family") {
           console.log("family detected");
           this.$router.push({
             name: "dashboardfamily"
           });
-        } else if (response.data == "teacher") {
+        } else if (response.data.type == "teacher") {
           console.log("teacher detected");
           this.$router.push({
             name: "dashboardteacher"
           });
-        } else if (response.data == "board") {
+        } else if (response.data.type == "board") {
           console.log("board detected");
           this.$router.push({
             name: "dashboardboard"
           });
         } else {
-          console.log(typeof response.data);
+          console.log(typeof response.data.type);
           console.log("Login Failed!");
           //
           //  Add redirect to error page?

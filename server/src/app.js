@@ -8,18 +8,15 @@ const bodyParser = require('body-parser') // process json data easily.
 const cors = require('cors') // allows any client around the world to hit the server. security risk.
 const app = express() // builds an express server
 const functions = require('./functions');
-
-//var mysql = require("mysql"); // this has been moved to databaseFunctions.js
 var request = require("request-promise");
-
-
+const enviro = require('./config/globals'); // Contains global environment variables
 // code to import functions file
-var databaseFunc = require('./databaseFunctions')
+var authFunctions = require('./authFunctions')
 
 
 /*
-    Note: to use databaseFunctions, use dot notation.
-            ex. databaseFunc.checkName(...)
+    Note: to use authFunctions, use dot notation.
+            ex. authFunctions.checkName(...)
 */
 app.use(bodyParser.json())
 app.use(cors())
@@ -37,11 +34,11 @@ app.post('/login', async function (req, res) {
   //  console.log("In app.js file:   username: ", req.body.username, "password: ", req.body.password)
 
     // calls checkName. Gives it username and password from the login page. Returns type to user.
-    let type = await databaseFunc.checkName(req.body.username, req.body.password);
+    let type = await authFunctions.checkName(req.body.username, req.body.password);
 
     // -- test output -- PLO
  //  console.log("In app.js file: type: ", type)
-
+    console.log(type);
     res.send(type)
 })
 

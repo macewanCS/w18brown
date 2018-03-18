@@ -26,7 +26,9 @@ module.exports = {
 	getRoomList,
 	addRoom,
 	deleteRoom,
-	roomList
+	roomList,
+	changePassword,
+	getReservationByFamily
 }
 
 
@@ -230,6 +232,57 @@ async function createEmployeeConfirm(username, type, password){
 }
 
 /**
+ * Changes a password with no error checking. Returns true when password changed and false if there was an SQL error.
+ * @param {*} username 
+ * @param {*} password 
+ */
+async function changePassword(username, password){
+	return new Promise(function(fulfill, reject){
+
+		var sql = "UPDATE account SET password = ? WHERE accountID = ?";
+
+		con.query(sql, [password, username], function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			fulfill(true);		
+		});
+	})
+}
+
+/**
+ * Returns all *FUTURE* reservations for a given accountID.
+ * I figured only future makes sense as the past can clutter crap up, perhaps that can be a diff function for a different spot on the interface.
+ * @param {*} username 
+ */
+async function getReservationByFamily(username){
+	return new Promise(function(fulfill, reject){
+		var output = [];
+		 today = new Date();
+		// today = new Date(2018, 02, 01, 00, 00, 00, 00); //*******this was only for testing a prior date.
+		var sql = "SELECT * from reservations WHERE date >= ? AND family_ID = ?";
+
+		con.query(sql, [today, username], function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			result.forEach(res =>{
+				var reservation = {};
+				reservation.name = res.facilitator;
+				reservation.date = dateFormat(res.date, "yyyy/mm/dd");
+				reservation.startTime = res.start_time;
+				reservation.endTime = res.end_time;
+				reservation.reservationID = res.reservation_ID;
+				output.push(reservation);
+			})
+			fulfill(output);
+		});
+	})
+}
+
+/**
  * This function returns an object containing all room bookings for a room, for a given week.
  * @param {*} roomName the roomName desired
  * @param {*} startDate the start date desired
@@ -308,6 +361,7 @@ async function getRoomReservationByWeek(roomName, startDate){
 							person.startTime = reservation.start_time;
 							person.endTime = reservation.end_time;
 							person.reservationID = reservation.reservation_ID;
+							person.date = today.date;
 
 							if (person.percentage === 1){
 								var outputList = [];
@@ -352,6 +406,7 @@ async function getRoomReservationByWeek(roomName, startDate){
 							free.startTime = blockOut.startTime;
 							free.endTime = blockOut.endTime;
 							free.reservationID = 0;
+							free.date = today.date;
 							outputList.push(free);
 							blockOut.slot.push(outputList);
 							currentPercent++;
@@ -367,7 +422,7 @@ async function getRoomReservationByWeek(roomName, startDate){
 											newFree.startTime = blockOut.slot[i][0].endTime;
 											newFree.endTime = blockOut.endTime;
 											newFree.reservationID = 0;
-											console.log("we are pushing", newFree);
+											newFree.date = today.date;
 											blockOut.slot[i].push(newFree);
 											currentPercent++;
 										}

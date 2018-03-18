@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import Login from '@/components/Login' // add for every route. also add component.
 import Accounts from "@/components/Accounts";
 import Rooms from "@/components/Rooms";
-import Reserve from "@/components/Reserve";
+import Reserve from "@/components/family/Reserve";
 import Settings from "@/components/Settings";
 import UnderConstruction from "@/components/UnderConstruction";
 import DashboardFamily from "@/components/family/DashboardFamily";

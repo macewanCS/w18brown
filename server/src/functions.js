@@ -28,7 +28,9 @@ module.exports = {
 	deleteRoom,
 	roomList,
 	changePassword,
-	getReservationByFamily
+	getReservationByFamily,
+	getFacilitators,
+	getStudents
 }
 
 
@@ -252,6 +254,65 @@ async function changePassword(username, password){
 }
 
 /**
+ * Returns a list of strings (facilitator names) for a corresponding accountID. Returns false if the accountID has no
+ * facilitators.
+ * @param {*} accountID 
+ */
+async function getFacilitators(accountID){
+	return new Promise(function(fulfill, reject){
+		output = [];
+		var sql = "SELECT * from facilitator WHERE familyID = ?"
+
+		con.query(sql, accountID, function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			if (result.length === 0){
+				fulfill(false);
+			}
+			result.forEach(fac =>{
+				output.push(fac.name);
+			})
+			fulfill(output);
+		});
+
+	})
+}
+
+/**
+ * Returns a JSON list containing students for an accountID.
+ * Returns false if the account ID has no students.
+ * @param {*} accountID 
+ */
+async function getStudents(accountID){
+	return new Promise(function(fulfill, reject){
+		output = [];
+		var sql = "SELECT * from student WHERE familyID = ?"
+
+		con.query(sql, accountID, function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			if (result.length === 0){
+				fulfill(false);
+			}
+			result.forEach(stu =>{
+				obj = {};
+				obj.firstName = stu.firstName;
+				obj.lastName = stu.lastName;
+				obj.grade = stu.grade;
+				obj.room = stu.room;
+				output.push(obj);
+			})
+			fulfill(output);
+		});
+
+	})
+}
+
+/**
  * Returns all *FUTURE* reservations for a given accountID.
  * I figured only future makes sense as the past can clutter crap up, perhaps that can be a diff function for a different spot on the interface.
  * @param {*} username 
@@ -277,7 +338,8 @@ async function getReservationByFamily(username){
 				reservation.reservationID = res.reservation_ID;
 				output.push(reservation);
 			})
-			fulfill(output);
+			json = JSON.stringify(output);
+			fulfill(json);
 		});
 	})
 }

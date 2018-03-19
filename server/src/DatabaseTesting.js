@@ -317,6 +317,18 @@ async function testgetReservationByFamily(username){
     console.log(test);
 }
 
+async function testgetFacilitators(ID){
+    let test = await functions.getFacilitators(ID);
+
+    console.log(test);
+}
+
+async function testgetStudents(ID){
+    let test = await functions.getStudents(ID);
+
+    console.log(test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -362,6 +374,10 @@ async function connectAndTest(){
         // testdeleteRoom("Orange");
         // testroomList();
         // testchangePassword("Sarah001", "brown");
-        testgetReservationByFamily("Fac002");
+        // testgetReservationByFamily("Fac002");
+        // testgetFacilitators("ShouldWork001");
+        // testgetFacilitators("Shouldn'tWork001");
+        testgetStudents("Shouldwork001");
+        testgetStudents("Shouldn'tWork001");
     }
 }

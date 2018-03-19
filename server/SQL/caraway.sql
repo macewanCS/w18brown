@@ -30,7 +30,9 @@ CREATE TABLE `account` (
   `bonusComment` varchar(255) DEFAULT NULL,
   `phone` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
-  `historic` decimal(7,2) DEFAULT NULL
+  `historic` decimal(7,2) DEFAULT NULL,
+  `phone2` varchar(255) DEFAULT NULL,
+  `email2` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -40,7 +42,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL),('Sarah001','brown','family',0.00,'N/A','780)555-9874','her@email.com',45.25),('testBoard1','brown','board',NULL,NULL,NULL,NULL,NULL),('testTeacher1','brown','teacher',NULL,NULL,NULL,NULL,NULL),('ShouldWork001',NULL,'family',5.00,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL),('ShouldWork001',NULL,'family',5.00,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL),('test5','brown','teacher',NULL,NULL,NULL,NULL,NULL),('test7','brown','teacher',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL,NULL,NULL),('Sarah001','brown','family',0.00,'N/A','780)555-9874','her@email.com',45.25,NULL,NULL),('testBoard1','brown','board',NULL,NULL,NULL,NULL,NULL,NULL,NULL),('testTeacher1','brown','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL),('ShouldWork001',NULL,'family',5.00,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL,NULL,NULL),('ShouldWork001',NULL,'family',5.00,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL,NULL,NULL),('test5','brown','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL),('test7','brown','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -358,8 +360,9 @@ DROP TABLE IF EXISTS `student`;
 CREATE TABLE `student` (
   `familyID` varchar(255) DEFAULT NULL,
   `room` varchar(255) DEFAULT NULL,
-  `studentName` varchar(255) DEFAULT NULL,
-  `grade` varchar(15) DEFAULT NULL
+  `grade` varchar(15) DEFAULT NULL,
+  `lastName` varchar(255) DEFAULT NULL,
+  `firstName` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -369,7 +372,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('ShouldWork001','red','little girl','K'),('ShouldWork001','red','little boy','5'),('ShouldWork001','red','little girl','K'),('ShouldWork001','red','little boy','5');
+INSERT INTO `student` VALUES ('ShouldWork001','red','5','Norris','Chuck'),('ShouldWork001','red','K','Charge','Charles'),('ShouldWork001','blue','10','Charge','Sarah'),('ShouldWork001','mauve','8','Simon','Sally');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -382,4 +385,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-16 17:48:34
+-- Dump completed on 2018-03-18 19:25:05

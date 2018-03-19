@@ -105,9 +105,9 @@ async function testdeleteEmployee(username){
 async function testcreateReservation(){
     var jsonIn = {};
 
-    jsonIn.familyID = "Fac006";
-    jsonIn.date = "2018/02/28";
-    jsonIn.facilitator = "Smiley Face";
+    jsonIn.familyID = "Should Work";
+    jsonIn.date = "2018/03/28";
+    jsonIn.facilitator = "Fred Flinstone";
     jsonIn.startTime = "08:45:00";
     jsonIn.endTime = "12:00:00";
     jsonIn.room = "mauve";
@@ -329,6 +329,14 @@ async function testgetStudents(ID){
     console.log(test);
 }
 
+async function testgetReservationByID(ID){
+    let test = await functions.getReservationByID(ID);
+
+    var output = JSON.parse(test);
+
+    console.log(output);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -377,7 +385,9 @@ async function connectAndTest(){
         // testgetReservationByFamily("Fac002");
         // testgetFacilitators("ShouldWork001");
         // testgetFacilitators("Shouldn'tWork001");
-        testgetStudents("Shouldwork001");
-        testgetStudents("Shouldn'tWork001");
+        // testgetStudents("Shouldwork001");
+        // testgetStudents("Shouldn'tWork001");
+        testgetReservationByID(12);
+        testgetReservationByID(555);
     }
 }

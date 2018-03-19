@@ -139,7 +139,7 @@ CREATE TABLE `facilitator` (
 
 LOCK TABLES `facilitator` WRITE;
 /*!40000 ALTER TABLE `facilitator` DISABLE KEYS */;
-INSERT INTO `facilitator` VALUES ('ShouldWork001','Fred Flinstone'),('ShouldWork001','Misfkj sadf'),('ShouldWork001','Fred Flinstone'),('ShouldWork001','Misfkj sadf');
+INSERT INTO `facilitator` VALUES ('ShouldWork001','Fred Flinstone'),('ShouldWork001','Misfkj sadf'),('ShouldWork001','Fred Flinstone'),('ShouldWork001','Misfkj sadf'),('Sarah001','Sarah Connor');
 /*!40000 ALTER TABLE `facilitator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -285,7 +285,7 @@ CREATE TABLE `reservations` (
   `room` varchar(255) DEFAULT NULL,
   `reservation_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`reservation_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -294,7 +294,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES ('Fac001','Charlie','2018-03-09','08:45:00','12:00:00','red',1),('Fac002','Betty','2018-03-09','08:45:00','12:00:00','red',2),('Fac002','Betty','2018-03-07','08:45:00','12:00:00','red',3),('Fac002','Betty','2018-03-06','08:45:00','12:00:00','red',4),('Fac002','Betty','2018-03-08','11:50:00','13:00:00','red',5),('Fac002','Betty','2018-03-09','12:50:00','15:45:00','red',6),('Fac002','Betty','2018-03-05','12:50:00','15:45:00','red',7),('Fac007','Johnny Chan','2018-03-09','12:50:00','14:00:00','red',8),('Fac006','Smiley Face','2018-03-09','08:45:00','12:00:00','blue',9),('Fac006','Smiley Face','2018-03-07','08:45:00','12:00:00','mauve',10),('Fac006','Smiley Face','2018-02-28','08:45:00','12:00:00','mauve',11);
+INSERT INTO `reservations` VALUES ('Fac001','Charlie','2018-03-09','08:45:00','12:00:00','red',1),('Fac002','Betty','2018-03-09','08:45:00','12:00:00','red',2),('Fac002','Betty','2018-03-07','08:45:00','12:00:00','red',3),('Fac002','Betty','2018-03-06','08:45:00','12:00:00','red',4),('Fac002','Betty','2018-03-08','11:50:00','13:00:00','red',5),('Fac002','Betty','2018-03-09','12:50:00','15:45:00','red',6),('Fac002','Betty','2018-03-05','12:50:00','15:45:00','red',7),('Fac007','Johnny Chan','2018-03-09','12:50:00','14:00:00','red',8),('Fac006','Smiley Face','2018-03-09','08:45:00','12:00:00','blue',9),('Fac006','Smiley Face','2018-03-07','08:45:00','12:00:00','mauve',10),('Fac006','Smiley Face','2018-02-28','08:45:00','12:00:00','mauve',11),('Should Work','Fred Flinstone','2018-03-28','08:45:00','12:00:00','mauve',12);
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -385,4 +385,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-03-18 19:25:05
+-- Dump completed on 2018-03-19 16:42:26

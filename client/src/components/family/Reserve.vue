@@ -349,6 +349,8 @@
 <script>
 import ApiFunctions from "@/services/ApiFunctions";
 import calFacil from "@/components/family/children/CalFacilitator";
+import {mapState} from 'vuex';  //Gives access to the current state.
+
 export default {
   data() {
     return {
@@ -388,6 +390,11 @@ export default {
   },
   components: {
     calFacil
+  },
+  computed: {
+    ...mapState([
+      accountID
+    ]) //Can obtain accountID by using this.accountID now.
   },
   async mounted() {
     this.getRoomList();

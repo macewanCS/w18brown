@@ -8,21 +8,38 @@ const bodyParser = require('body-parser') // process json data easily.
 const cors = require('cors') // allows any client around the world to hit the server. security risk.
 const app = express() // builds an express server
 const functions = require('./functions');
-
-//var mysql = require("mysql"); // this has been moved to databaseFunctions.js
 var request = require("request-promise");
-
-
+const enviro = require('./config/globals'); // Contains global environment variables
 // code to import functions file
-var databaseFunc = require('./databaseFunctions')
+var authFunctions = require('./authFunctions')
 
 
 /*
-    Note: to use databaseFunctions, use dot notation.
-            ex. databaseFunc.checkName(...)
+    Note: to use authFunctions, use dot notation.
+            ex. authFunctions.checkName(...)
 */
 app.use(bodyParser.json())
 app.use(cors())
+
+
+//---------------------------------
+// Begin JWT section
+const jwt = require("jsonwebtoken");
+
+/*
+    Signs a JSON Web Token which expires in an hour.
+*/
+function jwtSignObject(user) {
+    const timeLimit = 60 * 60 * 24 * 7 //Give each token a 1 hour limit
+    return jwt.sign(user, enviro.authentication.jwtToken, {
+        expiresIn: timeLimit
+    })
+}
+
+
+// End JWT Section
+//----------------------------------
+
 
 /*
 * This code takes a username and password from the login page and sends the user type.
@@ -34,15 +51,23 @@ app.post('/login', async function (req, res) {
     //Checkname is passed username/password and the resolution to redirect the user to the correct page.
 
     // -- test output -- PLO
-  //  console.log("In app.js file:   username: ", req.body.username, "password: ", req.body.password)
+    //  console.log("In app.js file:   username: ", req.body.username, "password: ", req.body.password)
 
     // calls checkName. Gives it username and password from the login page. Returns type to user.
-    let type = await databaseFunc.checkName(req.body.username, req.body.password);
+    let user = await authFunctions.checkName(req.body.username, req.body.password);
 
     // -- test output -- PLO
- //  console.log("In app.js file: type: ", type)
-
-    res.send(type)
+    //  console.log("In app.js file: type: ", type)
+    try {
+        //console.log(jwtSignObject({myType: type}));  //jwtSignObject requires an object to be passed through.
+        res.send({
+            accountID: user.accountID,
+            type: user.type,
+            token: jwtSignObject({ID: user.accountID})
+        });
+    } catch (err) {
+        console.log(err);
+    }
 })
 
 
@@ -57,13 +82,13 @@ app.post('/createEmployeeCheck', async function (req, res) {
     //createEmployeeCheck is passed username/employeeType and the resolution.
 
     // -- test output -- PLO
-  //  console.log("In app.js file:   username: ", req.body.username, "employeeType: ", req.body.employeeType)
+    //  console.log("In app.js file:   username: ", req.body.username, "employeeType: ", req.body.employeeType)
 
     // calls checkName. Gives it username and password from the login page. Returns type to user.
     let employeeExists = await functions.createEmployeeCheck(req.body.username, req.body.employeeType);
 
     // -- test output -- PLO
-  //  console.log("In app.js file: employeeExists: ", employeeExists)
+    //  console.log("In app.js file: employeeExists: ", employeeExists)
 
     res.send(employeeExists)
 })
@@ -114,29 +139,29 @@ app.post('/finalRoomUpdate', async function (req, res) {
  */
 app.get('/getEmployeeList', async function (req, res) {
     let employeeList = await functions.getEmployeeList();
-  //  await console.log(employeeList)
+    //  await console.log(employeeList)
     res.send(JSON.stringify(employeeList))
     res.send(employeeList)
 })
 
-app.get("/getRoomList", async function(req, res) {
- //  console.log("get room list in app.js");
+app.get("/getRoomList", async function (req, res) {
+    //  console.log("get room list in app.js");
     let room5 = await functions.getRoomList();
-  //  await console.log(room5.data)
+    //  await console.log(room5.data)
     res.send(JSON.stringify(room5));
-   // res.send(room5);
+    // res.send(room5);
 })
 
-app.post("/addRoom", async function(req, res) {
-     let addRoomCheck = await functions.addRoom(req.body.roomName);
- //    await console.log("addroom app boolean: ", addRoomCheck)
-     res.send(addRoomCheck);
+app.post("/addRoom", async function (req, res) {
+    let addRoomCheck = await functions.addRoom(req.body.roomName);
+    //    await console.log("addroom app boolean: ", addRoomCheck)
+    res.send(addRoomCheck);
     // res.send(room5);
- })
+})
 
- app.post('/deleteRoom', async function (req, res) {
+app.post('/deleteRoom', async function (req, res) {
     let deleteRoomData = await functions.deleteRoom(req.body.roomIn);
-  //  await console.log("app.js deleting: ", deleteRoomData)
+    //  await console.log("app.js deleting: ", deleteRoomData)
     res.send(deleteRoomData)
 })
 
@@ -156,13 +181,13 @@ async getFamilyList(info4) {
 */
 
 
-    /* 
-        backend functions not yet linked
+/* 
+    backend functions not yet linked
 
-	connect,
-	getTypes,
-	createJSON
-    */
+connect,
+getTypes,
+createJSON
+*/
 
 
 
@@ -205,11 +230,11 @@ app.post("/getReservations", async (req, res) => {
     res.send(JSON.stringify(reservations));
 })
 
-app.get("/roomDict", async function(req, res) {
+app.get("/roomDict", async function (req, res) {
     let rooms = await functions.roomDict();
     res.send(rooms);
 })
-app.get("/roomList", async function(req, res) {
+app.get("/roomList", async function (req, res) {
     let rooms = await functions.roomList();
     console.log(rooms);
     res.send(JSON.stringify(rooms));

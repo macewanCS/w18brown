@@ -54,15 +54,16 @@ app.post('/login', async function (req, res) {
     //  console.log("In app.js file:   username: ", req.body.username, "password: ", req.body.password)
 
     // calls checkName. Gives it username and password from the login page. Returns type to user.
-    let type = await authFunctions.checkName(req.body.username, req.body.password);
+    let user = await authFunctions.checkName(req.body.username, req.body.password);
 
     // -- test output -- PLO
     //  console.log("In app.js file: type: ", type)
     try {
         //console.log(jwtSignObject({myType: type}));  //jwtSignObject requires an object to be passed through.
         res.send({
-            type: type,
-            token: jwtSignObject({accountType: type})
+            accountID: user.accountID,
+            type: user.type,
+            token: jwtSignObject({ID: user.accountID})
         });
     } catch (err) {
         console.log(err);

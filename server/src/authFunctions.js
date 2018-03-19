@@ -46,7 +46,8 @@ module.exports = {
 
                     }
                     else {
-                        fulfill(result[0].type); // this returns account type
+                        
+                        fulfill(result[0]); // this returns the user object
 
                         //Insert stuff here to return a fulfill with a user object.
                         

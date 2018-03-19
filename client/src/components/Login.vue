@@ -72,16 +72,22 @@ export default {
           });
         } else if (response.data.type == "family") {
           console.log("family detected");
+          this.$store.dispatch("setAccountID", response.data.accountID);
+          this.$store.dispatch("setToken", response.data.token);
           this.$router.push({
             name: "dashboardfamily"
           });
         } else if (response.data.type == "teacher") {
           console.log("teacher detected");
+          this.$store.dispatch("setAccountID", response.data.accountID);
+          this.$store.dispatch("setToken", response.data.token);
           this.$router.push({
             name: "dashboardteacher"
           });
         } else if (response.data.type == "board") {
           console.log("board detected");
+          this.$store.dispatch("setAccountID", response.data.accountID);
+          this.$store.dispatch("setToken", response.data.token);
           this.$router.push({
             name: "dashboardboard"
           });

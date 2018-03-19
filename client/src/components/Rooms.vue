@@ -109,7 +109,6 @@
 
 <script>
 import ApiFunctions from "@/services/ApiFunctions";
-
 export default {
   data() {
     return {
@@ -123,7 +122,6 @@ export default {
       usedError: false,
       deleteError: false,
       deleteLengthError: false,
-
       // table columns
       headers: [
         {
@@ -136,19 +134,15 @@ export default {
       rooms: {} // this items is for the datatable
     };
   },
-
   created() {
       this.load();
   },
-
   methods: {
-
     async load(){
         var roomResponse = await ApiFunctions.getRoomList();
         var parsedData = JSON.parse(roomResponse.data);
         this.rooms = parsedData.values;
     },
-
     async resetMessages(){
       this.lengthError = false
       this.usedError = false
@@ -157,16 +151,13 @@ export default {
       this.deleteConfirm = false
       this.deleteLengthError = false
     },
-
     async submit() {
-
       this.resetMessages();
       
       if (this.roomNameField.length < 3 || this.roomNameField.length > 10) {
         this.lengthError = true
       }
       else {
-
         try {
           const addResponse = await ApiFunctions.addRoom({
             roomName: this.roomNameField
@@ -179,18 +170,14 @@ export default {
         catch (error) {
           console.log("catch condition 1")
         } 
-
       }
     },
     async deleteBtn() {
-
       this.resetMessages();
-
       if (this.deleteRoom.length < 3 || this.deleteRoom.length > 10) {
         this.deleteLengthError = true;
       }
       else {
-
         try {
             const deletedConfirm = await ApiFunctions.deleteRoom({
             roomIn: this.deleteRoom
@@ -198,7 +185,6 @@ export default {
             this.deleteError = !deletedConfirm.data
             this.savedDeleteRoom = this.deleteRoom
             this.load();
-
           if (this.deleteError == false){
             this.deleteConfirm = true;
           }
@@ -261,7 +247,6 @@ h2 {
   font-size: 15pt;
   color: #0288d1;
   font-family: Lato;
-
 }
 #errorMessage {
 color: #D32F2F;

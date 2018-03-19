@@ -9,7 +9,6 @@
             Other Settings
         </v-tab>
 
-
         <v-tabs-items id="content">
             <v-tab-item key="tab1">
 -->
@@ -17,16 +16,13 @@
         <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
         <div class="text-xs-center">
             <!-- this centers the contents -->
-
             <h1>Date/Time Settings</h1>
             <br>
             <table class="center">
                 <v-flex id="box3" class="text-xs-center" mt-2>
                     <tr>
-
                         <h3 class="h3Settings">Morning: </h3>
                         <br>
-
                     </tr>
                     <tr>
                         <v-flex d-inline-flex>
@@ -52,10 +48,8 @@
                     <br>
                     <v-divider/>
                     <tr>
-
                         <h3 class="h3Settings">Lunch: </h3>
                         <br>
-
                     </tr>
                     <tr>
                         <v-flex d-inline-flex>
@@ -72,10 +66,8 @@
                     <br>
                     <v-divider/>
                     <tr>
-
                         <h3 class="h3Settings">Afternoon: </h3>
                         <br>
-
                     </tr>
                     <tr>
                         <v-flex d-inline-flex>
@@ -90,11 +82,9 @@
                         </v-flex>
                     </tr>
                 </v-flex>
-
             </table>
             <br>
             <h1>System Start Date</h1>
-
             <!-- <input id="yearStart" type="date" v-model="startDate"> -->
             <v-layout justify-center>
             <v-menu ref="menu" lazy :close-on-content-click="false" v-model="menu" transition="scale-transition" offset-y full-width :nudge-right="40" min-width="290px" :return-value.sync="startDate">
@@ -109,12 +99,10 @@
             <!-- would like to wrap this next line. perhaps in a box -->
             <!-- <p>The start date must be set once. It marks the beginning of the system and is used to determine when to start requiring facilitation hours.</p>
     -->
-
             <br>
             <!--@click.stop is used here for triggering only when the click is let go.-->
             <v-btn color="success" @click.stop="applyDialog = true">Apply</v-btn>
             <v-btn color="error" @click.stop="cancelDialog = true">Cancel</v-btn>
-
             <!--Begin Dialog Boxes for Confirmation -->
             <v-dialog v-model="applyDialog" max-width="250">
                 <v-card>
@@ -127,7 +115,6 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-
             <v-dialog v-model="cancelDialog" max-width="250">
                 <v-card>
                     <v-card-text>Cancel Changes?</v-card-text>
@@ -140,13 +127,11 @@
                 </v-card>
             </v-dialog>
             <!--End Dialog Boxes for Confirmation -->
-
             <br>
             <v-divider/>
             <br/>
         </div>
     </v-flex>
-
     <!--
             </v-tab-item>
             <v-tab-item key="tab2">
@@ -155,10 +140,8 @@
     </v-tabs>
     -->
 </template>
-
 <script>
 import ApiFunctions from "@/services/ApiFunctions";
-
 export default {
   data() {
     return {
@@ -172,7 +155,6 @@ export default {
       requiredHours: "",
       applyDialog: "",
       cancelDialog: "",
-
       menu: false
     };
   },
@@ -183,10 +165,8 @@ export default {
   methods: {
     /* 
         applySettings():
-
         Closes the confirmation box. Pulls the current data from this vue and sends it to pushSettings.
     */
-
     applySettings() {
       this.applyDialog = false; // close applyDialog box
       var curSettings = [
@@ -203,7 +183,6 @@ export default {
     },
     /* 
         cancelSettings():
-
         closes the cancel dialog box and overwrites all fields by pulling settings again.
     */
     cancelSettings() {
@@ -211,7 +190,6 @@ export default {
       this.pullSettings();
     },
     /*
-
     */
     async pullSettings() {
       try {
@@ -253,7 +231,6 @@ export default {
   }
 };
 </script>
-
 <style scoped>
 #content {
   background-color: aliceblue;
@@ -311,7 +288,6 @@ h3 {
   color: #d32f2f;
   font-size: 14pt;
 }
-
 /*
 For table centering in IE 5.5
 body {text-align:center;}

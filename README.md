@@ -96,6 +96,6 @@
   Current accountIDs and passwords:
   
   Peter001 - peterpw
-  Sarah001 - sarahpw
+  Sarah001 - brown
   Bruce001 - brucepw
   Ann001 - annpw

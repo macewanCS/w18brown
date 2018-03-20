@@ -561,10 +561,12 @@ async function createReservation(reservationJSON){
 
 		con.query(sql, [reservation.familyID, reservation.facilitator, reservation.date, reservation.startTime, reservation.endTime, reservation.room],async function (err, result, fields) {
 			if (err){
+				console.log("I errord");
 				reject(false);
 				throw err;
 			} 
 			else{
+				console.log("WHAT I SUCCEEDED BUT DIDN'T SEND ANYTHING WHYYY?" );
 				fulfill(result["insertId"]);
 			}
 		});

@@ -37,7 +37,6 @@ export default {
         }
     },
     async createReservation(param) {
-        console.log(param);
         return Api().post("createReservation", param);
     },
     /* // this doesnt exist.

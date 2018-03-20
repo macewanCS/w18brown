@@ -166,6 +166,25 @@ app.post('/deleteRoom', async function (req, res) {
 })
 
 
+app.post('/accountExists', async function (req, res) {
+    let existsResult = await functions.accountExists(req.body.username);
+    console.log("app.js account Exists inout: ", req.body.username)
+    console.log("app.js account Exists result: ", existsResult)
+    res.send(existsResult)
+})
+app.post('/changePassword', async function (req, res) {
+    let changeResult = await functions.changePassword(req.body.username, req.body.password);
+    console.log("app.js account Exists input: ", req.body.username)
+    console.log("app.js account Exists input: ", req.body.password)
+
+    console.log("app.js account Exists result: ", changeResult)
+    res.send(changeResult)
+})
+
+
+
+
+
 
 
 
@@ -258,5 +277,9 @@ app.post("/createReservation", async function (req, res) {
         return null
     }
 })
+
+
+
+
 
 app.listen(8081)

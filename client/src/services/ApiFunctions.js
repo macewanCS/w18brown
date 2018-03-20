@@ -61,6 +61,16 @@ export default {
     async deleteRoom(roomIn) {
         return Api().post('deleteRoom', roomIn);
     },
+    async accountExists(userExists) {
+        return Api().post('accountExists', userExists);
+    },
+    async changePassword(changeData) {
+        console.log("ApiFunction changePassword data: ", changeData)
+        return Api().post('changePassword', changeData);
+    },
+
+
+
 
 
     /*

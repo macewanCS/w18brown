@@ -31,6 +31,7 @@ module.exports = {
 	getReservationByFamily,
 	getFacilitators,
 	getStudents,
+	accountExists,
 	getReservationByID
 }
 
@@ -213,6 +214,37 @@ async function createEmployeeCheck(username, type){
 		});
 	})
 }
+
+
+
+
+/**
+ * Made by Terry. Needs a test. Please delete this line.
+ * 
+ * Checks if an accountID exists without a password check. Used for resetting passwords
+ * 
+ * @param {*} username provided username
+ * @returns true or false
+ */
+async function accountExists(username){
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT * from account where accountID = ?";
+
+		//first lets make sure the username doesnt exist already
+		con.query(sql, username, function (err, result, fields) {
+			if (err) throw err;		
+			if (result.length === 0){
+				fulfill(false);
+			}
+			else{
+				fulfill(true);
+			}
+		});
+	})
+}
+
+
+
 
 /**
  * If successful, returns true. If there is an SQL error it passes false.

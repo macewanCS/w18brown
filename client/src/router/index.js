@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login' // add for every route. also add component.
-import Accounts from "@/components/Accounts";
-import Rooms from "@/components/Rooms";
+import Accounts from "@/components/admin/Accounts";
+import Rooms from "@/components/admin/Rooms";
 import Reserve from "@/components/family/Reserve";
-import Settings from "@/components/Settings";
+import Settings from "@/components/admin/Settings";
 import UnderConstruction from "@/components/UnderConstruction";
 import DashboardFamily from "@/components/family/DashboardFamily";
 import DashboardAdmin from "@/components/admin/DashboardAdmin";
@@ -20,6 +20,7 @@ import Family from "@/components/family/Family";
 import ScheduleTeacher from "@/components/teacher/ScheduleTeacher";
 import ScheduleBoard from "@/components/board/ScheduleBoard";
 import ReportsBoard from "@/components/board/ReportsBoard";
+import PasswordReset from "@/components/admin/PasswordReset";
 
 Vue.use(Router)
 
@@ -106,6 +107,11 @@ export default new Router({
           path: "holidaysadmin",
           name: "holidaysadmin",
           component: HolidaysAdmin
+        },
+        {
+          path: "passwordreset",
+          name: "passwordreset",
+          component: PasswordReset
         },
         {
           path: "fieldtripsadmin",

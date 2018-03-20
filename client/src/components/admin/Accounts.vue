@@ -74,8 +74,8 @@
   </v-flex>
 </template>
 <script>
-import Facilitator from "@/components/Account/Facilitator.vue";
-import Student from "@/components/Account/Student.vue";
+import Facilitator from "@/components/admin/Account/Facilitator.vue";
+import Student from "@/components/admin/Account/Student.vue";
 var facCounter = 1;
 var studentCounter = 1;
 export default {

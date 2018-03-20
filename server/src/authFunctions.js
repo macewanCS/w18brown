@@ -1,6 +1,7 @@
-
 var mysql = require("mysql");
 var request = require("request-promise");
+
+
 
 /*
 File Export Instructions:
@@ -45,8 +46,11 @@ module.exports = {
 
                     }
                     else {
-                        fulfill(result[0].type); // this returns account type
+                        
+                        fulfill(result[0]); // this returns the user object
 
+                        //Insert stuff here to return a fulfill with a user object.
+                        
                         // -- test output -- PLO
                         console.log("checkName function. User found with type: ", result[0].type)
                     }

@@ -240,5 +240,16 @@ app.get("/roomList", async function (req, res) {
     res.send(JSON.stringify(rooms));
 })
 
+app.post("/getFacilitators", async function(req, res) {
+    //console.log("This is Req:  ", req.body);
+    let facil = await functions.getFacilitators(req.body.accountID);
+    res.send(JSON.stringify(facil));
+})
+
+app.post("/createReservation", async function(req, res) {
+    console.log(req.body.familyID);
+    let test = await functions.createReservation(req.body);
+    res.send(test);
+})
 
 app.listen(8081)

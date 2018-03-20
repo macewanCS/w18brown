@@ -515,8 +515,8 @@ async function getRoomReservationByWeek(roomName, startDate){
  */
 async function createReservation(reservationJSON){
 	return new Promise(function(fulfill, reject){
-
-		var reservation = JSON.parse(reservationJSON);
+		console.log(reservationJSON);
+		var reservation = reservationJSON;
 
 		var sql = "INSERT INTO reservations (family_ID, facilitator, date, start_time, end_time, room) VALUES (?, ?, ?, ?, ?, ?)";
 

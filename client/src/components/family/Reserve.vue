@@ -336,7 +336,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="success" @click.native="clearDialogBoxes">Reserve</v-btn>
+            <v-btn color="success" @click.native="createReservation">Reserve</v-btn>
             <v-btn color="error" @click.native="clearDialogBoxes">Cancel</v-btn>
             <v-spacer />
           </v-card-actions>
@@ -379,6 +379,7 @@ export default {
       availableEndTimes: [],
       selectedStartTime: "",
       selectedEndTime: "",
+      reservedDate: "",
 
       //Used for Date Selector and Room Selector
       menu: "",
@@ -386,6 +387,7 @@ export default {
       selectedRoom: "",
       selectedDate: "",
       selectedMonday: ""
+
     };
   },
   components: {
@@ -398,6 +400,7 @@ export default {
   },
   async mounted() {
     this.getRoomList();
+    this.getFacilitators();
   },
   methods: {
     async getRooms() {
@@ -458,7 +461,8 @@ export default {
       this.calendar_ready = true;
     },
     newReserve(origin) {
-      // console.log(origin);
+      console.log(origin);
+      this.reservedDate = origin.date;
       this.availableTimes = this.create5MinIntervals(
         origin.startTime,
         origin.endTime
@@ -503,6 +507,7 @@ export default {
       this.selectedEndTime = "";
       this.availableTimes = [];
       this.availableEndTimes = [];
+      this.selectedFacil = "";
     },
     async getRoomList() {
       let unparsed = await ApiFunctions.B_RoomList();
@@ -518,6 +523,44 @@ export default {
         var diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
         return new Date(d.setDate(diff));
       }
+    },
+    async getFacilitators(accountID) {
+      let response = await ApiFunctions.getFacilitators("ShouldWork001");
+      let list = response.data;
+      if (list) {
+        this.availFacilitators = list;
+      } else {
+        throw "No Facilitators for given AccountID";
+      }
+    },
+    async createReservation() {
+      if (!this.accountID) {
+        throw "Missing Account ID";
+      }
+      if (!this.selectedFacil) {
+        throw "Missing Selected Facilitator";
+      }
+      if (!this.selectedStartTime) {
+        throw "Missing selectedStartTime";
+      }
+      if (!this.selectedEndTime) {
+        throw "Missing electedEndTime";
+      }
+      if (!this.selectedRoom) {
+        throw "How did you get here?";
+      }
+      var params = {
+        familyID: this.accountID,
+        facilitator: this.selectedFacil,
+        date: this.reservedDate,
+        startTime: this.selectedStartTime,
+        endTime: this.selectedEndTime,
+        room: this.selectedRoom
+      }
+      params.familyID = "ShouldWork001" //Temp fix for Sarah not having any facilitators.
+      console.log(params);
+      let feedback = await ApiFunctions.createReservation(params);
+      console.log(feedback);
     }
   },
   watch: {

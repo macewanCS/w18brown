@@ -30,7 +30,8 @@ module.exports = {
 	changePassword,
 	getReservationByFamily,
 	getFacilitators,
-	getStudents
+	getStudents,
+	getReservationByID
 }
 
 
@@ -340,6 +341,44 @@ async function getReservationByFamily(username){
 			})
 			json = JSON.stringify(output);
 			fulfill(json);
+		});
+	})
+}
+
+/**
+ * Returns a reservation JSON for a given ID
+ * Returns false if no reservation has that ID.
+ * @param {*} username 
+ */
+async function getReservationByID(ID){
+	return new Promise(function(fulfill, reject){
+		var output = {};
+		// today = new Date(2018, 02, 01, 00, 00, 00, 00); //*******this was only for testing a prior date.
+		var sql = "SELECT * from reservations WHERE reservation_ID = ?";
+
+		con.query(sql, ID, function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+
+			if (result.length === 0){
+				fulfill(false);
+			}
+			else{
+
+				output.familyID = result[0].family_ID;
+				output.name = result[0].facilitator;
+				output.date = dateFormat(result[0].date, "yyyy/mm/dd");
+				output.startTime = result[0].start_time;
+				output.endTime = result[0].end_time;
+				output.reservationID = result[0].reservation_ID;
+	
+				json = JSON.stringify(output);
+	
+				fulfill(json);
+			}
+
 		});
 	})
 }

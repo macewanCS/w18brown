@@ -218,7 +218,7 @@ export default {
   put output error on screen here. username already used requirements.
   */
         } else if (checkResponse.data === "brown") {
-          this.password = Math.floor(Math.random() * 10000) + 10000;
+          this.password = Math.floor(Math.random() * 90000) + 10000;
           try {
             const addResponse = await ApiFunctions.createEmployeeConfirm({
               username: this.username,

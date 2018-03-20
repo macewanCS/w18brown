@@ -67,6 +67,14 @@
                 </v-list-tile>
             </v-list-tile>
 
+            <v-list-tile :to="{name: 'passwordreset'}">
+                <v-list-tile>
+                    <v-list-tile-content>
+                        <v-list-tile-title>Password</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list-tile>
+
             <v-divider />
 
             <v-list-tile>

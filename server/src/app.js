@@ -268,9 +268,8 @@ app.post("/getFacilitators", async function (req, res) {
 app.post("/createReservation", async function (req, res) {
     console.log(req.body.familyID);
     try {
-        let test = await functions.createReservation(req.body);
-        console.log(test);
-        res.send(test);
+        let newReservation = await functions.createReservation(req.body);
+        res.send(JSON.stringify(newReservation));
     } catch (err) {
         console.log(err.message);
         console.log(err.stack);

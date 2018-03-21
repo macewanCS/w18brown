@@ -336,7 +336,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="success" @click.native="createReservation">Reserve</v-btn>
+            <v-btn color="success" @click.stop="createReservation">Reserve</v-btn>
             <v-btn color="error" @click.native="clearDialogBoxes">Cancel</v-btn>
             <v-spacer />
           </v-card-actions>
@@ -525,7 +525,7 @@ export default {
       }
     },
     async getFacilitators(accountID) {
-      let response = await ApiFunctions.getFacilitators("ShouldWork001");
+      let response = await ApiFunctions.getFacilitators(this.accountID);
       let list = response.data;
       if (list) {
         this.availFacilitators = list;
@@ -557,10 +557,13 @@ export default {
         endTime: this.selectedEndTime,
         room: this.selectedRoom
       }
-      params.familyID = "ShouldWork001" //Temp fix for Sarah not having any facilitators.
+      this.clearDialogBoxes();
+      //params.familyID = "ShouldWork001" //Temp fix for Sarah not having any facilitators.
       console.log(params);
       let feedback = await ApiFunctions.createReservation(params);
       console.log(feedback);
+      this.calendar_ready = false;
+      this.updateCalendar();
     }
   },
   watch: {

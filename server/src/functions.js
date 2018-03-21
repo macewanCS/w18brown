@@ -586,17 +586,19 @@ async function getRoomReservationByWeek(roomName, startDate){
  */
 async function createReservation(reservationJSON){
 	return new Promise(function(fulfill, reject){
-
-		var reservation = JSON.parse(reservationJSON);
+		console.log(reservationJSON);
+		var reservation = reservationJSON;
 
 		var sql = "INSERT INTO reservations (family_ID, facilitator, date, start_time, end_time, room) VALUES (?, ?, ?, ?, ?, ?)";
 
 		con.query(sql, [reservation.familyID, reservation.facilitator, reservation.date, reservation.startTime, reservation.endTime, reservation.room],async function (err, result, fields) {
 			if (err){
+				console.log("I errord");
 				reject(false);
 				throw err;
 			} 
 			else{
+				console.log("WHAT I SUCCEEDED BUT DIDN'T SEND ANYTHING WHYYY?" );
 				fulfill(result["insertId"]);
 			}
 		});

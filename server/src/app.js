@@ -63,7 +63,7 @@ app.post('/login', async function (req, res) {
         res.send({
             accountID: user.accountID,
             type: user.type,
-            token: jwtSignObject({ID: user.accountID})
+            token: jwtSignObject({ ID: user.accountID })
         });
     } catch (err) {
         console.log(err);
@@ -259,6 +259,23 @@ app.get("/roomList", async function (req, res) {
     res.send(JSON.stringify(rooms));
 })
 
+app.post("/getFacilitators", async function (req, res) {
+    //console.log("This is Req:  ", req.body);
+    let facil = await functions.getFacilitators(req.body.accountID);
+    res.send(JSON.stringify(facil));
+})
+
+app.post("/createReservation", async function (req, res) {
+    console.log(req.body.familyID);
+    try {
+        let newReservation = await functions.createReservation(req.body);
+        res.send(JSON.stringify(newReservation));
+    } catch (err) {
+        console.log(err.message);
+        console.log(err.stack);
+        return null
+    }
+})
 
 
 

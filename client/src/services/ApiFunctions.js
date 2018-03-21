@@ -26,6 +26,19 @@ export default {
         }
         return Api().post("getReservations", reservationParam);
     },
+    async getFacilitators(incoming) {
+        if (incoming) {
+            var params = {
+                accountID: incoming
+            }
+            return Api().post("getFacilitators", params);
+        } else {
+            throw "No AccountID in store";
+        }
+    },
+    async createReservation(param) {
+        return Api().post("createReservation", param);
+    },
     /* // this doesnt exist.
         async createEmployee (info) {
             return Api().post('createEmployee', info)

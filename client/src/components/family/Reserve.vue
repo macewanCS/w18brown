@@ -356,14 +356,15 @@
           <!-- End Calendar -->
         </div>
       </v-tab-item>
-      <v-tab-item key="tab2">
-        
+      <v-tab-item key="tab2" lazy>
+        <reserved-times />
       </v-tab-item>
     </v-tabs-items>
   </v-tabs>
 </template>
 <script>
 import ApiFunctions from "@/services/ApiFunctions";
+import ReservedTimes from "./Children/ReservedTimes";
 import calFacil from "@/components/family/children/CalFacilitator";
 import { mapState } from "vuex"; //Gives access to the current state.
 
@@ -406,7 +407,8 @@ export default {
     };
   },
   components: {
-    calFacil
+    calFacil,
+    ReservedTimes
   },
   computed: {
     ...mapState(["accountID"]) //Can obtain accountID by using this.accountID now.

@@ -277,6 +277,10 @@ app.post("/createReservation", async function (req, res) {
     }
 })
 
+app.post("/getReservationByFamily", async function (req, res) {
+    let futureReservations = await functions.getReservationByFamily(req.body.familyID);
+    res.send(JSON.stringify(futureReservations));
+})
 
 
 

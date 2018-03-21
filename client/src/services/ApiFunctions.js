@@ -26,10 +26,10 @@ export default {
         }
         return Api().post("getReservations", reservationParam);
     },
-    async getFacilitators(incoming) {
-        if (incoming) {
+    async getFacilitators(familyID) {
+        if (familyID) {
             var params = {
-                accountID: incoming
+                accountID: familyID
             }
             return Api().post("getFacilitators", params);
         } else {
@@ -93,6 +93,16 @@ export default {
     },
     async getEmployeeList(employeeList) {
         return Api().get('getEmployeeList')
+    },
+    async getReservationByFamily(ID) {
+        if (ID) {
+            var params = {
+                familyID: ID
+            }
+            return Api().post("getReservationByFamily", params);
+        } else {
+            throw "No AccountID in store";
+        }
     }
     /* 
         backend functions not yet linked

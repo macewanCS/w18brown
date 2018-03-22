@@ -382,12 +382,12 @@ async function connectAndTest(){
         // testdeleteRoom("Orange");
         // testroomList();
         // testchangePassword("Sarah001", "brown");
-        // testgetReservationByFamily("Fac002");
+        testgetReservationByFamily("Fac002");
         // testgetFacilitators("ShouldWork001");
         // testgetFacilitators("Shouldn'tWork001");
         // testgetStudents("Shouldwork001");
         // testgetStudents("Shouldn'tWork001");
-        testgetReservationByID(12);
-        testgetReservationByID(555);
+        // testgetReservationByID(12);
+        // testgetReservationByID(555);
     }
 }

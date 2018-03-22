@@ -266,7 +266,7 @@ app.post("/getFacilitators", async function (req, res) {
 })
 
 app.post("/createReservation", async function (req, res) {
-    console.log(req.body.familyID);
+    //console.log(req.body.familyID);
     try {
         let newReservation = await functions.createReservation(req.body);
         res.send(JSON.stringify(newReservation));
@@ -282,6 +282,10 @@ app.post("/getReservationByFamily", async function (req, res) {
     res.send(JSON.stringify(futureReservations));
 })
 
+app.post("/cancelReservation", async function (req, res) {
+    let result = await functions.deleteReservation(req.body.reserveID);
+    res.send(JSON.stringify(result));
+})
 
 
 

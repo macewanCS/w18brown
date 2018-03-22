@@ -356,7 +356,7 @@
           <!-- End Calendar -->
         </div>
       </v-tab-item>
-      <v-tab-item key="tab2" lazy>
+      <v-tab-item key="tab2">
         <reserved-times />
       </v-tab-item>
     </v-tabs-items>

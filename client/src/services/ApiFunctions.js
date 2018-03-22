@@ -103,6 +103,14 @@ export default {
         } else {
             throw "No AccountID in store";
         }
+    },
+
+    async cancelReservation(reserveID) {
+        if (reserveID) {
+            return Api().post("cancelReservation", reserveID);
+        } else {
+            throw "No reserveID provided"
+        }
     }
     /* 
         backend functions not yet linked

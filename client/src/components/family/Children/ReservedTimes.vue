@@ -55,12 +55,12 @@ export default {
           value: "endTime"
         },
         {
-          text: "reservationID",
-          value: "reservationID"
-        },
-        {
           text: "Room",
           value: "room"
+        },
+        {
+          text: "reservationID",
+          value: "reservationID"
         }
       ],
       futureReservations: []
@@ -84,10 +84,10 @@ export default {
       }
     },
     async cancelReservation(ID) {
-        console.log(ID);
-        let result = await ApiFunctions.cancelReservation({reserveID: ID});
-        console.log(result);
-        this.getFutureReserves();
+      console.log(ID);
+      let result = await ApiFunctions.cancelReservation({ reserveID: ID });
+      console.log(result);
+      this.getFutureReserves();
     }
   }
 };

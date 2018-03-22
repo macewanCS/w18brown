@@ -338,9 +338,9 @@
                   <v-select v-bind:items="availFacilitators" v-model="selectedFacil" label="Select a Facilitator" single-line></v-select>
                   <v-layout row>
                     <v-spacer />
-                    <v-select v-bind:items="availableTimes" v-model="selectedStartTime" label="Start-Time" single-line v-on:input="updateEndTimes"></v-select>
+                    <v-select v-bind:items="availableTimes" v-model="selectedStartTime" label="Start-Time" single-line v-on:input="updateEndTimes" required></v-select>
                     <v-spacer />
-                    <v-select v-bind:items="availableEndTimes" v-model="selectedEndTime" label="End-Time" single-line></v-select>
+                    <v-select v-bind:items="availableEndTimes" v-model="selectedEndTime" label="End-Time" single-line required dense></v-select>
                     <v-spacer />
                   </v-layout>
                 </v-card-text>

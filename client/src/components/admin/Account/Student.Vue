@@ -16,8 +16,8 @@
       <!--      <v-flex class="input" xs3> -->
 
             <v-flex class="remove" >
-                <v-btn fab dark small color="red" class="removebtn" @click="$emit('removeStudent')">
-                    -
+                <v-btn type="submit" color="error" class="removebtn" @click="$emit('removeFac')">
+                    Delete
                 </v-btn>
             </v-flex>
 
@@ -44,5 +44,9 @@ export default {
 <style>
 .input {
     padding-left: 50px;
+}
+.removebtn {
+    transform: scale(.75);
+
 }
 </style>

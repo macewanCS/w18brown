@@ -8,10 +8,12 @@
         <h1>Create Family Accounts</h1>
         <br>
         <div>
-          <h3>Facilitators
-            <v-btn fab dark small color="green" @click="addFacilitator">
-              +
+          <h3>
+            Facilitators
+            <v-btn type="submit" color="success" id="Submit" @click="addFacilitator" style="fixed: right;">
+              Add
             </v-btn>
+            
           </h3>
           <ul v-for="(fac,index) in facilitators" v-bind:key="fac">
             <v-divider />
@@ -19,10 +21,12 @@
           </ul>
           <div>
             <br>
-            <h3>Students
-              <v-btn fab dark small color="green" @click="addStudent">
-                +
-              </v-btn>
+            <h3>
+              Students
+            <v-btn type="submit" color="success" id="Submit" @click="addFacilitator" style="fixed: right;">
+              Add
+            </v-btn>
+              
             </h3>
             <ul v-for="(student,index) in students" v-bind:key="student">
               <v-divider />
@@ -33,6 +37,14 @@
           <div>
             <br>
             <h3>Contact Information</h3>
+            <v-layout row wrap>
+              <v-flex class="input" xs5>
+                <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="Phone" />
+              </v-flex>
+              <v-flex class="input" xs6>
+                <v-text-field name="Email" type="text" label="Email" v-model="Email" />
+              </v-flex>
+            </v-layout>
             <v-layout row wrap>
               <v-flex class="input" xs5>
                 <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="Phone" />
@@ -64,7 +76,7 @@
               <v-text-field name="Historic Hours" type="text" label="Historic Hours" v-model="historic" />
             </v-flex>
           </div>
-          <v-btn type="submitFamily" color="success" id="submitFamily" @click="submitFamily">
+          <v-btn type="submitFamily" color="info" id="submitFamily" @click="submitFamily" style="float: right;">
             Submit
           </v-btn>
         </div>
@@ -169,4 +181,5 @@ h3 {
   margin-left: auto;
   margin-right: auto;
 }
+
 </style>

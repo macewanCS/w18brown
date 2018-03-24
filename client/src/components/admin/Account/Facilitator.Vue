@@ -11,8 +11,8 @@
             </v-flex>
             <v-spacer id="mySpace" />
             <v-flex class="remove" >
-                <v-btn fab dark small color="red" class="removebtn" @click="$emit('removeFac')">
-                    -
+                <v-btn type="submit" color="error" class="removebtn" @click="$emit('removeFac')">
+                    Delete
                 </v-btn>
             </v-flex>
 
@@ -46,5 +46,9 @@ font-size: 30pt;
 }
 #mySpace {
     width: 120px;
+}
+.removebtn {
+    transform: scale(0.75);
+
 }
 </style>

@@ -101,7 +101,7 @@
     -->
             <br>
             <!--@click.stop is used here for triggering only when the click is let go.-->
-            <v-btn color="success" @click.stop="applyDialog = true">Apply</v-btn>
+            <v-btn color="info" @click.stop="applyDialog = true">Apply</v-btn>
             <v-btn color="error" @click.stop="cancelDialog = true">Cancel</v-btn>
             <!--Begin Dialog Boxes for Confirmation -->
             <v-dialog v-model="applyDialog" max-width="250">

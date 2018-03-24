@@ -22,7 +22,17 @@ module.exports = {
 	deleteReservation,
 	checkCreateFamily,
 	confirmCreateFamily,
-	getGrades
+	getGrades,
+	getRoomList,
+	addRoom,
+	deleteRoom,
+	roomList,
+	changePassword,
+	getReservationByFamily,
+	getFacilitators,
+	getStudents,
+	accountExists,
+	getReservationByID
 }
 
 
@@ -47,6 +57,78 @@ async function connect(){
 			if (err) throw err;
 		})
 		fulfill("connected");
+	})
+}
+
+async function addRoom(roomIn){
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT * FROM room WHERE roomName = ?";
+		var count = 0;
+
+		con.query(sql, roomIn, async function (err, result, fields) {
+			if (err) throw err;
+			count = result.length;
+			if (count > 0){
+				fulfill(false);
+			}
+			else{
+				sql = "INSERT INTO room (roomName) VALUES (?)";
+		
+				con.query(sql, roomIn, function (err, result, fields) {
+					if (err){
+						throw err;
+					} 
+					else{
+						fulfill(true);
+					}
+					
+				})
+			}
+		})
+	})
+}
+
+async function deleteRoom(roomIn){
+	console.log("in delete rooms function")
+	console.log("printing: ", roomIn)
+	return new Promise(function(fulfill, reject){
+
+		var sql = "DELETE FROM room WHERE roomName = ?";
+
+		con.query(sql, roomIn, function (err, result, fields) {
+			if (err){
+				throw err;
+			} 
+			if (result['affectedRows'] > 0){
+				fulfill(true);
+			}
+			else{
+				fulfill(false);
+			}
+				
+			
+		})
+	})
+}
+
+async function roomList(){
+	return new Promise(function(fulfill, reject){
+
+		output = [];
+
+		var sql = "SELECT * FROM room";
+
+		con.query(sql, function (err, result, fields) {
+			if (err){
+				throw err;
+			} 
+			else{
+				result.forEach(room =>{
+					output.push(room.roomName);
+				})
+				fulfill(output);
+			}
+		})
 	})
 }
 
@@ -115,7 +197,7 @@ async function checkName(name, password){
 async function createEmployeeCheck(username, type){
 	return new Promise(function(fulfill, reject){
 		//confirm length
-		if (username.length === 0 || username.length > 254){
+		if (username.length < 5 || username.length > 15){
 			fulfill("tooLongOrEmpty");
 		}
 		var sql = "SELECT * from account where accountID = ?";
@@ -133,6 +215,37 @@ async function createEmployeeCheck(username, type){
 	})
 }
 
+
+
+
+/**
+ * Made by Terry. Needs a test. Please delete this line.
+ * 
+ * Checks if an accountID exists without a password check. Used for resetting passwords
+ * 
+ * @param {*} username provided username
+ * @returns true or false
+ */
+async function accountExists(username){
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT * from account where accountID = ?";
+
+		//first lets make sure the username doesnt exist already
+		con.query(sql, username, function (err, result, fields) {
+			if (err) throw err;		
+			if (result.length === 0){
+				fulfill(false);
+			}
+			else{
+				fulfill(true);
+			}
+		});
+	})
+}
+
+
+
+
 /**
  * If successful, returns true. If there is an SQL error it passes false.
  * @param {*} username username to be created
@@ -149,6 +262,157 @@ async function createEmployeeConfirm(username, type, password){
 				throw err;
 			} 
 			fulfill(true);		
+		});
+	})
+}
+
+/**
+ * Changes a password with no error checking. Returns true when password changed and false if there was an SQL error.
+ * @param {*} username 
+ * @param {*} password 
+ */
+async function changePassword(username, password){
+	return new Promise(function(fulfill, reject){
+
+		var sql = "UPDATE account SET password = ? WHERE accountID = ?";
+
+		con.query(sql, [password, username], function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			fulfill(true);		
+		});
+	})
+}
+
+/**
+ * Returns a list of strings (facilitator names) for a corresponding accountID. Returns false if the accountID has no
+ * facilitators.
+ * @param {*} accountID 
+ */
+async function getFacilitators(accountID){
+	return new Promise(function(fulfill, reject){
+		output = [];
+		var sql = "SELECT * from facilitator WHERE familyID = ?"
+
+		con.query(sql, accountID, function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			if (result.length === 0){
+				fulfill(false);
+			}
+			result.forEach(fac =>{
+				output.push(fac.name);
+			})
+			fulfill(output);
+		});
+
+	})
+}
+
+/**
+ * Returns a JSON list containing students for an accountID.
+ * Returns false if the account ID has no students.
+ * @param {*} accountID 
+ */
+async function getStudents(accountID){
+	return new Promise(function(fulfill, reject){
+		output = [];
+		var sql = "SELECT * from student WHERE familyID = ?"
+
+		con.query(sql, accountID, function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			if (result.length === 0){
+				fulfill(false);
+			}
+			result.forEach(stu =>{
+				obj = {};
+				obj.firstName = stu.firstName;
+				obj.lastName = stu.lastName;
+				obj.grade = stu.grade;
+				obj.room = stu.room;
+				output.push(obj);
+			})
+			fulfill(output);
+		});
+
+	})
+}
+
+/**
+ * Returns all *FUTURE* reservations for a given accountID.
+ * I figured only future makes sense as the past can clutter crap up, perhaps that can be a diff function for a different spot on the interface.
+ * @param {*} username 
+ */
+async function getReservationByFamily(username){
+	return new Promise(function(fulfill, reject){
+		var output = [];
+		 today = new Date();
+		 //today = new Date(2018, 02, 01, 00, 00, 00, 00); //*******this was only for testing a prior date.
+		var sql = "SELECT * from reservations WHERE date >= ? AND family_ID = ?";
+
+		con.query(sql, [today, username], function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			result.forEach(res =>{
+				var reservation = {};
+				reservation.name = res.facilitator;
+				reservation.date = dateFormat(res.date, "yyyy/mm/dd");
+				reservation.startTime = res.start_time;
+				reservation.endTime = res.end_time;
+				reservation.reservationID = res.reservation_ID;
+				reservation.room = res.room;
+				output.push(reservation);
+			})
+			json = JSON.stringify(output);
+			fulfill(json);
+		});
+	})
+}
+
+/**
+ * Returns a reservation JSON for a given ID
+ * Returns false if no reservation has that ID.
+ * @param {*} username 
+ */
+async function getReservationByID(ID){
+	return new Promise(function(fulfill, reject){
+		var output = {};
+		// today = new Date(2018, 02, 01, 00, 00, 00, 00); //*******this was only for testing a prior date.
+		var sql = "SELECT * from reservations WHERE reservation_ID = ?";
+
+		con.query(sql, ID, function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+
+			if (result.length === 0){
+				fulfill(false);
+			}
+			else{
+
+				output.familyID = result[0].family_ID;
+				output.name = result[0].facilitator;
+				output.date = dateFormat(result[0].date, "yyyy/mm/dd");
+				output.startTime = result[0].start_time;
+				output.endTime = result[0].end_time;
+				output.reservationID = result[0].reservation_ID;
+				output.room = result[0].room;
+	
+				json = JSON.stringify(output);
+	
+				fulfill(json);
+			}
+
 		});
 	})
 }
@@ -177,11 +441,6 @@ async function getRoomReservationByWeek(roomName, startDate){
 		let day = await addDays(monday, i);
 		days.push(day);
 	}
-
-	//free person for Brucetopher
-	var free = {};
-	free.name = "free";
-	free.percentage = 1;
 
 	return new Promise(function(fulfill, reject){
 
@@ -237,31 +496,75 @@ async function getRoomReservationByWeek(roomName, startDate){
 							person.startTime = reservation.start_time;
 							person.endTime = reservation.end_time;
 							person.reservationID = reservation.reservation_ID;
-							blockOut.slot.push(person);
+							person.date = today.date;
+
+							if (person.percentage === 1){
+								var outputList = [];
+								outputList.push(person);
+								blockOut.slot.push(outputList);
+							}
+							else{
+								//if this was the first slot
+								if (blockOut.slot.length === 0){
+									var outputList = [];
+									outputList.push(person);
+									blockOut.slot.push(outputList);
+								}
+
+								//if we are creating a new slot because the current last slot is full
+								else if (blockOut.slot[blockOut.slot.length -1][0].percentage === 1){
+									var outputList = [];
+									outputList.push(person);
+									blockOut.slot.push(outputList);
+								}
+
+								//or we need to add to an existing slot
+								else{
+									blockOut.slot[blockOut.slot.length -1].push(person);
+								}
+								
+							}
+
 						}
 					})
 					//fill with free person for Brucetopher
 					i = 0;
 					currentPercent = 0;
 					while (currentPercent < 3){
-						//console.log("slot i is", blockOut.slot[i], i);
+						//console.log("slot i[0] is undefined", blockOut.slot[i][0] === undefined, i);
 						if (blockOut.slot[i] === undefined){
-							blockOut.slot.push(free);
+							outputList = [];
+							//free person for Brucetopher
+							var free = {};
+							free.name = "free";
+							free.percentage = 1;
+							free.startTime = blockOut.startTime;
+							free.endTime = blockOut.endTime;
+							free.reservationID = 0;
+							free.date = today.date;
+							outputList.push(free);
+							blockOut.slot.push(outputList);
 							currentPercent++;
 						}
 						else{
-							if (blockOut.slot[i].percentage != 1){
-								if (blockOut.slot[i].name != "free"){
-									var remaining = 1 - blockOut.slot[i].percentage;
-									var newFree = {};
-									newFree.percentage = remaining;
-									newFree.name = "free";
-									blockOut.slot.push(newFree);
-									currentPercent++;
-								}
-								else{
-
-								}
+								if (blockOut.slot[i][0].percentage != 1){
+									if (blockOut.slot[i][0].name != "free"){
+										var remaining = 1 - blockOut.slot[i][0].percentage;
+										if (remaining > 0.05){
+											var newFree = {};
+											newFree.percentage = remaining;
+											newFree.name = "free";
+											newFree.startTime = blockOut.slot[i][0].endTime;
+											newFree.endTime = blockOut.endTime;
+											newFree.reservationID = 0;
+											newFree.date = today.date;
+											blockOut.slot[i].push(newFree);
+											currentPercent++;
+										}
+									}
+									else{
+	
+									}
 							}
 							else{
 								currentPercent++;
@@ -285,8 +588,8 @@ async function getRoomReservationByWeek(roomName, startDate){
  */
 async function createReservation(reservationJSON){
 	return new Promise(function(fulfill, reject){
-
-		var reservation = JSON.parse(reservationJSON);
+		//console.log(reservationJSON);
+		var reservation = reservationJSON;
 
 		var sql = "INSERT INTO reservations (family_ID, facilitator, date, start_time, end_time, room) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -563,12 +866,48 @@ async function getEmployeeList(){
 	})
 }
 
+/*
+Added by Terry for demo speed. Working. Replace old version instead...
+
+
+*/
+async function getRoomList(){
+	console.log("calling get room list in functions")
+	return new Promise(function(fulfill, reject){
+		var output = {};
+		output.name = "RoomList";
+		output.values = [];
+		var sql = "SELECT roomName FROM room";
+
+		con.query(sql, async function (err, result, fields) {
+			if (err) throw err;
+			result.forEach(element=>{
+				var field = {};
+				field.roomName = element.roomName;
+				output.values.push(field);
+			})
+			var json = JSON.stringify(output, null, 2);
+			fulfill(json);
+		});
+	})
+}
+
+
+
+
+
+
+
+
+
+
 /**
  * Deletes an employee account from the system. No error checking. Returns true if account was deleted and false if there was an SQL error.
  * @param {*} username username to be deleted.
  */
 async function deleteEmployee(username){
 	return new Promise(function(fulfill, reject){
+		console.log("in function delete employee: ", username)
 		var sql = "DELETE FROM account WHERE accountID = ?";
 
 		con.query(sql, username, async function (err, result, fields) {

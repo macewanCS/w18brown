@@ -105,12 +105,12 @@ async function testdeleteEmployee(username){
 async function testcreateReservation(){
     var jsonIn = {};
 
-    jsonIn.familyID = "Fac006";
-    jsonIn.date = "2018/03/09";
-    jsonIn.facilitator = "Smiley Face";
-    jsonIn.startTime = "14:00:00";
-    jsonIn.endTime = "15:45:00";
-    jsonIn.room = "red";
+    jsonIn.familyID = "Should Work";
+    jsonIn.date = "2018/03/28";
+    jsonIn.facilitator = "Fred Flinstone";
+    jsonIn.startTime = "08:45:00";
+    jsonIn.endTime = "12:00:00";
+    jsonIn.room = "mauve";
 
     var input = JSON.stringify(jsonIn);
 
@@ -287,6 +287,56 @@ async function testconfirmCreateFamily(name){
     console.log("for input", name, "result is:", test);
 }
 
+async function testaddRoom(roomIn){
+    let test = await functions.addRoom(roomIn);
+
+    console.log(test);
+}
+
+async function testdeleteRoom(roomIn){
+    let test = await functions.deleteRoom(roomIn);
+
+    console.log(test);
+}
+
+async function testroomList(){
+    let test = await functions.roomList();
+
+    console.log(test);
+}
+
+async function testchangePassword(username, password){
+    let test = await functions.changePassword(username, password);
+
+    console.log(test);
+}
+
+async function testgetReservationByFamily(username){
+    let test = await functions.getReservationByFamily(username);
+
+    console.log(test);
+}
+
+async function testgetFacilitators(ID){
+    let test = await functions.getFacilitators(ID);
+
+    console.log(test);
+}
+
+async function testgetStudents(ID){
+    let test = await functions.getStudents(ID);
+
+    console.log(test);
+}
+
+async function testgetReservationByID(ID){
+    let test = await functions.getReservationByID(ID);
+
+    var output = JSON.parse(test);
+
+    console.log(output);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -310,7 +360,7 @@ async function connectAndTest(){
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
-        testgetRoomReservationByWeek("red", "2018/03/05");
+        // testgetRoomReservationByWeek("blue", "2018/03/05");
         // testgetEmployeeList();
         // testdeleteEmployee("testBoard2");
         // testgetEmployeeList();
@@ -324,5 +374,20 @@ async function connectAndTest(){
         // testcheckCreateFamilyFacError("ShouldWork001");
         // testgetGrades();
         // testconfirmCreateFamily("ShouldWork001");
+        //  testaddRoom("Orange");
+        // testRoom();
+        //  testaddRoom("Orange");
+        // testaddRoom("Orange");
+        // testRoom();
+        // testdeleteRoom("Orange");
+        // testroomList();
+        // testchangePassword("Sarah001", "brown");
+        testgetReservationByFamily("Fac002");
+        // testgetFacilitators("ShouldWork001");
+        // testgetFacilitators("Shouldn'tWork001");
+        // testgetStudents("Shouldwork001");
+        // testgetStudents("Shouldn'tWork001");
+        // testgetReservationByID(12);
+        // testgetReservationByID(555);
     }
 }

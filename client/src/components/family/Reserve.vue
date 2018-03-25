@@ -333,7 +333,7 @@
             </v-layout>
             <v-dialog v-model="ReserveDialog" max-width="50%">
               <v-card>
-                <h1 class="h1Dialog">Reserve a time</h1>
+                <h1 class="h1Dialog">Reserve a time<br><br> {{reservedDate}}</h1>
                 <v-card-text>
                   <v-select v-bind:items="availFacilitators" v-model="selectedFacil" label="Select a Facilitator" single-line></v-select>
                   <v-layout row>
@@ -354,13 +354,19 @@
             </v-dialog>
             <v-dialog v-model="infoDialog" max-width="50%">
               <v-card>
-                <h1 class="h1Dialog">Information about Reservation XYZ</h1>
+                <h1 class="h1Dialog">Information about Reservation</h1>
                 <v-card-text>
-                  
+                  <p>
+                  Reserved by:  {{selectedReservation.name}}
+                  On:  {{selectedReservation.date}} 
+                  Starting at:  {{selectedReservation.startTime}}
+                  Ending at:  {{selectedReservation.endTime}}
+                  Room:  {{selectedReservation.room}}
+                  </p>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn color="error">Close</v-btn>
+                  <v-btn color="error" @click.native="closeInfoDialog">Close</v-btn>
                   <v-spacer />
                 </v-card-actions>
               </v-card>
@@ -418,8 +424,8 @@ export default {
       selectedDate: "",
       selectedMonday: "",
 
-      infoDialog: "",
-      selectedReservation: "",
+      infoDialog: false,
+      selectedReservation: ""
     };
   },
   components: {
@@ -496,6 +502,7 @@ export default {
     newReserve(origin) {
       console.log(origin);
       if (origin.isFree) {
+        this.clearDialogBoxes();
         this.reservedDate = origin.date;
         this.availableTimes = this.create5MinIntervals(
           origin.startTime,
@@ -511,9 +518,14 @@ export default {
       if (id == 0) {
         throw "Unable to get reservation info for a free block";
       } else {
-        let testing = await ApiFunctions.getReservationInfoByID(id);
-        console.log(testing);
+        this.selectedReservation = "";
+        let jsonReserve = await ApiFunctions.getReservationInfoByID(id);
+        this.selectedReservation = jsonReserve.data;
+        this.infoDialog = true;
       }
+    },
+    closeInfoDialog() {
+      this.infoDialog = false;
     },
     // Taken and altered from https://codereview.stackexchange.com/questions/128260/populating-an-array-with-times-with-half-hour-interval-between-them
     create5MinIntervals(from, until) {
@@ -604,7 +616,6 @@ export default {
         room: this.selectedRoom
       };
       this.clearDialogBoxes();
-      //params.familyID = "ShouldWork001" //Temp fix for Sarah not having any facilitators.
       console.log(params);
       let feedback = await ApiFunctions.createReservation(params);
       console.log(feedback);

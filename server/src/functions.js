@@ -408,7 +408,7 @@ async function getReservationByID(ID){
 				output.reservationID = result[0].reservation_ID;
 				output.room = result[0].room;
 	
-				json = JSON.stringify(output);
+				json = output;
 	
 				fulfill(json);
 			}

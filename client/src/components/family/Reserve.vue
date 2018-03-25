@@ -352,6 +352,19 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+            <v-dialog v-model="infoDialog" max-width="50%">
+              <v-card>
+                <h1 class="h1Dialog">Information about Reservation XYZ</h1>
+                <v-card-text>
+                  
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn color="error">Close</v-btn>
+                  <v-spacer />
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-container>
           <!-- End Calendar -->
         </div>
@@ -403,7 +416,10 @@ export default {
       availRooms: [],
       selectedRoom: "",
       selectedDate: "",
-      selectedMonday: ""
+      selectedMonday: "",
+
+      infoDialog: "",
+      selectedReservation: "",
     };
   },
   components: {
@@ -479,13 +495,25 @@ export default {
     },
     newReserve(origin) {
       console.log(origin);
-      this.reservedDate = origin.date;
-      this.availableTimes = this.create5MinIntervals(
-        origin.startTime,
-        origin.endTime
-      );
-      //console.log(this.availableTimes);
-      this.ReserveDialog = true; //Display ReserveDialog
+      if (origin.isFree) {
+        this.reservedDate = origin.date;
+        this.availableTimes = this.create5MinIntervals(
+          origin.startTime,
+          origin.endTime
+        );
+        //console.log(this.availableTimes);
+        this.ReserveDialog = true; //Display ReserveDialog
+      } else {
+        this.getReservationInfoByID(origin.reservationID);
+      }
+    },
+    async getReservationInfoByID(id) {
+      if (id == 0) {
+        throw "Unable to get reservation info for a free block";
+      } else {
+        let testing = await ApiFunctions.getReservationInfoByID(id);
+        console.log(testing);
+      }
     },
     // Taken and altered from https://codereview.stackexchange.com/questions/128260/populating-an-array-with-times-with-half-hour-interval-between-them
     create5MinIntervals(from, until) {
@@ -534,6 +562,7 @@ export default {
       //Taken from https://stackoverflow.com/questions/4156434/javascript-get-the-first-day-of-the-week-from-current-date
       d = new Date(d);
       var day = d.getDay();
+      console.log(day);
       if (day == 0) {
         return d;
       } else {

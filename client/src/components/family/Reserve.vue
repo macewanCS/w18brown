@@ -333,9 +333,9 @@
             </v-layout>
             <v-dialog v-model="ReserveDialog" max-width="50%">
               <v-card>
-                <h1 class="h1Dialog">Reserve a time<br><br> {{reservedDate}}</h1>
+                <h1 class="h1Dialog">Reserve a time<br>{{reservedDate}}</h1>
                 <v-card-text>
-                  <v-select v-bind:items="availFacilitators" v-model="selectedFacil" label="Select a Facilitator" single-line></v-select>
+                  <v-select v-bind:items="availFacilitators" v-model="selectedFacil" v-bind:error="errSelectedFacil" label="Select a Facilitator" single-line required :rules="[selectedFacilRules.required]"></v-select>
                   <v-layout row>
                     <v-spacer />
                     <v-select v-bind:items="availableTimes" v-model="selectedStartTime" label="Start-Time" single-line v-on:input="updateEndTimes" required></v-select>
@@ -416,6 +416,10 @@ export default {
       selectedStartTime: "",
       selectedEndTime: "",
       reservedDate: "",
+      selectedFacilRules: {
+        required: (value) => !!value || 'Required.'
+      },
+      errSelectedFacil: false,
 
       //Used for Date Selector and Room Selector
       menu: "",
@@ -509,6 +513,8 @@ export default {
           origin.endTime
         );
         //console.log(this.availableTimes);
+        this.selectedStartTime = this.availableTimes[0];
+        this.updateEndTimes();
         this.ReserveDialog = true; //Display ReserveDialog
       } else {
         this.getReservationInfoByID(origin.reservationID);
@@ -557,6 +563,7 @@ export default {
         newTimes.push(this.availableTimes[index]);
       }
       this.availableEndTimes = newTimes;
+      this.selectedEndTime = this.availableEndTimes[this.availableEndTimes.length - 1];
     },
     clearDialogBoxes() {
       this.ReserveDialog = false;
@@ -596,6 +603,7 @@ export default {
         throw "Missing Account ID";
       }
       if (!this.selectedFacil) {
+        this.errSelectedFacil = true;
         throw "Missing Selected Facilitator";
       }
       if (!this.selectedStartTime) {
@@ -619,6 +627,7 @@ export default {
       console.log(params);
       let feedback = await ApiFunctions.createReservation(params);
       console.log(feedback);
+      this.errSelectedFacil = false;
       this.calendar_ready = false;
       this.updateCalendar();
     }

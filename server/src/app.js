@@ -287,6 +287,11 @@ app.post("/cancelReservation", async function (req, res) {
     res.send(JSON.stringify(result));
 })
 
+app.post("/getReservationByID", async function (req, res) {
+    let reservation = await functions.getReservationByID(req.body.reserveID);
+    res.send(JSON.stringify(reservation));
+})
+
 
 
 app.listen(8081)

@@ -109,7 +109,17 @@ export default {
         if (reserveID) {
             return Api().post("cancelReservation", reserveID);
         } else {
-            throw "No reserveID provided"
+            throw "No reserveID provided";
+        }
+    },
+    async getReservationInfoByID(id) {
+        if (id) {
+            var params = {
+                reserveID: id
+            }
+            return Api().post("getReservationByID", params);
+        } else {
+            throw "No Reservation ID provided.";
         }
     }
     /* 
@@ -118,5 +128,4 @@ export default {
 	getTypes,
 	createJSON
     */
-
 }

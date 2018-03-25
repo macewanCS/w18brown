@@ -333,7 +333,7 @@
             </v-layout>
             <v-dialog v-model="ReserveDialog" max-width="50%">
               <v-card>
-                <h1 class="h1Dialog">Reserve a time</h1>
+                <h1 class="h1Dialog">Reserve a time<br><br> {{reservedDate}}</h1>
                 <v-card-text>
                   <v-select v-bind:items="availFacilitators" v-model="selectedFacil" label="Select a Facilitator" single-line></v-select>
                   <v-layout row>
@@ -348,6 +348,25 @@
                   <v-spacer />
                   <v-btn color="success" @click.stop="createReservation">Reserve</v-btn>
                   <v-btn color="error" @click.native="clearDialogBoxes">Cancel</v-btn>
+                  <v-spacer />
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+            <v-dialog v-model="infoDialog" max-width="50%">
+              <v-card>
+                <h1 class="h1Dialog">Information about Reservation</h1>
+                <v-card-text>
+                  <p>
+                  Reserved by:  {{selectedReservation.name}}
+                  On:  {{selectedReservation.date}} 
+                  Starting at:  {{selectedReservation.startTime}}
+                  Ending at:  {{selectedReservation.endTime}}
+                  Room:  {{selectedReservation.room}}
+                  </p>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn color="error" @click.native="closeInfoDialog">Close</v-btn>
                   <v-spacer />
                 </v-card-actions>
               </v-card>
@@ -403,7 +422,10 @@ export default {
       availRooms: [],
       selectedRoom: "",
       selectedDate: "",
-      selectedMonday: ""
+      selectedMonday: "",
+
+      infoDialog: false,
+      selectedReservation: ""
     };
   },
   components: {
@@ -479,13 +501,31 @@ export default {
     },
     newReserve(origin) {
       console.log(origin);
-      this.reservedDate = origin.date;
-      this.availableTimes = this.create5MinIntervals(
-        origin.startTime,
-        origin.endTime
-      );
-      //console.log(this.availableTimes);
-      this.ReserveDialog = true; //Display ReserveDialog
+      if (origin.isFree) {
+        this.clearDialogBoxes();
+        this.reservedDate = origin.date;
+        this.availableTimes = this.create5MinIntervals(
+          origin.startTime,
+          origin.endTime
+        );
+        //console.log(this.availableTimes);
+        this.ReserveDialog = true; //Display ReserveDialog
+      } else {
+        this.getReservationInfoByID(origin.reservationID);
+      }
+    },
+    async getReservationInfoByID(id) {
+      if (id == 0) {
+        throw "Unable to get reservation info for a free block";
+      } else {
+        this.selectedReservation = "";
+        let jsonReserve = await ApiFunctions.getReservationInfoByID(id);
+        this.selectedReservation = jsonReserve.data;
+        this.infoDialog = true;
+      }
+    },
+    closeInfoDialog() {
+      this.infoDialog = false;
     },
     // Taken and altered from https://codereview.stackexchange.com/questions/128260/populating-an-array-with-times-with-half-hour-interval-between-them
     create5MinIntervals(from, until) {
@@ -534,6 +574,7 @@ export default {
       //Taken from https://stackoverflow.com/questions/4156434/javascript-get-the-first-day-of-the-week-from-current-date
       d = new Date(d);
       var day = d.getDay();
+      console.log(day);
       if (day == 0) {
         return d;
       } else {
@@ -575,7 +616,6 @@ export default {
         room: this.selectedRoom
       };
       this.clearDialogBoxes();
-      //params.familyID = "ShouldWork001" //Temp fix for Sarah not having any facilitators.
       console.log(params);
       let feedback = await ApiFunctions.createReservation(params);
       console.log(feedback);

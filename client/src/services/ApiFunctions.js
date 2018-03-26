@@ -26,6 +26,19 @@ export default {
         }
         return Api().post("getReservations", reservationParam);
     },
+    async getFacilitators(familyID) {
+        if (familyID) {
+            var params = {
+                accountID: familyID
+            }
+            return Api().post("getFacilitators", params);
+        } else {
+            throw "No AccountID in store";
+        }
+    },
+    async createReservation(param) {
+        return Api().post("createReservation", param);
+    },
     /* // this doesnt exist.
         async createEmployee (info) {
             return Api().post('createEmployee', info)
@@ -80,6 +93,34 @@ export default {
     },
     async getEmployeeList(employeeList) {
         return Api().get('getEmployeeList')
+    },
+    async getReservationByFamily(ID) {
+        if (ID) {
+            var params = {
+                familyID: ID
+            }
+            return Api().post("getReservationByFamily", params);
+        } else {
+            throw "No AccountID in store";
+        }
+    },
+
+    async cancelReservation(reserveID) {
+        if (reserveID) {
+            return Api().post("cancelReservation", reserveID);
+        } else {
+            throw "No reserveID provided";
+        }
+    },
+    async getReservationInfoByID(id) {
+        if (id) {
+            var params = {
+                reserveID: id
+            }
+            return Api().post("getReservationByID", params);
+        } else {
+            throw "No Reservation ID provided.";
+        }
     }
     /* 
         backend functions not yet linked
@@ -87,5 +128,4 @@ export default {
 	getTypes,
 	createJSON
     */
-
 }

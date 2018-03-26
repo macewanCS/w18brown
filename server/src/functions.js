@@ -354,7 +354,7 @@ async function getReservationByFamily(username){
 	return new Promise(function(fulfill, reject){
 		var output = [];
 		 today = new Date();
-		// today = new Date(2018, 02, 01, 00, 00, 00, 00); //*******this was only for testing a prior date.
+		 //today = new Date(2018, 02, 01, 00, 00, 00, 00); //*******this was only for testing a prior date.
 		var sql = "SELECT * from reservations WHERE date >= ? AND family_ID = ?";
 
 		con.query(sql, [today, username], function (err, result, fields) {
@@ -369,6 +369,7 @@ async function getReservationByFamily(username){
 				reservation.startTime = res.start_time;
 				reservation.endTime = res.end_time;
 				reservation.reservationID = res.reservation_ID;
+				reservation.room = res.room;
 				output.push(reservation);
 			})
 			json = JSON.stringify(output);
@@ -405,8 +406,9 @@ async function getReservationByID(ID){
 				output.startTime = result[0].start_time;
 				output.endTime = result[0].end_time;
 				output.reservationID = result[0].reservation_ID;
+				output.room = result[0].room;
 	
-				json = JSON.stringify(output);
+				json = output;
 	
 				fulfill(json);
 			}
@@ -586,8 +588,8 @@ async function getRoomReservationByWeek(roomName, startDate){
  */
 async function createReservation(reservationJSON){
 	return new Promise(function(fulfill, reject){
-
-		var reservation = JSON.parse(reservationJSON);
+		//console.log(reservationJSON);
+		var reservation = reservationJSON;
 
 		var sql = "INSERT INTO reservations (family_ID, facilitator, date, start_time, end_time, room) VALUES (?, ?, ?, ?, ?, ?)";
 

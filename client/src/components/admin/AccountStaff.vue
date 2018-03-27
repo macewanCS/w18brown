@@ -55,10 +55,7 @@
         <v-text-field name="deleteName" type="text" id="deleteName" label="Username" v-model="deleteName" />
         <v-flex>
           <!-- grid system -->
-          <v-btn type="deleteBtn" id="deleteBtn" color="error" @click="deleteBtn">
-            <!-- calls the login method below in scripts-->
-            Delete
-          </v-btn>
+  
           <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="deleteError" v-model="deleteError">
             {{ "Usernames not found" }}
             <i class="material-icons">error</i>
@@ -71,7 +68,23 @@
             <h2>User Deleted</h2>
             Username: {{this.savedDeleteName}}
           </v-flex>
+
+ 
+
         </v-layout>
+<br>
+                 <v-btn color="error" @click.stop="deleteDialog = true">Delete</v-btn>
+            <v-dialog v-model="deleteDialog" max-width="250">
+                <v-card>
+                    <v-card-text>Are you sure you want to delete employee "{{this.deleteName}}"?</v-card-text>
+                    <v-card-actions>
+                        <v-spacer />
+                        <v-btn color="error" @click="deleteBtn" @click.native="deleteDialog = false">Delete</v-btn>
+                        <v-btn color="success" @click.native="deleteDialog = false">Cancel</v-btn>
+                        <v-spacer />
+                    </v-card-actions>
+                </v-card>
+            </v-dialog> 
 
         <br>
         <v-divider/>
@@ -115,7 +128,7 @@ export default {
       typeError: false,
       employeeType: null, // should be null until input is selected
       confirm: false,
-      password: "red",
+      password: "",
       savedUser: "",
       savedType: "",
       savedPass: "",
@@ -123,6 +136,8 @@ export default {
       deleteName: "",
       savedDeleteName: "",
       deleteConfirm: false,
+      deleteDialog: "",
+
 
       // dropdown items
       items: [
@@ -158,6 +173,11 @@ export default {
       var parsedData = JSON.parse(employees.data);
       this.users = parsedData.values;
     },
+    async resetFields(){
+      this.username = ""
+      this.employeeType = null
+      this.deleteName = ""
+    },
     async deleteBtn() {
       // reset messages
       this.lengthError = false;
@@ -182,6 +202,7 @@ export default {
           this.savedDeleteName = this.deleteName;
           this.load();
           this.deleteConfirm = true;
+          this.resetFields()
         } else {
           this.deleteError = true;
         }
@@ -235,6 +256,7 @@ export default {
               this.savedUser = this.username;
               this.savedType = this.employeeType.text.toLowerCase();
               this.savedPass = this.password;
+              this.resetFields()
               await this.load(); // refreshes the current employee table
             }
           } catch (error) {

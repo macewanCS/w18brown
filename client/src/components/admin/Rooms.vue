@@ -19,7 +19,7 @@
         </v-btn>
         
         <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="lengthError" v-model="lengthError">
-          {{ "Room Name should be between 3 and 10 characters" }}
+          {{ "Room Name should be between 3 and 15 characters" }}
           <i class="material-icons">error</i>
         </v-flex>
 
@@ -48,7 +48,7 @@
 
     <v-text-field name="deleteRoom" type="text" id="deleteRoom" label="Room Name" v-model="deleteRoom" />
     <v-flex> <!-- grid system -->
- 
+
 
              <v-btn color="error" @click.stop="deleteDialog = true">Delete</v-btn>
             <v-dialog v-model="deleteDialog" max-width="250">
@@ -77,7 +77,7 @@
       </v-flex>
 
         <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="deleteLengthError" v-model="deleteLengthError">
-          {{ "Room Name should be between 3 and 10 characters" }}
+          {{ "Room Name should be between 3 and 15 characters" }}
           <i class="material-icons">error</i>
         </v-flex>
 
@@ -162,6 +162,10 @@ export default {
         var parsedData = JSON.parse(roomResponse.data);
         this.rooms = parsedData.values;
     },
+    async resetFields(){
+      this.roomNameField = ""
+      this.deleteRoom = ""
+    },
     async resetMessages(){
       this.lengthError = false
       this.usedError = false
@@ -173,7 +177,7 @@ export default {
     async submit() {
       this.resetMessages();
       
-      if (this.roomNameField.length < 3 || this.roomNameField.length > 10) {
+      if (this.roomNameField.length < 3 || this.roomNameField.length > 15) {
         this.lengthError = true
       }
       else {
@@ -183,8 +187,18 @@ export default {
           })
           this.load();
           this.savedRoomAdd = this.roomNameField;
+          console.log(addResponse.data)
           this.confirm = addResponse.data;
           this.usedError = !addResponse.data; // false add changed to true error
+
+          if (this.confirm == true){
+            this.resetFields()
+          }
+          if (this.usedError == true) {
+            console.log("already used")
+            this.confirm = false
+          }
+
         }
         catch (error) {
           console.log("catch condition 1")
@@ -193,7 +207,7 @@ export default {
     },
     async deleteBtn() {
       this.resetMessages();
-      if (this.deleteRoom.length < 3 || this.deleteRoom.length > 10) {
+      if (this.deleteRoom.length < 3 || this.deleteRoom.length > 15) {
         this.deleteLengthError = true;
       }
       else {
@@ -206,6 +220,8 @@ export default {
             this.load();
           if (this.deleteError == false){
             this.deleteConfirm = true;
+            this.resetFields()
+
           }
           
         }

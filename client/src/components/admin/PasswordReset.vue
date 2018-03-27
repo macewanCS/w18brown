@@ -5,8 +5,8 @@
       <table class="center">
         <h1>Reset a Password</h1>
         <br>
-        <v-text-field name="username" type="text" id="username" label="Username" v-model="username" />
-        <v-text-field name="username2" type="text" id="username2" label="Username" v-model="username2" />
+        <v-text-field name="username" type="text" id="username" label="Username to Reset" v-model="username" />
+        <v-text-field name="username2" type="text" id="username2" label="Repeat Username" v-model="username2" />
         
         <br>
         <v-flex>

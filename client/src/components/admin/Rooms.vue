@@ -48,10 +48,28 @@
 
     <v-text-field name="deleteRoom" type="text" id="deleteRoom" label="Room Name" v-model="deleteRoom" />
     <v-flex> <!-- grid system -->
-      <v-btn type="deleteBtn" id="deleteBtn" color="error" @click="deleteBtn">
-          <!-- calls the login method below in scripts-->
-          Delete
-      </v-btn>
+ 
+
+             <v-btn color="error" @click.stop="deleteDialog = true">Delete</v-btn>
+            <v-dialog v-model="deleteDialog" max-width="250">
+                <v-card>
+                    <v-card-text>Are you sure you want to delete room "{{this.deleteRoom}}"?</v-card-text>
+                    <v-card-actions>
+                        <v-spacer />
+                        <v-btn color="error" @click="deleteBtn" @click.native="deleteDialog = false">Delete</v-btn>
+                        <v-btn color="success" @click.native="deleteDialog = false">Cancel</v-btn>
+                        <v-spacer />
+                    </v-card-actions>
+                </v-card>
+            </v-dialog> 
+
+
+       
+    
+
+
+
+
       
       <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="deleteError" v-model="deleteError">
         {{ "This room was not found" }}
@@ -122,6 +140,7 @@ export default {
       usedError: false,
       deleteError: false,
       deleteLengthError: false,
+      deleteDialog: "",
       // table columns
       headers: [
         {

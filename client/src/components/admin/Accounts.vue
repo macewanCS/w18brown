@@ -1,93 +1,128 @@
 <template>
-  <v-flex ma-5>
-    <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
-    <div class="text-xs-center">
-      <!-- this centers the contents -->
+  <v-tabs fixed-tabs dark id="allTabs">
+    <v-tab key="tab1">
+        Create Family Accounts
+    </v-tab>
+    <v-tab key="tab2">
+        View Family Accounts
+    </v-tab>
+    <v-tabs-items id="content">
+      <v-tab-item key ="tab1">
+        <v-flex ma-5>
+          <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
+          <div class="text-xs-center">
+            <!-- this centers the contents -->
 
-      <table class="center">
-        <h1>Create Family Accounts</h1>
-        <br>
-        <div>
-          <h3>
-            Facilitators
-            <v-btn type="submit" color="success" id="Submit" @click="addFacilitator" style="fixed: right;">
-              Add
-            </v-btn>
-            
-          </h3>
-          <ul v-for="(fac,index) in facilitators" v-bind:key="fac">
-            <v-divider />
-            <Facilitator v-on:removeFac="removeFac(index)"> </Facilitator>
-          </ul>
-          <div>
-            <br>
-            <h3>
-              Students
-            <v-btn type="submit" color="success" id="Submit" @click="addFacilitator" style="fixed: right;">
-              Add
-            </v-btn>
-              
-            </h3>
-            <ul v-for="(student,index) in students" v-bind:key="student">
-              <v-divider />
-              <Student v-on:removeStudent="removeStudent(index)"> </Student>
-            </ul>
+            <table class="center">
+              <h1>Create Family Accounts</h1>
+              <br>
+              <div>
+                <h3>
+                  Facilitators
+                  <v-btn type="submit" color="info" id="Submit" @click="addFacilitator" style="fixed: right;">
+                    Add
+                  </v-btn>
+                  
+                </h3>
+                <ul v-for="(fac,index) in facilitators" v-bind:key="fac">
+                  <v-divider />
+                  <Facilitator v-on:removeFac="removeFac(index)"> </Facilitator>
+                </ul>
+                <div>
+                  <br>
+                  <h3>
+                    Students
+                    <v-btn type="submit" color="info" id="Submit" @click="addStudent" style="fixed: right;">
+                      Add
+                    </v-btn>
+                  </h3>
+
+                  <ul v-for="(student,index) in students" v-bind:key="student">
+                    <v-divider />
+                    <Student v-on:removeStudent="removeStudent(index)"> </Student>
+                  </ul>
+                </div>
+
+                <div>
+                  <br>
+                  <h3>Contact Information</h3>
+                  <v-layout row wrap>
+                    <v-flex class="input" xs5>
+                      <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="Phone" />
+                    </v-flex>
+                    <v-flex class="input" xs6>
+                      <v-text-field name="Email" type="text" label="Email" v-model="Email" />
+                    </v-flex>
+                  </v-layout>
+                  <v-layout row wrap>
+                    <v-flex class="input" xs5>
+                      <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="Phone" />
+                    </v-flex>
+                    <v-flex class="input" xs6>
+                      <v-text-field name="Email" type="text" label="Email" v-model="Email" />
+                    </v-flex>
+                  </v-layout>
+                </div>
+                <br>
+                <v-divider />
+                <br>
+                <h3>Bonus Hours</h3>
+                <v-layout row wrap>
+                  <v-flex class="input" xs4>
+                    <v-text-field name="Bonus" type="text" label="Bonus" v-model="bonus" />
+                  </v-flex>
+                  <v-flex class="input" xs7>
+                    <v-text-field name="Comments" type="text" label="Comments" v-model="comments" />
+                  </v-flex>
+                </v-layout>
+                <div>
+                  <br>
+                  <v-divider />
+                  <br>
+
+                  <h3>Historic Hours</h3>
+                  <v-flex class="input" xs4>
+                    <v-text-field name="Historic Hours" type="text" label="Historic Hours" v-model="historic" />
+                  </v-flex>
+                </div>
+                <v-btn type="submitFamily" color="success" id="submitFamily" @click="submitFamily" style="float: right;">
+                  Submit
+                </v-btn>
+              </div>
+            </table>
           </div>
 
-          <div>
-            <br>
-            <h3>Contact Information</h3>
-            <v-layout row wrap>
-              <v-flex class="input" xs5>
-                <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="Phone" />
-              </v-flex>
-              <v-flex class="input" xs6>
-                <v-text-field name="Email" type="text" label="Email" v-model="Email" />
-              </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-              <v-flex class="input" xs5>
-                <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="Phone" />
-              </v-flex>
-              <v-flex class="input" xs6>
-                <v-text-field name="Email" type="text" label="Email" v-model="Email" />
-              </v-flex>
-            </v-layout>
-          </div>
-          <br>
-          <v-divider />
-          <br>
-          <h3>Bonus Hours</h3>
-          <v-layout row wrap>
-            <v-flex class="input" xs4>
-              <v-text-field name="Bonus" type="text" label="Bonus" v-model="bonus" />
-            </v-flex>
-            <v-flex class="input" xs7>
-              <v-text-field name="Comments" type="text" label="Comments" v-model="comments" />
-            </v-flex>
-          </v-layout>
-          <div>
-            <br>
-            <v-divider />
-            <br>
+        </v-flex>
+      </v-tab-item>
+      <v-tab-item key="tab2">
+        <v-flex ma-5>
+          <div class="text-xs-center">
+            <table class="center">
+              <h1>View Family Account</h1>
 
-            <h3>Historic Hours</h3>
-            <v-flex class="input" xs4>
-              <v-text-field name="Historic Hours" type="text" label="Historic Hours" v-model="historic" />
-            </v-flex>
+                <v-flex align-center>
+                  <v-data-table light
+                    :headers="headers"
+                    :items="families"    
+                    hide-actions
+                    class="elevation-1"
+                  >
+                    <template slot="items" slot-scope="props">
+                      <td class="text-xs-right">{{ props.item.familyID }}</td>
+                    </template>
+                  </v-data-table>
+                </v-flex>
+            </table>
           </div>
-          <v-btn type="submitFamily" color="info" id="submitFamily" @click="submitFamily" style="float: right;">
-            Submit
-          </v-btn>
-        </div>
-      </table>
-    </div>
-
-  </v-flex>
+        </v-flex>
+      </v-tab-item>
+    </v-tabs-items>
+  </v-tabs>
 </template>
 <script>
 import Facilitator from "@/components/admin/Account/Facilitator.vue";
 import Student from "@/components/admin/Account/Student.vue";
+import ApiFunctions from "@/services/ApiFunctions";
 var facCounter = 1;
 var studentCounter = 1;
 export default {
@@ -99,10 +134,28 @@ export default {
       comments: "", // to be implemented
       bonus: "", // to be implemented
       Email: "", // to be implemented
-      Phone: "" // to be implemented
+      Phone: "", // to be implemented
+      headers: [
+        {
+          text: 'Family ID',
+          align: 'center',
+          sortable: true,
+          value: 'familyID'
+        }
+      ],
+      families: {}
     };
   },
+  created() {
+    this.load();
+  },
   methods: {
+    async load(){
+      var familyResponse = await ApiFunctions.getFamilyList();
+      var parsedData = JSON.parse(familyResponse.data);
+      this.families = parsedData.values;
+    },
+
     addFacilitator: function() {
       this.facilitators.push(facCounter);
       facCounter++;
@@ -152,6 +205,9 @@ export default {
   align-self: center;
   max-width: 400px;
 }
+#mySpace {
+    width: 10px;
+}
 h1 {
   text-transform: uppercase;
   letter-spacing: 3px;
@@ -181,5 +237,7 @@ h3 {
   margin-left: auto;
   margin-right: auto;
 }
-
+.input {
+    padding-left: 50px;
+}
 </style>

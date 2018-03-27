@@ -9,19 +9,18 @@
                 <v-text-field name="lastName" type="text" label="Last Name" v-model="lastName" />
             </v-flex>
 
-            <v-flex xs2 sm3 ma-2>
+            <v-flex xs2 sm1 ma-2>
                 <v-select :items="grades" v-model="a1" label="Grade" autocomplete/>
             </v-flex>
 
-      <!--      <v-flex class="input" xs3> -->
-
+            <v-flex xs2 sm2 ma-2>
+                <v-select :items="rooms" v-model="a1" label="Rooms" autocomplete/>
+            </v-flex>
             <v-flex class="remove" >
-                <v-btn type="submit" color="error" class="removebtn" @click="$emit('removeFac')">
+                <v-btn type="submit" color="error" class="removebtn" @click="$emit('removeStudent')">
                     Delete
                 </v-btn>
             </v-flex>
-
-      <!--      </v-flex> -->
 
         </v-layout>
     </v-card>
@@ -34,19 +33,21 @@ export default {
         a1: null,
         firstName: "",
         lastName: "",
-        grades: ["Kindergarten","1","2","3","4","5","6", "7", "8", "9", "10", "11", "12"],
+        grades: ["K","1","2","3","4","5","6", "7", "8", "9", "10", "11", "12"],
         rooms: ["blue","red","purple"]
     };
   }
 };
 </script>
 
-<style>
-.input {
-    padding-left: 50px;
+<style scoped>
+.remove {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
 }
 .removebtn {
-    transform: scale(.75);
-
+    transform: scale(0.75);
 }
 </style>

@@ -32,9 +32,6 @@ export default {
 </script>
 
 <style scoped>
-.input {
-    padding-left: 50px;
-}
 #addSubSign {
 font-size: 30pt;
 }
@@ -45,7 +42,7 @@ font-size: 30pt;
   height: 80px;
 }
 #mySpace {
-    width: 120px;
+    width: 200px;
 }
 .removebtn {
     transform: scale(0.75);

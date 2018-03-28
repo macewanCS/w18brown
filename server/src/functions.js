@@ -32,7 +32,8 @@ module.exports = {
 	getFacilitators,
 	getStudents,
 	accountExists,
-	getReservationByID
+	getReservationByID,
+	studentsPerAccount
 }
 
 
@@ -185,6 +186,27 @@ async function checkName(name, password){
 				console.log("checkName function. User found with type: ", result[0].type)
 			}
 		
+		});
+    });
+}
+
+/**
+ * Function made by Terry => needs a unit test made.
+ *this function finds the number of students in a family
+ *
+ * @param {*} account username to be checked
+ * @returns number of students in the family
+ */
+async function studentsPerAccount(account){
+    return new Promise(function (fulfill, reject){
+		// ? is like %s in C. 
+		var sql = "SELECT * FROM student WHERE accountID = ?";
+						// this array gives order. account is the first ?, password is the 2nd ?
+		con.query(sql, [account], function (err, result, fields) {
+			if (err) throw err;
+
+			console.log("studentCount function number of students: ", result.length)
+			fulfill(result.length);
 		});
     });
 }

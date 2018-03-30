@@ -181,41 +181,7 @@ app.post('/changePassword', async function (req, res) {
     res.send(changeResult)
 })
 
-
-
-
-
-
-
-
-
-/*
-
-async checkName(info2) {
-    return Api().post('checkName', info2)
-},
-async getFamilyList(info4) {
-    return Api().post('getFamilyList', info4)
-},
-*/
-
-
-/* 
-    backend functions not yet linked
-
-connect,
-getTypes,
-createJSON
-*/
-
-
-
-
-
-
-
-
-/* GET:  getSettings
+/** GET:  getSettings
 ----------------------------
     Returns a array with this format:
     block1_start, block1_end, block2_start, block2_end, block3_start, block3_end, Year start, weekly_requirements
@@ -278,18 +244,33 @@ app.post("/createReservation", async function (req, res) {
 })
 
 app.post("/getReservationByFamily", async function (req, res) {
-    let futureReservations = await functions.getReservationByFamily(req.body.familyID);
-    res.send(JSON.stringify(futureReservations));
+    try {
+        let futureReservations = await functions.getReservationByFamily(req.body.familyID);
+        res.send(JSON.stringify(futureReservations));
+    } catch (err) {
+        console.log(err);
+        res.send("getReservationByFamily Error: ", err);
+    }
 })
 
 app.post("/cancelReservation", async function (req, res) {
-    let result = await functions.deleteReservation(req.body.reserveID);
-    res.send(JSON.stringify(result));
+    try {
+        let result = await functions.deleteReservation(req.body.reserveID);
+        res.send(JSON.stringify(result));
+    } catch (err) {
+        console.log(err);
+        res.send("cancelReservation Error: ", err);
+    }
 })
 
 app.post("/getReservationByID", async function (req, res) {
+    try {
     let reservation = await functions.getReservationByID(req.body.reserveID);
     res.send(JSON.stringify(reservation));
+    } catch (err) {
+        console.log(err);
+        res.send("getReservationByID Error: ", err);
+    }
 })
 
 

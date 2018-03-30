@@ -66,12 +66,16 @@ export default {
       futureReservations: []
     };
   },
+  props: {
+    updateMe: false
+  },
   computed: {
     ...mapState(["accountID"]) //Can obtain accountID by using this.accountID now.
   },
   async mounted() {
     this.getFutureReserves();
     console.log("Hello", this.futureReservations);
+    console.log(this.needToUpdate)
   },
   methods: {
     async getFutureReserves() {
@@ -88,6 +92,13 @@ export default {
       let result = await ApiFunctions.cancelReservation({ reserveID: ID });
       console.log(result);
       this.getFutureReserves();
+      this.$emit("updateCal");
+    }
+  },
+  watch: {
+    updateMe: function() {
+      console.log("updateMe Triggered")
+        this.getFutureReserves();
     }
   }
 };

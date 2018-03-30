@@ -1,7 +1,7 @@
 <template>
     <v-tooltip left>
         <div v-on:click.stop="clicked" slot="activator">
-            <v-card hover v-bind:style="{height: myProp.height}" v-bind:color="myProp.color" slot="activator" class="facilitator">
+            <v-card hover v-bind:style="{height: myProp.height}" v-bind:color="myProp.color" slot="activator" class="facilitator" v-bind:class="{fieldTrip : isFieldTrip}">
                 {{myProp.name}}
             </v-card>
         </div>
@@ -16,14 +16,24 @@
 </template>
 <script>
 export default {
+  data() {
+    return {
+      isFieldTrip: false
+    };
+  },
   props: {
-    myProp: {
-      type: Object
-    }
+    myProp: {}
+  },
+  created() {
+    this.checkFieldTrip();
   },
   methods: {
     clicked() {
       this.$emit("clicked", this.myProp);
+    },
+    checkFieldTrip() {
+      if (this.myProp.isFieldTrip) {
+      }
     }
   }
 };
@@ -41,5 +51,9 @@ export default {
   justify-content: center;
   align-items: center;
   text-overflow: ellipsis;
+}
+.fieldTrip {
+  width: 168px;
+  max-width: 168px;
 }
 </style>

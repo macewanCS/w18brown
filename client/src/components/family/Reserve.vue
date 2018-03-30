@@ -83,7 +83,7 @@
                 </v-card>
               </v-flex>
               <v-flex xs3 class="cal-block-col">
-                <v-card v-bind:color="blockDay_color" light class="cal-block-day">
+                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTrip : isMonFieldTrip}">
                   <v-layout row>
                     <v-flex>
                       <calFacil v-for="fac in Calendar[0][0][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
@@ -98,7 +98,7 @@
                 </v-card>
               </v-flex>
               <v-flex xs3 class="cal-block-col">
-                <v-card v-bind:color="blockDay_color" light class="cal-block-day">
+                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTrip : isTueFieldTrip}">
                   <v-layout row>
                     <v-flex>
                       <calFacil v-for="fac in Calendar[1][0][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
@@ -113,7 +113,7 @@
                 </v-card>
               </v-flex>
               <v-flex xs3 class="cal-block-col">
-                <v-card v-bind:color="blockDay_color" light class="cal-block-day">
+                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTrip : isWedFieldTrip}">
                   <v-layout row>
                     <v-flex>
                       <calFacil v-for="fac in Calendar[2][0][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
@@ -128,7 +128,7 @@
                 </v-card>
               </v-flex>
               <v-flex xs3 class="cal-block-col">
-                <v-card v-bind:color="blockDay_color" light class="cal-block-day">
+                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTrip : isThuFieldTrip}">
                   <v-layout row>
                     <v-flex>
                       <calFacil v-for="fac in Calendar[3][0][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
@@ -143,7 +143,7 @@
                 </v-card>
               </v-flex>
               <v-flex xs3 class="cal-block-col">
-                <v-card v-bind:color="blockDay_color" light class="cal-block-day">
+                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTrip : isFriFieldTrip}">
                   <v-layout row>
                     <v-flex>
                       <calFacil v-for="fac in Calendar[4][0][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
@@ -375,8 +375,8 @@
           <!-- End Calendar -->
         </div>
       </v-tab-item>
-      <v-tab-item key="tab2">
-        <reserved-times />
+      <v-tab-item  key="tab2">
+        <reserved-times :updateMe="updateUpcomingRes" @updateCal="refreshCal"/>
       </v-tab-item>
     </v-tabs-items>
   </v-tabs>
@@ -404,10 +404,16 @@ export default {
       blockReserved_color: "red",
       cal_color: "#BDBDBD",
       calendar_ready: "false",
+
+      isMonFieldTrip: false,
+      isTueFieldTrip: false,
+      isWedFieldTrip: true,
+      isThuFieldTrip: false,
+      isFriFieldTrip: false,
       // Below is used for new Reservations
       ReserveDialog: "",
       familyID: "",
-      availFacilitators: ["Test Facilitator 001", "Test Facilitator 002"],
+      availFacilitators: [],
       selectedFacil: null,
       startTime: "",
       endTime: "",
@@ -429,7 +435,8 @@ export default {
       selectedMonday: "",
 
       infoDialog: false,
-      selectedReservation: ""
+      selectedReservation: "",
+      updateUpcomingRes: false
     };
   },
   components: {
@@ -454,6 +461,7 @@ export default {
     async getReservations() {
       try {
         // Room/Date that has any entries "red","2018/03/05"
+        console.log(this.selectedMonday);
         let incomingReserves = await ApiFunctions.getReservations(
           this.selectedRoom,
           this.selectedMonday
@@ -579,14 +587,16 @@ export default {
     },
     getMonday(d) {
       //Taken from https://stackoverflow.com/questions/4156434/javascript-get-the-first-day-of-the-week-from-current-date
-      d = new Date(d);
-      var day = d.getDay();
-      console.log(day);
+      console.log("D DAYYYY:",d);
+      var newDay = new Date(d);
+      var day = newDay.getDay();
+      console.log("day = ", day);
       if (day == 0) {
+        console.log("This is a monday");
         return d;
       } else {
-        var diff = d.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-        return new Date(d.setDate(diff));
+        var diff = newDay.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+        return new Date(newDay.setDate(diff));
       }
     },
     async getFacilitators(accountID) {
@@ -630,6 +640,14 @@ export default {
       this.errSelectedFacil = false;
       this.calendar_ready = false;
       this.updateCalendar();
+      this.refreshUpcomingRes();
+    },
+    async refreshCal() {
+      this.calendar_ready = "false";
+      this.updateCalendar();
+    },
+    refreshUpcomingRes() {
+      this.updateUpcomingRes = !this.updateUpcomingRes;
     }
   },
   watch: {
@@ -650,6 +668,7 @@ export default {
         (Monday.getMonth() + 1) +
         "/" +
         Monday.getDate();
+      console.log("this.monday=", Monday);
     },
     selectedMonday: function(newValue) {
       if (this.selectedRoom.valueOf() == "") {
@@ -763,5 +782,9 @@ h1 {
 }
 .selectorLayout {
   height: 60px;
+}
+.fieldTrip{
+  min-height: 743px;
+  z-index: 2;
 }
 </style>

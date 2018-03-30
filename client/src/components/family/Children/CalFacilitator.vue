@@ -17,9 +17,7 @@
 <script>
 export default {
   props: {
-    myProp: {
-      type: Object
-    }
+    myProp: {}
   },
   methods: {
     clicked() {

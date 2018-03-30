@@ -372,6 +372,20 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
+            <v-dialog v-model="fieldTripDialog" max-width="50%">
+              <v-card>
+                <h1 class="h1Dialog">Field Trip!!!<br>{{reservedDate}}</h1>
+                <v-card-text>
+                  <v-select v-bind:items="availFacilitators" v-model="selectedFacil" v-bind:error="errSelectedFacil" label="Select a Facilitator" single-line required :rules="[selectedFacilRules.required]"></v-select>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn color="success" >Reserve</v-btn>
+                  <v-btn color="error" >Cancel</v-btn>
+                  <v-spacer />
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-container>
           <!-- End Calendar -->
         </div>
@@ -439,7 +453,10 @@ export default {
 
       infoDialog: false,
       selectedReservation: "",
-      updateUpcomingRes: false
+      updateUpcomingRes: false,
+
+      //FieldTrips
+      fieldTripDialog: false
     };
   },
   components: {

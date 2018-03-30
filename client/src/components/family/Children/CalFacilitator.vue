@@ -33,6 +33,7 @@ export default {
     },
     checkFieldTrip() {
       if (this.myProp.isFieldTrip) {
+          this.isFieldTrip = true;
       }
     }
   }
@@ -55,5 +56,6 @@ export default {
 .fieldTrip {
   width: 168px;
   max-width: 168px;
+  z-index: 3;
 }
 </style>

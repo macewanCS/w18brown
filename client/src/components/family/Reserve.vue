@@ -40,35 +40,40 @@
               <v-flex md3 class="cal-header-days">
                 <v-card v-bind:color="headerDay_color" light>
                   <v-card-text class="headerDay">
-                    Monday
+                    {{datesOfWeek[0]}}
+                    <br> Monday
                   </v-card-text>
                 </v-card>
               </v-flex>
               <v-flex md3 class="cal-header-days">
                 <v-card v-bind:color="headerDay_color" light>
                   <v-card-text class="headerDay">
-                    Tuesday
+                    {{datesOfWeek[1]}}
+                    <br> Tuesday
                   </v-card-text>
                 </v-card>
               </v-flex>
               <v-flex md3 class="cal-header-days">
                 <v-card v-bind:color="headerDay_color" light>
                   <v-card-text class="headerDay">
-                    Wednesday
+                    {{datesOfWeek[2]}}
+                    <br> Wednesday
                   </v-card-text>
                 </v-card>
               </v-flex>
               <v-flex md3 class="cal-header-days">
                 <v-card v-bind:color="headerDay_color" light>
                   <v-card-text class="headerDay">
-                    Thursday
+                    {{datesOfWeek[3]}}
+                    <br>Thursday
                   </v-card-text>
                 </v-card>
               </v-flex>
               <v-flex md3 class="cal-header-days">
                 <v-card v-bind:color="headerDay_color" light>
                   <v-card-text class="headerDay">
-                    Friday
+                    {{datesOfWeek[4]}}
+                    <br>Friday
                   </v-card-text>
                 </v-card>
               </v-flex>
@@ -357,11 +362,7 @@
                 <h1 class="h1Dialog">Information about Reservation</h1>
                 <v-card-text>
                   <p>
-                  Reserved by:  {{selectedReservation.name}}
-                  On:  {{selectedReservation.date}} 
-                  Starting at:  {{selectedReservation.startTime}}
-                  Ending at:  {{selectedReservation.endTime}}
-                  Room:  {{selectedReservation.room}}
+                    Reserved by: {{selectedReservation.name}} On: {{selectedReservation.date}} Starting at: {{selectedReservation.startTime}} Ending at: {{selectedReservation.endTime}} Room: {{selectedReservation.room}}
                   </p>
                 </v-card-text>
                 <v-card-actions>
@@ -375,8 +376,8 @@
           <!-- End Calendar -->
         </div>
       </v-tab-item>
-      <v-tab-item  key="tab2">
-        <reserved-times :updateMe="updateUpcomingRes" @updateCal="refreshCal"/>
+      <v-tab-item key="tab2">
+        <reserved-times :updateMe="updateUpcomingRes" @updateCal="refreshCal" />
       </v-tab-item>
     </v-tabs-items>
   </v-tabs>
@@ -402,12 +403,14 @@ export default {
       blockDay_color: "grey lighten-2",
       blockFree_color: "grey lighten-5",
       blockReserved_color: "red",
+      blockFieldTrip_color: "blue",
       cal_color: "#BDBDBD",
       calendar_ready: "false",
+      datesOfWeek: ["", "", "", "", ""],
 
       isMonFieldTrip: false,
       isTueFieldTrip: false,
-      isWedFieldTrip: true,
+      isWedFieldTrip: false,
       isThuFieldTrip: false,
       isFriFieldTrip: false,
       // Below is used for new Reservations
@@ -423,7 +426,7 @@ export default {
       selectedEndTime: "",
       reservedDate: "",
       selectedFacilRules: {
-        required: (value) => !!value || 'Required.'
+        required: value => !!value || "Required."
       },
       errSelectedFacil: false,
 
@@ -499,11 +502,22 @@ export default {
               if (this.Calendar[day][block][slot][i].name.valueOf() == "free") {
                 this.Calendar[day][block][slot][i].color = this.blockFree_color;
                 this.Calendar[day][block][slot][i].isFree = true;
+                this.Calendar[day][block][slot][i].isFieldTrip = false;
+              } else if (
+                this.Calendar[day][block][slot][i].name.valueOf() == "fieldtrip"
+              ) {
+                this.Calendar[day][block][slot][i].height = "735px";
+                this.Calendar[day][block][slot][
+                  i
+                ].color = this.blockFieldTrip_color;
+                this.Calendar[day][block][slot][i].isFree = true;
+                this.Calendar[day][block][slot][i].isFieldTrip = false;
               } else {
                 this.Calendar[day][block][slot][
                   i
                 ].color = this.blockReserved_color;
                 this.Calendar[day][block][slot][i].isFree = false;
+                this.Calendar[day][block][slot][i].isFieldTrip = false;
               }
             }
           }
@@ -571,7 +585,9 @@ export default {
         newTimes.push(this.availableTimes[index]);
       }
       this.availableEndTimes = newTimes;
-      this.selectedEndTime = this.availableEndTimes[this.availableEndTimes.length - 1];
+      this.selectedEndTime = this.availableEndTimes[
+        this.availableEndTimes.length - 1
+      ];
     },
     clearDialogBoxes() {
       this.ReserveDialog = false;
@@ -587,13 +603,10 @@ export default {
     },
     getMonday(d) {
       //Taken from https://stackoverflow.com/questions/4156434/javascript-get-the-first-day-of-the-week-from-current-date
-      console.log("D DAYYYY:",d);
-      var newDay = new Date(d);
+      var newDay = new Date(d.replace(/-/g, "/")); //https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off
       var day = newDay.getDay();
-      console.log("day = ", day);
       if (day == 0) {
-        console.log("This is a monday");
-        return d;
+        return newDay;
       } else {
         var diff = newDay.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
         return new Date(newDay.setDate(diff));
@@ -668,7 +681,15 @@ export default {
         (Monday.getMonth() + 1) +
         "/" +
         Monday.getDate();
-      console.log("this.monday=", Monday);
+      //For filling out dates under day of week.
+      for (var i = 0; i < 5; i++) {
+        this.datesOfWeek[i] =
+          Monday.getFullYear() +
+          "/" +
+          (Monday.getMonth() + 1) +
+          "/" +
+          (Monday.getDate() + i);
+      }
     },
     selectedMonday: function(newValue) {
       if (this.selectedRoom.valueOf() == "") {
@@ -783,7 +804,7 @@ h1 {
 .selectorLayout {
   height: 60px;
 }
-.fieldTrip{
+.fieldTrip {
   min-height: 743px;
   z-index: 2;
 }

@@ -19,7 +19,7 @@
         <v-select v-bind:items="items" v-model="employeeType" label="Employee Type" single-line></v-select>
         <v-flex>
           <!-- grid system -->
-          <v-btn type="submit" color="info" id="Submit" @click="submit">
+          <v-btn type="submit" color="success" id="Submit" @click="submit">
             Submit
           </v-btn>
           <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="lengthError" v-model="lengthError">

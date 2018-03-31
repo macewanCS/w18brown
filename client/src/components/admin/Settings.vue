@@ -1,17 +1,4 @@
 <template>
-    <!--
-    <v-tabs fixed-tabs dark id="allTabs">
-        
-        <v-tab key="tab1">
-            Date/Time Settings
-        </v-tab>
-        <v-tab key="tab2">
-            Other Settings
-        </v-tab>
-
-        <v-tabs-items id="content">
-            <v-tab-item key="tab1">
--->
     <v-flex ma-5>
         <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
         <div class="text-xs-center">
@@ -101,7 +88,7 @@
     -->
             <br>
             <!--@click.stop is used here for triggering only when the click is let go.-->
-            <v-btn color="info" @click.stop="applyDialog = true">Apply</v-btn>
+            <v-btn color="success" @click.stop="applyDialog = true">Apply</v-btn>
             <v-btn color="error" @click.stop="cancelDialog = true">Cancel</v-btn>
             <!--Begin Dialog Boxes for Confirmation -->
             <v-dialog v-model="applyDialog" max-width="250">

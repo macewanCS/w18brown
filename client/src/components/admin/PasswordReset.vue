@@ -11,7 +11,7 @@
         <br>
         <v-flex>
           <!-- grid system -->
-          <v-btn type="submit" color="info" id="Submit" @click="submit">
+          <v-btn type="submit" color="success" id="Submit" @click="submit">
             Submit
           </v-btn>
 

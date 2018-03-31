@@ -1,17 +1,4 @@
 <template>
-    <!--
-    <v-tabs fixed-tabs dark id="allTabs">
-        
-        <v-tab key="tab1">
-            Date/Time Settings
-        </v-tab>
-        <v-tab key="tab2">
-            Other Settings
-        </v-tab>
-
-        <v-tabs-items id="content">
-            <v-tab-item key="tab1">
--->
     <v-flex ma-5>
         <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
         <div class="text-xs-center">

@@ -39,7 +39,7 @@
 
                   <ul v-for="(student,index) in students" v-bind:key="student">
                     <v-divider />
-                    <Student v-on:removeStudent="removeStudent(index)"> </Student>
+                    <Student :formSubmit="submitBoolean" v-on:submit="getStudentData()" v-on:removeStudent="removeStudent(index)"> </Student>
                   </ul>
                 </div>
 
@@ -103,8 +103,7 @@
                 <v-flex align-center>
                   <v-data-table light
                     :headers="headers"
-                    :items="families"    
-                    hide-actions
+                    :items="families"
                     class="elevation-1"
                   >
                     <template slot="items" slot-scope="props">
@@ -128,32 +127,54 @@ var studentCounter = 1;
 export default {
   data() {
     return {
+      ID: "",
+      password: "",
       facilitators: [""],
       students: [""],
       historic: null, // to be implemented
       comments: "", // to be implemented
       bonus: "", // to be implemented
-      Email: "", // to be implemented
-      Phone: "", // to be implemented
+      Email1: "", // to be implemented
+      Email2: "",
+      Phone1: "", // to be implemented
+      Phone2: "",
       headers: [
         {
           text: 'Family ID',
           align: 'center',
           sortable: true,
           value: 'familyID'
+        },
+        {
+          text: 'Facilitators',
+          align: 'center',
+          sortable: true,
+          value: 'facilitatorsList'
+        },
+        {
+          text: 'Students',
+          align: 'center',
+          sortable: true,
+          value: 'studentList'
         }
       ],
-      families: {}
+      families: [{familyID: "bob"}],
+      submitBoolean: false,
+      studentData: [""]
     };
   },
-  created() {
+  /*created() {
     this.load();
-  },
+  },*/
   methods: {
     async load(){
       var familyResponse = await ApiFunctions.getFamilyList();
       var parsedData = JSON.parse(familyResponse.data);
       this.families = parsedData.values;
+    },
+    getStudentData (firstName) {
+      console.log(firstName);
+      this.studentData.push(firstName);
     },
 
     addFacilitator: function() {
@@ -169,6 +190,29 @@ export default {
     },
     removeStudent: function(index) {
       this.students.splice(index, 1);
+    },
+    async resetMessages(){
+      this.ID = "";
+      this.password = "";
+      this.facilitators = [""];
+      this.students= [""];
+      this.historic= null; 
+      this.comments= "";
+      this.bonus= "";
+      this.Email1= "";
+      this.Email2= "";
+      this.Phone1= "";
+      this.Phone2= "";
+    },
+    async submitFamily () {
+      /*this.ID = await Math.floor(Math.random() * 9000) + 1000;
+      while (accountExists(ID)==true) {
+        this.ID = await Math.floor(Math.random() * 9000) + 1000;
+      }
+      this.password = await Math.floor(Math.random() * 90000) + 10000;*/
+      this.submitBoolean = true;
+      console.log(this.studentData);
+
     }
   },
   components: {

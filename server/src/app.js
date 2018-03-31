@@ -174,12 +174,27 @@ app.post('/accountExists', async function (req, res) {
 })
 app.post('/changePassword', async function (req, res) {
     let changeResult = await functions.changePassword(req.body.username, req.body.password);
-    console.log("app.js account Exists input: ", req.body.username)
-    console.log("app.js account Exists input: ", req.body.password)
+  //  console.log("app.js account Exists input: ", req.body.username)
+  //  console.log("app.js account Exists input: ", req.body.password)
 
-    console.log("app.js account Exists result: ", changeResult)
+  //  console.log("app.js account Exists result: ", changeResult)
     res.send(changeResult)
 })
+app.post('/requiredMinutesWeekly', async function (req, res) {
+  /*   console.log("in app.js")
+    try {
+    console.log("app.js requiredMinutesWeekly input: ", req.body.account)
+    }
+    catch (error) {
+        console.log("error", error)
+    } */
+    let minutesRequired = await functions.requiredMinutesWeekly(req.body.account);
+  //  console.log("app.js requiredMinutesWeekly result: ", minutesRequired)
+    res.send({minutes: minutesRequired})
+})
+
+
+
 
 /** GET:  getSettings
 ----------------------------
@@ -272,6 +287,8 @@ app.post("/getReservationByID", async function (req, res) {
         res.send("getReservationByID Error: ", err);
     }
 })
+
+
 
 
 

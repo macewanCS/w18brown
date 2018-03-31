@@ -11,8 +11,8 @@
             </v-flex>
             <v-spacer id="mySpace" />
             <v-flex class="remove" >
-                <v-btn fab dark small color="red" class="removebtn" @click="$emit('removeFac')">
-                    -
+                <v-btn type="submit" color="error" class="removebtn" @click="$emit('removeFac')">
+                    Delete
                 </v-btn>
             </v-flex>
 
@@ -32,9 +32,6 @@ export default {
 </script>
 
 <style scoped>
-.input {
-    padding-left: 50px;
-}
 #addSubSign {
 font-size: 30pt;
 }
@@ -45,6 +42,10 @@ font-size: 30pt;
   height: 80px;
 }
 #mySpace {
-    width: 120px;
+    width: 200px;
+}
+.removebtn {
+    transform: scale(0.75);
+
 }
 </style>

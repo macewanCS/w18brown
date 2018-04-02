@@ -1,29 +1,29 @@
 <template>
-    <v-container class="contentContainer">
-        <h1>Upcoming Reservations</h1>
-        <v-data-table :headers="headers" :items="futureReservations" item-key="reservationID">
-            <template slot="items" slot-scope="props">
-                <tr @click="props.expanded = !props.expanded">
-                    <td>{{ props.item.date }}</td>
-                    <td>{{ props.item.name }}</td>
-                    <td>{{ props.item.startTime }}</td>
-                    <td>{{ props.item.endTime }}</td>
-                    <td>{{ props.item.room }}</td>
-                    <td>{{ props.item.reservationID }}</td>
-                </tr>
-            </template>
-            <template slot="no-data">
-                <v-alert :value="true" color="info">
-                    No upcoming reservations.
-                </v-alert>
-            </template>
-            <template slot="expand" slot-scope="props">
-                <v-card flat>
-                    <v-btn block color="error" dark @click="cancelReservation(props.item.reservationID)">Cancel this Reservation</v-btn>
-                </v-card>
-            </template>
-        </v-data-table>
-    </v-container>
+  <v-container class="contentContainer">
+    <h1>Upcoming Reservations</h1>
+    <v-data-table :headers="headers" :items="futureReservations" item-key="reservationID">
+      <template slot="items" slot-scope="props">
+        <tr>
+          <td>{{ props.item.date }}</td>
+          <td>{{ props.item.name }}</td>
+          <td>{{ props.item.startTime }}</td>
+          <td>{{ props.item.endTime }}</td>
+          <td>{{ props.item.room }}</td>
+          <td>{{ props.item.reservationID }}</td>
+          <td>
+            <v-btn icon @click="cancelReservation(props.item.reservationID)">
+              <v-icon color="pink">delete</v-icon>
+            </v-btn>
+          </td>
+        </tr>
+      </template>
+      <template slot="no-data">
+        <v-alert :value="true" color="info">
+          No upcoming reservations.
+        </v-alert>
+      </template>
+    </v-data-table>
+  </v-container>
 </template>
 
 <script>
@@ -59,12 +59,21 @@ export default {
           value: "room"
         },
         {
-          text: "reservationID",
-          value: "reservationID"
+          text: "ID",
+          value: "reservationID",
+        },
+        {
+          text: "Actions",
+          align: "left"
+          
+          
         }
       ],
       futureReservations: []
     };
+  },
+  props: {
+    updateMe: false
   },
   computed: {
     ...mapState(["accountID"]) //Can obtain accountID by using this.accountID now.
@@ -72,6 +81,7 @@ export default {
   async mounted() {
     this.getFutureReserves();
     console.log("Hello", this.futureReservations);
+    console.log(this.needToUpdate);
   },
   methods: {
     async getFutureReserves() {
@@ -88,6 +98,13 @@ export default {
       let result = await ApiFunctions.cancelReservation({ reserveID: ID });
       console.log(result);
       this.getFutureReserves();
+      this.$emit("updateCal");
+    }
+  },
+  watch: {
+    updateMe: function() {
+      console.log("updateMe Triggered");
+      this.getFutureReserves();
     }
   }
 };
@@ -96,5 +113,8 @@ export default {
 <style scoped>
 .contentContainer {
   max-width: 800px;
+}
+h1 {
+  text-align: center;
 }
 </style>

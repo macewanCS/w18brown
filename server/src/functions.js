@@ -32,14 +32,10 @@ module.exports = {
 	getFacilitators,
 	getStudents,
 	accountExists,
-	getReservationByID
+	getReservationByID,
+	studentsPerAccount,
+	requiredMinutesWeekly
 }
-
-
-
-
-
-
 
 var mysql = require('mysql');
 var dateFormat = require('dateformat');
@@ -188,6 +184,51 @@ async function checkName(name, password){
 		});
     });
 }
+
+/**
+ * Function made by Terry => needs a unit test made.
+ *this function finds the number of students in a family
+ *
+ * @param {*} account username to be checked
+ * @returns number of students in the family
+ */
+async function studentsPerAccount(account){
+	//console.log("calling studentsPerAccount in functions")
+    return new Promise(function (fulfill, reject){
+		// ? is like %s in C. 
+		var sql = "SELECT * FROM student WHERE familyID = ?";
+						// this array gives order. account is the first ?, password is the 2nd ?
+		con.query(sql, [account], function (err, result, fields) {
+			if (err) throw err;
+
+	//		console.log("studentCount function number of students: ", result.length)
+			fulfill(result.length);
+	//return result.length
+		});
+    });
+}
+
+/**
+ * Function made by Terry => needs a unit test made.
+ * This will need to be updated if required hours is incorporated into settings.
+ *
+ * @param {*} account username to be checked
+ * @returns number of students in the family
+ */
+async function requiredMinutesWeekly(account){
+//	console.log("account is: ", account)
+	var students = await studentsPerAccount(account)
+	var minutesWeekly = 60 * 2.5 // update 2.5 to be required hours in settings.
+//console.log("in requiredMinutesWeekly in functions. students: ", students)
+	if (students > 2){
+		return 2 * minutesWeekly
+	} else {
+		return 1 * minutesWeekly
+	}
+	//return 1 * minutesWeekly
+}
+
+
 
 /**
  * 
@@ -408,7 +449,7 @@ async function getReservationByID(ID){
 				output.reservationID = result[0].reservation_ID;
 				output.room = result[0].room;
 	
-				json = JSON.stringify(output);
+				json = output;
 	
 				fulfill(json);
 			}

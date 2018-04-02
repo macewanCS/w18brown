@@ -6,11 +6,13 @@ export default {
         return Api().post('login', logInfo) // this login is on the backend
     },
     async checkAuth(){
-        let test = Api().post("checkAuth");
-        test.then(function() {
-            return true
+        let authResult = Api().post("checkAuth");
+        authResult.then(function() {
+            //Goes down this path upon PromiseStatus: success of checkAuth
         }, function() {
+            //Goes down this path upon PromiseStatus: failure of checkAuth.
             return false
         });
+        return authResult;
     }
 }

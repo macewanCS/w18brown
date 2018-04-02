@@ -37,12 +37,6 @@ module.exports = {
 	requiredMinutesWeekly
 }
 
-
-
-
-
-
-
 var mysql = require('mysql');
 var dateFormat = require('dateformat');
 

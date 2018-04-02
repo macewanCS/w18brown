@@ -4,16 +4,15 @@ import Api from '@/services/Api'
 export default {
     async login (logInfo) { // this login is on the frontend
         return Api().post('login', logInfo) // this login is on the backend
+    },
+    async checkAuth(){
+        let authResult = Api().post("checkAuth");
+        authResult.then(function() {
+            //Goes down this path upon PromiseStatus: success of checkAuth
+        }, function() {
+            //Goes down this path upon PromiseStatus: failure of checkAuth.
+            return false
+        });
+        return authResult;
     }
 }
-/* 
-export default {
-    async createEmployee (info) {
-        return Api().post('createEmployee', info)
-    }
-} */
-// calling the above function in another file:
-/* AuthenticationService.login({
-    account: 'some text',
-    password: 'some text'
-}) */

@@ -50,50 +50,50 @@ export default {
   },
   methods: {
     async login() {
-      console.log(
+ /*      console.log(
         "In Login.vue file:   username: ",
         this.username,
         "password: ",
         this.password
-      );
-      console.log("login button was clicked");
+      ); */
+ //     console.log("login button was clicked");
 
       try {
         const response = await AuthenticationService.login({
           username: this.username,
           password: this.password
         });
-        await console.log("response.data is: ", response.data);
+   //     await console.log("response.data is: ", response.data);
 
         if (response.data.type == "admin") {
-          console.log("admin detected");
+  //        console.log("admin detected");
           this.$router.push({
             name: "dashboardadmin"
           });
         } else if (response.data.type == "family") {
-          console.log("family detected");
+  //        console.log("family detected");
           this.$store.dispatch("setAccountID", response.data.accountID);
           this.$store.dispatch("setToken", response.data.token);
           this.$router.push({
             name: "dashboardfamily"
           });
         } else if (response.data.type == "teacher") {
-          console.log("teacher detected");
+   //       console.log("teacher detected");
           this.$store.dispatch("setAccountID", response.data.accountID);
           this.$store.dispatch("setToken", response.data.token);
           this.$router.push({
             name: "dashboardteacher"
           });
         } else if (response.data.type == "board") {
-          console.log("board detected");
+  //        console.log("board detected");
           this.$store.dispatch("setAccountID", response.data.accountID);
           this.$store.dispatch("setToken", response.data.token);
           this.$router.push({
             name: "dashboardboard"
           });
         } else {
-          console.log(typeof response.data.type);
-          console.log("Login Failed!");
+   //       console.log(typeof response.data.type);
+   //       console.log("Login Failed!");
           //
           //  Add redirect to error page?
           //
@@ -107,7 +107,7 @@ export default {
           name: 'admin'
         })*/
       } catch (error) {
-        console.log("catch condition");
+        console.log("catch condition", error);
         this.error = error.response.data.error;
       }
     }

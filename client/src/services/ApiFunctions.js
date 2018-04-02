@@ -68,8 +68,15 @@ export default {
         console.log("ApiFunction changePassword data: ", changeData)
         return Api().post('changePassword', changeData);
     },
+  
     async getFamilyList() {
         return Api().get("getFamilyList");
+    },
+
+    async requiredMinutesWeekly(accountINhours) {
+     //   console.log("in apifunctions.js")
+     //   console.log("ApiFunction requiredMinutesWeekly data: ", accountINhours)
+        return Api().post('requiredMinutesWeekly', accountINhours);
     },
 
     async checkCreateFamily(familyCheckResult) {
@@ -117,7 +124,17 @@ export default {
         if (reserveID) {
             return Api().post("cancelReservation", reserveID);
         } else {
-            throw "No reserveID provided"
+            throw "No reserveID provided";
+        }
+    },
+    async getReservationInfoByID(id) {
+        if (id) {
+            var params = {
+                reserveID: id
+            }
+            return Api().post("getReservationByID", params);
+        } else {
+            throw "No Reservation ID provided.";
         }
     }
     /* 
@@ -126,5 +143,4 @@ export default {
 	getTypes,
 	createJSON
     */
-
 }

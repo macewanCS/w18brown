@@ -22,24 +22,21 @@ import ScheduleBoard from "@/components/board/ScheduleBoard";
 import ReportsBoard from "@/components/board/ReportsBoard";
 import PasswordReset from "@/components/admin/PasswordReset";
 
+import AuthService from "../services/AuthenticationService";
+
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
       // when reaching localhost:8080/, redirect to Login
-      path: '/', 
+      path: '/',
       component: Login
     },
     {
       path: '/login',
       name: 'login',
       component: Login
-    },
-    {
-      path: '/underconstruction',
-      name: 'underconstruction',
-      component: UnderConstruction
     },
     {
       path: '/board',
@@ -50,16 +47,16 @@ export default new Router({
         name: 'dashboardboard',
         component: DashboardBoard
       },
-      {  
+      {
         path: 'reportsboard',
         name: 'reportsboard',
         component: ReportsBoard
       },
-      {  
+      {
         path: 'scheduleboard',
         name: 'scheduleboard',
         component: ScheduleBoard
-      }]      
+      }]
     },
     {
       path: '/teacher',
@@ -70,12 +67,11 @@ export default new Router({
         name: 'dashboardteacher',
         component: DashboardTeacher
       },
-      {  
+      {
         path: 'scheduleteacher',
         name: 'scheduleteacher',
         component: ScheduleTeacher
-      }]      
-
+      }]
     },
 
     {
@@ -87,43 +83,44 @@ export default new Router({
         path: 'dashboardadmin',
         name: 'dashboardadmin',
         component: DashboardAdmin
-        },
-        {  
-          path: 'settings',
-          name: 'settings',
-          component: Settings
-        },
-        {
-          path: 'rooms',
-          name: 'rooms',
-          component: Rooms
-        },
-        {
-          path: "accounts",
-          name: "accounts",
-          component: Accounts
-        },
-        {
-          path: "holidaysadmin",
-          name: "holidaysadmin",
-          component: HolidaysAdmin
-        },
-        {
-          path: "passwordreset",
-          name: "passwordreset",
-          component: PasswordReset
-        },
-        {
-          path: "fieldtripsadmin",
-          name: "fieldtripsadmin",
-          component: FieldTripsAdmin
-        },
-        {
-          path: "accountstaff",
-          name: "accountstaff",
-          component: AccountStaff
-        }
-      ]}, 
+      },
+      {
+        path: 'settings',
+        name: 'settings',
+        component: Settings
+      },
+      {
+        path: 'rooms',
+        name: 'rooms',
+        component: Rooms
+      },
+      {
+        path: "accounts",
+        name: "accounts",
+        component: Accounts
+      },
+      {
+        path: "holidaysadmin",
+        name: "holidaysadmin",
+        component: HolidaysAdmin
+      },
+      {
+        path: "passwordreset",
+        name: "passwordreset",
+        component: PasswordReset
+      },
+      {
+        path: "fieldtripsadmin",
+        name: "fieldtripsadmin",
+        component: FieldTripsAdmin
+      },
+      {
+        path: "accountstaff",
+        name: "accountstaff",
+        component: AccountStaff
+      }
+      ]
+    },
 
 
 
@@ -131,17 +128,29 @@ export default new Router({
       path: '/family',
       name: 'family',
       component: Family,
+      beforeEnter: async (to, from, next) => {
+        try {
+        let cred = await AuthService.checkAuth();
+        if (cred.data == true) {
+          next();
+        } else {
+          next("/login");
+        }
+      } catch(err) {
+        next("/login");
+      }
+      },
       children: [{
         path: 'reserve',
         name: 'reserve',
         component: Reserve
-        },
-        {
+      },
+      {
         path: '/dashboardfamily',
         name: 'dashboardfamily',
         component: DashboardFamily,
-        } 
-    ]
+      }
+      ]
     }
   ]
 })

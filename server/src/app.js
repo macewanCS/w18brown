@@ -12,7 +12,8 @@ var request = require("request-promise");
 const enviro = require('./config/globals'); // Contains global environment variables
 // code to import functions file
 var authFunctions = require('./authFunctions')
-
+const passport = require('passport');
+require("./passport")(passport);
 
 /*
     Note: to use authFunctions, use dot notation.
@@ -35,7 +36,6 @@ function jwtSignObject(user) {
         expiresIn: timeLimit
     })
 }
-
 
 // End JWT Section
 //----------------------------------
@@ -174,23 +174,23 @@ app.post('/accountExists', async function (req, res) {
 })
 app.post('/changePassword', async function (req, res) {
     let changeResult = await functions.changePassword(req.body.username, req.body.password);
-  //  console.log("app.js account Exists input: ", req.body.username)
-  //  console.log("app.js account Exists input: ", req.body.password)
+    //  console.log("app.js account Exists input: ", req.body.username)
+    //  console.log("app.js account Exists input: ", req.body.password)
 
-  //  console.log("app.js account Exists result: ", changeResult)
+    //  console.log("app.js account Exists result: ", changeResult)
     res.send(changeResult)
 })
 app.post('/requiredMinutesWeekly', async function (req, res) {
-  /*   console.log("in app.js")
-    try {
-    console.log("app.js requiredMinutesWeekly input: ", req.body.account)
-    }
-    catch (error) {
-        console.log("error", error)
-    } */
+    /*   console.log("in app.js")
+      try {
+      console.log("app.js requiredMinutesWeekly input: ", req.body.account)
+      }
+      catch (error) {
+          console.log("error", error)
+      } */
     let minutesRequired = await functions.requiredMinutesWeekly(req.body.account);
-  //  console.log("app.js requiredMinutesWeekly result: ", minutesRequired)
-    res.send({minutes: minutesRequired})
+    //  console.log("app.js requiredMinutesWeekly result: ", minutesRequired)
+    res.send({ minutes: minutesRequired })
 })
 
 
@@ -280,15 +280,19 @@ app.post("/cancelReservation", async function (req, res) {
 
 app.post("/getReservationByID", async function (req, res) {
     try {
-    let reservation = await functions.getReservationByID(req.body.reserveID);
-    res.send(JSON.stringify(reservation));
+        let reservation = await functions.getReservationByID(req.body.reserveID);
+        res.send(JSON.stringify(reservation));
     } catch (err) {
         console.log(err);
         res.send("getReservationByID Error: ", err);
     }
 })
 
-
+app.post("/checkAuth", passport.authenticate("jwt", { session: false }),
+    function (req, res) {
+        res.send(true);
+    }
+)
 
 
 

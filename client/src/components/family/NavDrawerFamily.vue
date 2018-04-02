@@ -19,14 +19,14 @@
             </v-list-tile>
 
             <v-list-tile :to="{name: 'reserve'}">
-                    <v-list-tile-content>
-                        <v-list-tile-title>Reservations</v-list-tile-title>
-                    </v-list-tile-content>
+                <v-list-tile-content>
+                    <v-list-tile-title>Reservations</v-list-tile-title>
+                </v-list-tile-content>
             </v-list-tile>
 
             <v-divider />
 
-            <v-list-tile :to="{name: 'login'}">
+            <v-list-tile @click="logout">
                 <v-list-tile-content>
                     <v-list-tile-title>Logout</v-list-tile-title>
                 </v-list-tile-content>
@@ -37,7 +37,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    logout() {
+      this.$store.dispatch("setToken", null);
+      this.$store.dispatch("setAccountID", null);
+      this.$router.push({
+        name: "login"
+      });
+    }
+  }
+};
 </script>
 
 <style>

@@ -68,9 +68,17 @@ export default {
         console.log("ApiFunction changePassword data: ", changeData)
         return Api().post('changePassword', changeData);
     },
+    async getFamilyList() {
+        return Api().get("getFamilyList");
+    },
 
+    async checkCreateFamily(familyCheckResult) {
+        return Api().post('checkCreateFamily', familyCheckResult);
+    },
 
-
+    async confirmCreateFamily(familyAddedBool) {
+        return Api().post('confirmCreateFamily', familyAddedBool);
+    }
 
 
     /*
@@ -88,9 +96,9 @@ export default {
     /*   async finalRoomUpdate(info3) {
           return Api().post('finalRoomUpdate', info3)
       }, */
-    async getFamilyList(info4) {
+    /*async getFamilyList(info4) {
         return Api().post('getFamilyList', info4)
-    },
+    },*/
     async getEmployeeList(employeeList) {
         return Api().get('getEmployeeList')
     },

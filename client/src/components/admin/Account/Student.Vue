@@ -36,6 +36,7 @@ export default {
         return {
             firstName: "",
             lastName: "",
+            fullName: "",
             grades: ["K","1","2","3","4","5","6", "7", "8", "9", "10", "11", "12"],
             rooms: {},
             gradeSelected: "",
@@ -45,10 +46,9 @@ export default {
     },
     created() {
       this.load();
-      console.log(this.formSubmit);
     },
     methods: {
-        async load(){
+        async load() {
             var roomResponse = await ApiFunctions.getRoomList();
             var parsedData = JSON.parse(roomResponse.data);
             this.rooms = parsedData.values;
@@ -57,13 +57,22 @@ export default {
                 list.push(element.roomName);
             });
             this.roomsList = list;
+        },
+        async resetForm() {
+            this.firstName = "";
+            this.lastName = "";
+            this.fullName = "";
+            this.gradeSelected = "";
+            this.roomSelected = "";
         }
     },
     watch: {
         formSubmit: function () {
-            console.log(this.formSubmit);
             if (this.formSubmit) {
-                this.$emit('submit','test');
+                this.fullName = this.firstName.concat(" ");
+                this.fullName = this.fullName.concat(this.lastName);
+                this.$emit('submit',this.fullName, this.gradeSelected, this.roomSelected);
+                resetForm();
             }
         }
     }

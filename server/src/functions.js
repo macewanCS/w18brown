@@ -229,7 +229,8 @@ async function requiredMinutesWeekly(account){
 
 
 
-/**
+
+/*
  * 
  * @param {*} username provided username
  * @param {*} type provided type

@@ -68,17 +68,16 @@ export default {
         console.log("ApiFunction changePassword data: ", changeData)
         return Api().post('changePassword', changeData);
     },
+  
     async getFamilyList() {
         return Api().get("getFamilyList");
     },
+
     async requiredMinutesWeekly(accountINhours) {
      //   console.log("in apifunctions.js")
      //   console.log("ApiFunction requiredMinutesWeekly data: ", accountINhours)
         return Api().post('requiredMinutesWeekly', accountINhours);
     },
-
-
-    
 
     async checkCreateFamily(familyCheckResult) {
         return Api().post('checkCreateFamily', familyCheckResult);

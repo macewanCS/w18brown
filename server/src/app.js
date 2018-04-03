@@ -240,9 +240,9 @@ app.get("/roomDict", async function (req, res) {
     res.send(rooms);
 })
 app.get("/roomList", async function (req, res) {
-    let rooms = await functions.roomList();
-    console.log(rooms);
-    res.send(JSON.stringify(rooms));
+    let rooms2 = await functions.roomList();
+    console.log("rooms: ", rooms2);
+    res.send(JSON.stringify(rooms2));
 })
 
 app.post("/getFacilitators", async function (req, res) {

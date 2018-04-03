@@ -14,13 +14,11 @@
         <h1>Create Field Trip</h1>
         <br>
 
-        <h3>Date</h3>
-
         <v-flex xs12>
 
           <v-layout justify-center>
             <v-menu ref="menu" lazy :close-on-content-click="false" v-model="menu" transition="scale-transition" offset-y full-width :nudge-right="40" min-width="290px" :return-value.sync="startDate">
-                <v-text-field slot="activator" v-model="tripDate" prepend-icon="event" readonly></v-text-field>
+                <v-text-field label="Trip Date" slot="activator" v-model="tripDate" prepend-icon="event" readonly></v-text-field>
                 <v-date-picker v-model="tripDate" no-title scrollable>
                     <v-spacer></v-spacer>
                     <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>

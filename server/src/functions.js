@@ -193,6 +193,7 @@ async function checkName(name, password){
  * @returns number of students in the family
  */
 async function studentsPerAccount(account){
+	console.log("account: ", account )
 	//console.log("calling studentsPerAccount in functions")
     return new Promise(function (fulfill, reject){
 		// ? is like %s in C. 
@@ -201,7 +202,7 @@ async function studentsPerAccount(account){
 		con.query(sql, [account], function (err, result, fields) {
 			if (err) throw err;
 
-	//		console.log("studentCount function number of students: ", result.length)
+			console.log("studentCount function number of students: ", result.length)
 			fulfill(result.length);
 	//return result.length
 		});

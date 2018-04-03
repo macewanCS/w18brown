@@ -42,7 +42,7 @@ module.exports = {
                         fulfill("incorrect");
 
                         // -- test output -- PLO
-                        console.log("checkName function. user not found in database.")
+       //                 console.log("checkName function. user not found in database.")
 
                     }
                     else {
@@ -52,7 +52,7 @@ module.exports = {
                         //Insert stuff here to return a fulfill with a user object.
                         
                         // -- test output -- PLO
-                        console.log("checkName function. User found with type: ", result[0].type)
+  //                      console.log("checkName function. User found with type: ", result[0].type)
                     }
                 });
             });

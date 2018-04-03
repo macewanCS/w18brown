@@ -91,14 +91,16 @@
         <br/>
         <h1>Current Employee Accounts</h1>
         <br>
-        <v-flex align-center>
-          <v-data-table light :headers="headers" :items="users" hide-actions class="elevation-1">
-            <template slot="items" slot-scope="props">
-              <td class="text-xs-right">{{ props.item.name }}</td>
-              <td class="text-xs-right">{{ props.item.type }}</td>
-            </template>
-          </v-data-table>
-        </v-flex>
+        <v-layout align-center justify-center> <!-- this centers the contents -->
+          <v-flex align-center xs10>
+            <v-data-table light :headers="headers" :items="users" hide-actions class="elevation-1">
+              <template slot="items" slot-scope="props">
+                <td align="center">{{ props.item.name }}</td>
+                <td  align="center">{{ props.item.type }}</td>
+              </template>
+            </v-data-table>
+          </v-flex>
+        </v-layout>
         <v-text name="employees" type="text" id="employees" label="employees" v-model="employees" />
         <!-- snackbars modified from https://github.com/harryho/vue2crm/blob/master/src/components/Login.vue -->
         <!-- PLO snackbar code

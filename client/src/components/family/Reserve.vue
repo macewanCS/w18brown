@@ -380,8 +380,8 @@
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn color="success" >Reserve</v-btn>
-                  <v-btn color="error" >Cancel</v-btn>
+                  <v-btn color="success">Reserve</v-btn>
+                  <v-btn color="error">Cancel</v-btn>
                   <v-spacer />
                 </v-card-actions>
               </v-card>
@@ -481,7 +481,7 @@ export default {
     async getReservations() {
       try {
         // Room/Date that has any entries "red","2018/03/05"
-        console.log(this.selectedMonday);
+        //console.log(this.selectedMonday);
         let incomingReserves = await ApiFunctions.getReservations(
           this.selectedRoom,
           this.selectedMonday
@@ -499,7 +499,7 @@ export default {
         throw "weekReserves doesn't have a length of 5(missing 5 days of the week)";
       }
       let arr_reservations = weekReserves.reservations;
-      console.log(arr_reservations);
+      //console.log(arr_reservations);
       for (let day = 0; day < arr_reservations.length; day++) {
         for (
           let block = 0;
@@ -543,7 +543,7 @@ export default {
       this.calendar_ready = true;
     },
     newReserve(origin) {
-      console.log(origin);
+      //console.log(origin);
       if (origin.isFree) {
         this.clearDialogBoxes();
         this.reservedDate = origin.date;
@@ -632,7 +632,6 @@ export default {
     async getFacilitators(accountID) {
       let response = await ApiFunctions.getFacilitators(this.accountID);
       let list = response.data;
-      console.log(list);
       if (list) {
         this.availFacilitators = list;
       } else {

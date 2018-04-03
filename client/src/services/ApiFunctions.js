@@ -68,11 +68,9 @@ export default {
         console.log("ApiFunction changePassword data: ", changeData)
         return Api().post('changePassword', changeData);
     },
-<<<<<<< HEAD
     async getFamilyList() {
         return Api().get("getFamilyList");
     },
-=======
     async requiredMinutesWeekly(accountINhours) {
      //   console.log("in apifunctions.js")
      //   console.log("ApiFunction requiredMinutesWeekly data: ", accountINhours)
@@ -81,15 +79,17 @@ export default {
 
 
     
->>>>>>> upstream/master
 
     async checkCreateFamily(familyCheckResult) {
         return Api().post('checkCreateFamily', familyCheckResult);
     },
 
-    async confirmCreateFamily(familyAddedBool) {
-        return Api().post('confirmCreateFamily', familyAddedBool);
-    }
+    async confirmCreateFamily(formSubmit) {
+        console.log(formSubmit);
+        var test = {};
+        test.pack = formSubmit;
+        return Api().post('confirmCreateFamily', test);
+    },
 
 
     /*

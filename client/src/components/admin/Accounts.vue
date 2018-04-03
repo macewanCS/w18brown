@@ -48,18 +48,18 @@
                   <h3>Contact Information</h3>
                   <v-layout row wrap>
                     <v-flex class="input" xs5>
-                      <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="Phone" />
+                      <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="phone1" />
                     </v-flex>
                     <v-flex class="input" xs6>
-                      <v-text-field name="Email" type="text" label="Email" v-model="Email" />
+                      <v-text-field name="Email" type="text" label="Email" v-model="email1" />
                     </v-flex>
                   </v-layout>
                   <v-layout row wrap>
                     <v-flex class="input" xs5>
-                      <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="Phone" />
+                      <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="phone2" />
                     </v-flex>
                     <v-flex class="input" xs6>
-                      <v-text-field name="Email" type="text" label="Email" v-model="Email" />
+                      <v-text-field name="Email" type="text" label="Email" v-model="email2" />
                     </v-flex>
                   </v-layout>
                 </div>
@@ -136,10 +136,10 @@ export default {
       historic: null, // to be implemented
       comments: "", // to be implemented
       bonus: "", // to be implemented
-      Email1: "", // to be implemented
-      Email2: "",
-      Phone1: "", // to be implemented
-      Phone2: "",
+      email1: "", // to be implemented
+      email2: "",
+      phone1: "", // to be implemented
+      phone2: "",
       headers: [
         {
           text: 'Family ID',
@@ -162,8 +162,9 @@ export default {
       ],
       families: [""],
       submitBoolean: false,
-      studentData: [""],
-      facilitatorData: [""]
+      studentData: [],
+      facilitatorData: [],
+      accountName: ""
     };
   },
   created() {
@@ -172,19 +173,23 @@ export default {
   methods: {
     async load(){
       var familyResponse = await ApiFunctions.getFamilyList();
-      console.log(familyResponse);
       var parsedData = JSON.parse(familyResponse.data);
+      console.log(parsedData.values);
       this.families = parsedData.values;
     },
-    async getStudentData (name, grade, room) {
+    async getStudentData (firstName, lastName, grade, room) {
       var info = {};
-      info.name = name;
+      info.firstName = firstName;
+      info.lastName = lastName;
       info.grade = grade;
       info.room = room;
       this.studentData.push(info);
     },
-    async getFacilitatorData (name) {
-      this.facilitatorData.push(name);
+    async getFacilitatorData (first, last) {
+      this.accountName = last;
+      var fullName = first.concat(" ");
+      fullName = fullName.concat(last);      
+      this.facilitatorData.push(fullName);
     },
     addFacilitator: function() {
       this.facilitators.push(facCounter);
@@ -208,41 +213,38 @@ export default {
       this.historic = null; 
       this.comments = "";
       this.bonus = "";
-      this.Email1 = "";
-      this.Email2 = "";
-      this.Phone1 = "";
-      this.Phone2 = "";
+      this.email1 = "";
+      this.email2 = "";
+      this.phone1 = "";
+      this.phone2 = "";
       this.submitBoolean = false;
-      this.studentData = [""];
-      this.facilitatorData = [""];
+      this.studentData = [];
+      this.facilitatorData = [];
     },
     async submitFamily () {
-      this.ID = await Math.floor(Math.random() * 9000) + 1000;
-      while (await ApiFunctions.accountExists(ID)) {
-        this.ID = await Math.floor(Math.random() * 9000) + 1000;
-      }
-      this.password = await Math.floor(Math.random() * 90000) + 10000;
       this.submitBoolean = true;
+      this.$nextTick(async function () {
+        this.ID = this.accountName;
+        this.ID = this.ID.concat(await Math.floor(Math.random() * 9000) + 1000);
+        this.password = await Math.floor(Math.random() * 90000) + 10000;
 
-      var field = {};
-      field.accountID = this.ID;
-      field.bonusHours = this.bonus;
-      field.bonusComment = this.comments;
-      field.phone = this.Phone1 + "," + this.Phone2;
-      field.email = this.Email1 + "," + this.Email2;
-      field.historicHours = this.historic;
-      field.facilitators = this.facilitatorData;
-      field.students = this.studentData;
-
-      var json = JSON.stringify(field);
-      
-      var check = await ApiFunctions.checkCreateFamily(json);
-
-      if (check) {
+        var field = {};
+        field.accountID = this.ID;
+        field.bonusHours = this.bonus;
+        field.bonusComment = this.comments;
+        field.phone = this.phone1 + "," + this.phone2;
+        field.email = this.email1 + "," + this.email2;
+        field.historicHours = this.historic;
+        field.facilitators = this.facilitatorData;
+        field.students = this.studentData;
         field.password = this.password;
+        var json = JSON.stringify(field);
+        console.log(json);
         var submit = await ApiFunctions.confirmCreateFamily(json);
-      }
+        console.log(submit);
+      });
 
+      //var check = await ApiFunctions.checkCreateFamily(json);
     }
   },
   components: {

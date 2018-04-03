@@ -12,8 +12,7 @@ var request = require("request-promise");
 const enviro = require('./config/globals'); // Contains global environment variables
 // code to import functions file
 var authFunctions = require('./authFunctions')
-const passport = require('passport');
-require("./passport")(passport);
+
 
 /*
     Note: to use authFunctions, use dot notation.
@@ -36,6 +35,7 @@ function jwtSignObject(user) {
         expiresIn: timeLimit
     })
 }
+
 
 // End JWT Section
 //----------------------------------
@@ -157,6 +157,21 @@ app.get("/getFamilyList", async function (req, res) {
     res.send(JSON.stringify(familyList));
 })
 
+app.post("/createFamilyCheck", async function (req, res) {
+    let familyExists = await functions.createFamilyCheck(req.body.formData);
+
+    res.send(familyExist);
+})
+
+app.post("/confirmCreateFamily", async function (req, res){
+    let addedBool = await functions.confirmCreateFamily(req.body.pack);
+
+    res.send(addedBool);
+})
+
+
+
+
 app.post("/addRoom", async function (req, res) {
     let addRoomCheck = await functions.addRoom(req.body.roomName);
     //    await console.log("addroom app boolean: ", addRoomCheck)
@@ -179,29 +194,48 @@ app.post('/accountExists', async function (req, res) {
 })
 app.post('/changePassword', async function (req, res) {
     let changeResult = await functions.changePassword(req.body.username, req.body.password);
-    //  console.log("app.js account Exists input: ", req.body.username)
-    //  console.log("app.js account Exists input: ", req.body.password)
+    console.log("app.js account Exists input: ", req.body.username)
+    console.log("app.js account Exists input: ", req.body.password)
 
-    //  console.log("app.js account Exists result: ", changeResult)
+    console.log("app.js account Exists result: ", changeResult)
     res.send(changeResult)
 })
-app.post('/requiredMinutesWeekly', async function (req, res) {
-    /*   console.log("in app.js")
-      try {
-      console.log("app.js requiredMinutesWeekly input: ", req.body.account)
-      }
-      catch (error) {
-          console.log("error", error)
-      } */
-    let minutesRequired = await functions.requiredMinutesWeekly(req.body.account);
-    //  console.log("app.js requiredMinutesWeekly result: ", minutesRequired)
-    res.send({ minutes: minutesRequired })
-})
 
 
 
 
-/** GET:  getSettings
+
+
+
+
+
+/*
+
+async checkName(info2) {
+    return Api().post('checkName', info2)
+},
+async getFamilyList(info4) {
+    return Api().post('getFamilyList', info4)
+},
+*/
+
+
+/* 
+    backend functions not yet linked
+
+connect,
+getTypes,
+createJSON
+*/
+
+
+
+
+
+
+
+
+/* GET:  getSettings
 ----------------------------
     Returns a array with this format:
     block1_start, block1_end, block2_start, block2_end, block3_start, block3_end, Year start, weekly_requirements
@@ -264,40 +298,14 @@ app.post("/createReservation", async function (req, res) {
 })
 
 app.post("/getReservationByFamily", async function (req, res) {
-    try {
-        let futureReservations = await functions.getReservationByFamily(req.body.familyID);
-        res.send(JSON.stringify(futureReservations));
-    } catch (err) {
-        console.log(err);
-        res.send("getReservationByFamily Error: ", err);
-    }
+    let futureReservations = await functions.getReservationByFamily(req.body.familyID);
+    res.send(JSON.stringify(futureReservations));
 })
 
 app.post("/cancelReservation", async function (req, res) {
-    try {
-        let result = await functions.deleteReservation(req.body.reserveID);
-        res.send(JSON.stringify(result));
-    } catch (err) {
-        console.log(err);
-        res.send("cancelReservation Error: ", err);
-    }
+    let result = await functions.deleteReservation(req.body.reserveID);
+    res.send(JSON.stringify(result));
 })
-
-app.post("/getReservationByID", async function (req, res) {
-    try {
-        let reservation = await functions.getReservationByID(req.body.reserveID);
-        res.send(JSON.stringify(reservation));
-    } catch (err) {
-        console.log(err);
-        res.send("getReservationByID Error: ", err);
-    }
-})
-
-app.post("/checkAuth", passport.authenticate("jwt", { session: false }),
-    function (req, res) {
-        res.send(true);
-    }
-)
 
 
 

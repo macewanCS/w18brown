@@ -36,6 +36,7 @@ export default {
         return {
             firstName: "",
             lastName: "",
+            fullName: "",
             grades: ["K","1","2","3","4","5","6", "7", "8", "9", "10", "11", "12"],
             rooms: {},
             gradeSelected: "",
@@ -60,6 +61,7 @@ export default {
         async resetForm() {
             this.firstName = "";
             this.lastName = "";
+            this.fullName = "";
             this.gradeSelected = "";
             this.roomSelected = "";
         }
@@ -67,8 +69,10 @@ export default {
     watch: {
         formSubmit: function () {
             if (this.formSubmit) {
-                this.$emit('submit',this.firstName, this.lastName, this.gradeSelected, this.roomSelected);
-                //resetForm();
+                this.fullName = this.firstName.concat(" ");
+                this.fullName = this.fullName.concat(this.lastName);
+                this.$emit('submit',this.fullName, this.gradeSelected, this.roomSelected);
+                resetForm();
             }
         }
     }

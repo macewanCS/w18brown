@@ -340,12 +340,12 @@
               <v-card>
                 <h1 class="h1Dialog">Reserve a time<br>{{reservedDate}}</h1>
                 <v-card-text>
-                  <v-select v-bind:items="availFacilitators" v-model="selectedFacil" v-bind:error="errSelectedFacil" label="Select a Facilitator" single-line required :rules="[selectedFacilRules.required]"></v-select>
+                  <v-select :items="availFacilitators" v-model="selectedFacil" v-bind:error="errSelectedFacil" label="Select a Facilitator" single-line required :rules="[selectedFacilRules.required]"></v-select>
                   <v-layout row>
                     <v-spacer />
-                    <v-select v-bind:items="availableTimes" v-model="selectedStartTime" label="Start-Time" single-line v-on:input="updateEndTimes" required></v-select>
+                    <v-select :items="availableTimes" v-model="selectedStartTime" label="Start-Time" single-line v-on:input="updateEndTimes" required></v-select>
                     <v-spacer />
-                    <v-select v-bind:items="availableEndTimes" v-model="selectedEndTime" label="End-Time" single-line required dense></v-select>
+                    <v-select :items="availableEndTimes" v-model="selectedEndTime" label="End-Time" single-line required dense></v-select>
                     <v-spacer />
                   </v-layout>
                 </v-card-text>
@@ -376,7 +376,7 @@
               <v-card>
                 <h1 class="h1Dialog">Field Trip!!!<br>{{reservedDate}}</h1>
                 <v-card-text>
-                  <v-select v-bind:items="availFacilitators" v-model="selectedFacil" v-bind:error="errSelectedFacil" label="Select a Facilitator" single-line required :rules="[selectedFacilRules.required]"></v-select>
+                  <v-select :items="availFacilitators" v-model="selectedFacil" v-bind:error="errSelectedFacil" label="Select a Facilitator" single-line required :rules="[selectedFacilRules.required]"></v-select>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
@@ -632,6 +632,7 @@ export default {
     async getFacilitators(accountID) {
       let response = await ApiFunctions.getFacilitators(this.accountID);
       let list = response.data;
+      console.log(list);
       if (list) {
         this.availFacilitators = list;
       } else {

@@ -87,6 +87,7 @@ export default {
         return Api().post('confirmCreateFamily', familyAddedBool);
     },
 
+
     /*
         Functions linked in advance.
         These can be used in the server side app.js file and in the client side vue files.

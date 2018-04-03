@@ -340,12 +340,12 @@
               <v-card>
                 <h1 class="h1Dialog">Reserve a time<br>{{reservedDate}}</h1>
                 <v-card-text>
-                  <v-select v-bind:items="availFacilitators" v-model="selectedFacil" v-bind:error="errSelectedFacil" label="Select a Facilitator" single-line required :rules="[selectedFacilRules.required]"></v-select>
+                  <v-select :items="availFacilitators" v-model="selectedFacil" v-bind:error="errSelectedFacil" label="Select a Facilitator" single-line required :rules="[selectedFacilRules.required]"></v-select>
                   <v-layout row>
                     <v-spacer />
-                    <v-select v-bind:items="availableTimes" v-model="selectedStartTime" label="Start-Time" single-line v-on:input="updateEndTimes" required></v-select>
+                    <v-select :items="availableTimes" v-model="selectedStartTime" label="Start-Time" single-line v-on:input="updateEndTimes" required></v-select>
                     <v-spacer />
-                    <v-select v-bind:items="availableEndTimes" v-model="selectedEndTime" label="End-Time" single-line required dense></v-select>
+                    <v-select :items="availableEndTimes" v-model="selectedEndTime" label="End-Time" single-line required dense></v-select>
                     <v-spacer />
                   </v-layout>
                 </v-card-text>
@@ -376,12 +376,12 @@
               <v-card>
                 <h1 class="h1Dialog">Field Trip!!!<br>{{reservedDate}}</h1>
                 <v-card-text>
-                  <v-select v-bind:items="availFacilitators" v-model="selectedFacil" v-bind:error="errSelectedFacil" label="Select a Facilitator" single-line required :rules="[selectedFacilRules.required]"></v-select>
+                  <v-select :items="availFacilitators" v-model="selectedFacil" v-bind:error="errSelectedFacil" label="Select a Facilitator" single-line required :rules="[selectedFacilRules.required]"></v-select>
                 </v-card-text>
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn color="success" >Reserve</v-btn>
-                  <v-btn color="error" >Cancel</v-btn>
+                  <v-btn color="success">Reserve</v-btn>
+                  <v-btn color="error">Cancel</v-btn>
                   <v-spacer />
                 </v-card-actions>
               </v-card>
@@ -481,7 +481,7 @@ export default {
     async getReservations() {
       try {
         // Room/Date that has any entries "red","2018/03/05"
-        console.log(this.selectedMonday);
+        //console.log(this.selectedMonday);
         let incomingReserves = await ApiFunctions.getReservations(
           this.selectedRoom,
           this.selectedMonday
@@ -499,7 +499,7 @@ export default {
         throw "weekReserves doesn't have a length of 5(missing 5 days of the week)";
       }
       let arr_reservations = weekReserves.reservations;
-      console.log(arr_reservations);
+      //console.log(arr_reservations);
       for (let day = 0; day < arr_reservations.length; day++) {
         for (
           let block = 0;
@@ -543,7 +543,7 @@ export default {
       this.calendar_ready = true;
     },
     newReserve(origin) {
-      console.log(origin);
+      //console.log(origin);
       if (origin.isFree) {
         this.clearDialogBoxes();
         this.reservedDate = origin.date;

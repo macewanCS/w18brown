@@ -85,7 +85,7 @@ export default {
 
     async confirmCreateFamily(familyAddedBool) {
         return Api().post('confirmCreateFamily', familyAddedBool);
-    }
+    },
 
 
     /*

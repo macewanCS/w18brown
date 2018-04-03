@@ -32,10 +32,14 @@ module.exports = {
 	getFacilitators,
 	getStudents,
 	accountExists,
-	getReservationByID,
-	studentsPerAccount,
-	requiredMinutesWeekly
+	getReservationByID
 }
+
+
+
+
+
+
 
 var mysql = require('mysql');
 var dateFormat = require('dateformat');
@@ -229,7 +233,7 @@ async function requiredMinutesWeekly(account){
 
 
 
-/**
+/
  * 
  * @param {*} username provided username
  * @param {*} type provided type
@@ -271,7 +275,7 @@ async function accountExists(username){
 		var sql = "SELECT * from account where accountID = ?";
 
 		//first lets make sure the username doesnt exist already
-		con.query(sql, username, function (err, result, fields) {
+		con.query(sql, username, async function (err, result, fields) {
 			if (err) throw err;		
 			if (result.length === 0){
 				fulfill(false);
@@ -362,7 +366,6 @@ async function getStudents(accountID){
 	return new Promise(function(fulfill, reject){
 		output = [];
 		var sql = "SELECT * from student WHERE familyID = ?"
-
 		con.query(sql, accountID, function (err, result, fields) {
 			if (err){
 				fulfill(false);
@@ -380,6 +383,7 @@ async function getStudents(accountID){
 				output.push(obj);
 			})
 			fulfill(output);
+			console.log(output);
 		});
 
 	})
@@ -448,7 +452,7 @@ async function getReservationByID(ID){
 				output.reservationID = result[0].reservation_ID;
 				output.room = result[0].room;
 	
-				json = output;
+				json = JSON.stringify(output);
 	
 				fulfill(json);
 			}
@@ -722,7 +726,7 @@ async function checkCreateFamily(familyIn){
 		}
 
 		//return the current default password
-		fulfill("brown");
+		fulfill(true);
 
 		
 	})
@@ -735,6 +739,8 @@ async function checkCreateFamily(familyIn){
  * Returns true if successful
  */
 async function confirmCreateFamily(familyIn){
+	console.log("confirm create family in functions");
+	console.log(familyIn);
 	var family = JSON.parse(familyIn);
 	return new Promise(function(fulfill, reject){
 
@@ -749,9 +755,9 @@ async function confirmCreateFamily(familyIn){
 
 		//insert every student
 		family.students.forEach(stu =>{
-			sql = "INSERT into student (familyID, room, studentName, grade) VALUES (?,?,?,?)";
+			sql = "INSERT into student (familyID, room, firstName, lastName, grade) VALUES (?,?,?,?,?)";
 
-			con.query(sql, [family.accountID, stu.room, stu.name, stu.grade], async function (err, result, fields) {
+			con.query(sql, [family.accountID, stu.room, stu.firstName, stu.lastName, stu.grade], async function (err, result, fields) {
 				if (err){
 					reject(false);
 					throw err;
@@ -1220,8 +1226,8 @@ async function getFamilyList(){
 			result.forEach(element =>{
 				var field = {};
 				field.id = element.accountID;
-				field.students = getChildNames(JSON.stringify(element.accountID));
-				field.facilitators = getFacilitatorNames(JSON.stringify(element.accountID));
+				field.students = getStudents(element.accountID);
+				field.facilitators = getFacilitators(element.accountID);
 				output.values.push(field);
 			})
 			var json = JSON.stringify(output, null, 2);
@@ -1236,11 +1242,26 @@ async function getFamilyList(){
  */
 async function getChildNames(familyId) {
 	return new Promise(function(fulfill, reject){
-		var sql = "SELECT familyID,student_name FROM student WHERE familyID="+familyId;
-		con.query(sql, async function(result, fields) {
+		output = [];
+		console.log(familyId);
+		var sql = "SELECT * FROM student WHERE familyID= ?";
+		con.query(sql, familyId, async function(err, result, fields) {
 			if (err) throw err;
-			fulfill(result);
+			if (result.length === 0) {
+				console.log("empty");
+				fulfill(false);				
+			}
+			result.forEach(stu =>{
+				obj = {};
+				obj.firstName = stu.firstName;
+				console.log("where here");
+				obj.lastName = stu.lastName;
+				output.push(obj);
+			})
+			console.log(output);
+			fulfill(output);
 		});
+
 	});
 }
 
@@ -1251,7 +1272,7 @@ async function getChildNames(familyId) {
 async function getFacilitatorNames(familyId) {
 	return new Promise(function(fulfill, reject){
 		var sql = "SELECT familyID,name FROM facilitator WHERE familyID="+familyId;
-		con.query(sql, async function(result, fields) {
+		con.query(sql, async function(err, result, fields) {
 			if (err) throw err;
 			fulfill(result);
 		});

@@ -83,8 +83,11 @@ export default {
         return Api().post('checkCreateFamily', familyCheckResult);
     },
 
-    async confirmCreateFamily(familyAddedBool) {
-        return Api().post('confirmCreateFamily', familyAddedBool);
+    async confirmCreateFamily(formSubmit) {
+        console.log(formSubmit);
+        var test = {};
+        test.pack = formSubmit;
+        return Api().post('confirmCreateFamily', test);
     },
 
 

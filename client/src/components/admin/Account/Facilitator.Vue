@@ -22,12 +22,32 @@
 
 <script>
 export default {
-  data() {
-    return {
-      firstName: "",
-      lastName: ""
-    };
-  }
+    props: {
+        formSubmit: {}
+    }, 
+    data() {
+        return {
+        firstName: "",
+        lastName: "",
+        fullName: ""
+        };
+    },
+    methods: {
+        async resetForm() {
+            this.firstName = "";
+            this.lastName = "";
+            this.fullName = "";
+        }     
+    },
+    watch: {
+        formSubmit: function () {
+            if (this.formSubmit) {
+                this.fullName = this.firstName.concat(" ");
+                this.fullName = this.fullName.concat(this.lastName);
+                this.$emit('submit',this.fullName);
+            }
+        }
+    }
 };
 </script>
 

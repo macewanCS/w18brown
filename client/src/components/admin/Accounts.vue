@@ -26,7 +26,7 @@
                 </h3>
                 <ul v-for="(fac,index) in facilitators" v-bind:key="fac">
                   <v-divider />
-                  <Facilitator v-on:removeFac="removeFac(index)"> </Facilitator>
+                  <Facilitator :formSubmit="submitBoolean" v-on:submit="getFacilitatorData" v-on:removeFac="removeFac(index)"> </Facilitator>
                 </ul>
                 <div>
                   <br>
@@ -39,7 +39,7 @@
 
                   <ul v-for="(student,index) in students" v-bind:key="student">
                     <v-divider />
-                    <Student :formSubmit="submitBoolean" v-on:submit="getStudentData()" v-on:removeStudent="removeStudent(index)"> </Student>
+                    <Student :formSubmit="submitBoolean" v-on:submit="getStudentData" v-on:removeStudent="removeStudent(index)"> </Student>
                   </ul>
                 </div>
 
@@ -107,7 +107,9 @@
                     class="elevation-1"
                   >
                     <template slot="items" slot-scope="props">
-                      <td class="text-xs-right">{{ props.item.familyID }}</td>
+                      <td class="text-xs-right">{{ props.item.id }}</td>
+                      <td class="text-xs-right">{{ props.item.facilitators }}</td>
+                      <td class="text-xs-right">{{ props.item.students }}</td>
                     </template>
                   </v-data-table>
                 </v-flex>
@@ -143,40 +145,47 @@ export default {
           text: 'Family ID',
           align: 'center',
           sortable: true,
-          value: 'familyID'
+          value: 'id'
         },
         {
           text: 'Facilitators',
           align: 'center',
           sortable: true,
-          value: 'facilitatorsList'
+          value: 'facilitators'
         },
         {
           text: 'Students',
           align: 'center',
           sortable: true,
-          value: 'studentList'
+          value: 'students'
         }
       ],
-      families: [{familyID: "bob"}],
+      families: [""],
       submitBoolean: false,
-      studentData: [""]
+      studentData: [""],
+      facilitatorData: [""]
     };
   },
-  /*created() {
+  created() {
     this.load();
-  },*/
+  },
   methods: {
     async load(){
       var familyResponse = await ApiFunctions.getFamilyList();
+      console.log(familyResponse);
       var parsedData = JSON.parse(familyResponse.data);
       this.families = parsedData.values;
     },
-    getStudentData (firstName) {
-      console.log(firstName);
-      this.studentData.push(firstName);
+    async getStudentData (name, grade, room) {
+      var info = {};
+      info.name = name;
+      info.grade = grade;
+      info.room = room;
+      this.studentData.push(info);
     },
-
+    async getFacilitatorData (name) {
+      this.facilitatorData.push(name);
+    },
     addFacilitator: function() {
       this.facilitators.push(facCounter);
       facCounter++;
@@ -191,27 +200,48 @@ export default {
     removeStudent: function(index) {
       this.students.splice(index, 1);
     },
-    async resetMessages(){
+    async resetForm() {
       this.ID = "";
       this.password = "";
       this.facilitators = [""];
-      this.students= [""];
-      this.historic= null; 
-      this.comments= "";
-      this.bonus= "";
-      this.Email1= "";
-      this.Email2= "";
-      this.Phone1= "";
-      this.Phone2= "";
+      this.students = [""];
+      this.historic = null; 
+      this.comments = "";
+      this.bonus = "";
+      this.Email1 = "";
+      this.Email2 = "";
+      this.Phone1 = "";
+      this.Phone2 = "";
+      this.submitBoolean = false;
+      this.studentData = [""];
+      this.facilitatorData = [""];
     },
     async submitFamily () {
-      /*this.ID = await Math.floor(Math.random() * 9000) + 1000;
-      while (accountExists(ID)==true) {
+      this.ID = await Math.floor(Math.random() * 9000) + 1000;
+      while (await ApiFunctions.accountExists(ID)) {
         this.ID = await Math.floor(Math.random() * 9000) + 1000;
       }
-      this.password = await Math.floor(Math.random() * 90000) + 10000;*/
+      this.password = await Math.floor(Math.random() * 90000) + 10000;
       this.submitBoolean = true;
-      console.log(this.studentData);
+
+      var field = {};
+      field.accountID = this.ID;
+      field.bonusHours = this.bonus;
+      field.bonusComment = this.comments;
+      field.phone = this.Phone1 + "," + this.Phone2;
+      field.email = this.Email1 + "," + this.Email2;
+      field.historicHours = this.historic;
+      field.facilitators = this.facilitatorData;
+      field.students = this.studentData;
+
+      var json = JSON.stringify(field);
+      
+      var check = await ApiFunctions.checkCreateFamily(json);
+
+      if (check) {
+        field.password = this.password;
+        var submit = await ApiFunctions.confirmCreateFamily(json);
+      }
 
     }
   },

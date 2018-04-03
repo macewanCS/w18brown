@@ -1205,21 +1205,57 @@ async function finalRoomUpdate(RoomsIn){
 }
 
 /**
- * Returns the family ID of all families in the system.
- * The return value is a list of IDs.
+ * Returns the family ID, list of the students that match that id and a list of facilitators that match that id
+ * 
  */
 async function getFamilyList(){
+	console.log("calling get family list in functions");
 	return new Promise(function(fulfill, reject){
-		sql = "SELECT * FROM account";
-		var output = [];
+		sql = "SELECT accountID,type FROM account WHERE type='family'";
+		var output = {};
+		output.name = "FamilyList";
+		output.values = [];
 		con.query(sql, async function (err, result, fields) {
 			if (err) throw err;
 			result.forEach(element =>{
-				output.push(element.accountID);
+				var field = {};
+				field.id = element.accountID;
+				field.students = getChildNames(JSON.stringify(element.accountID));
+				field.facilitators = getFacilitatorNames(JSON.stringify(element.accountID));
+				output.values.push(field);
 			})
-			fulfill(output);
+			var json = JSON.stringify(output, null, 2);
+			fulfill(json);
 		})
 	})
+}
+
+/**
+ * Michael's internal helper function
+ * @param {*} familyId 
+ */
+async function getChildNames(familyId) {
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT familyID,student_name FROM student WHERE familyID="+familyId;
+		con.query(sql, async function(result, fields) {
+			if (err) throw err;
+			fulfill(result);
+		});
+	});
+}
+
+/**
+ * Michael's internal helepr function
+ * @param {*} familyId 
+ */
+async function getFacilitatorNames(familyId) {
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT familyID,name FROM facilitator WHERE familyID="+familyId;
+		con.query(sql, async function(result, fields) {
+			if (err) throw err;
+			fulfill(result);
+		});
+	});
 }
 
 /**

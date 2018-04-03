@@ -44,7 +44,7 @@ export default {
             if (this.formSubmit) {
                 this.fullName = this.firstName.concat(" ");
                 this.fullName = this.fullName.concat(this.lastName);
-                this.$emit('submit',this.firstName, this.lastName);
+                this.$emit('submit',this.fullName);
             }
         }
     }

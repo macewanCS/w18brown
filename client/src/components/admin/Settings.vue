@@ -3,7 +3,10 @@
         <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
         <div class="text-xs-center">
             <!-- this centers the contents -->
-            <h1>Date/Time Settings</h1>
+            <h1>Settings</h1>
+            <br>
+<br>
+            <h2>Schedule Times</h2>
             <br>
             <table class="center">
                 <v-flex id="box3" class="text-xs-center" mt-2>
@@ -71,9 +74,10 @@
                 </v-flex>
             </table>
             <br>
-            <h1>System Start Date</h1>
+            <h2>System Start Date</h2>
             <!-- <input id="yearStart" type="date" v-model="startDate"> -->
             <v-layout justify-center>
+
             <v-menu ref="menu" lazy :close-on-content-click="false" v-model="menu" transition="scale-transition" offset-y full-width :nudge-right="40" min-width="290px" :return-value.sync="startDate">
                 <v-text-field slot="activator" v-model="startDate" prepend-icon="event" readonly></v-text-field>
                 <v-date-picker v-model="startDate" no-title scrollable>
@@ -83,6 +87,15 @@
                 </v-date-picker>
             </v-menu>
             </v-layout>
+            <br>
+            <h2>Required Weekly Hours</h2>
+            <v-layout justify-center >
+                <v-flex xs2>
+                <br>
+                <v-select :items="hoursList" v-model="requiredHours" label="Required Hours"/>
+                </v-flex>
+            </v-layout>
+
             <!-- would like to wrap this next line. perhaps in a box -->
             <!-- <p>The start date must be set once. It marks the beginning of the system and is used to determine when to start requiring facilitation hours.</p>
     -->
@@ -115,8 +128,6 @@
             </v-dialog>
             <!--End Dialog Boxes for Confirmation -->
             <br>
-            <v-divider/>
-            <br/>
         </div>
     </v-flex>
     <!--
@@ -140,6 +151,8 @@ export default {
       block3End: "",
       startDate: "",
       requiredHours: "",
+      requiredMinutes: null,
+      hoursList: ["0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5"],
       applyDialog: "",
       cancelDialog: "",
       menu: false
@@ -175,6 +188,15 @@ export default {
     cancelSettings() {
       this.cancelDialog = false;
       this.pullSettings();
+    },
+    hoursToMin() {
+
+// required hours needs to be integrated after the data table is finished.
+
+
+
+      this.requiredMinutes = requiredHours * 60;
+      console.log("required minutes input: ", this.requiredMinutes)
     },
     /*
     */

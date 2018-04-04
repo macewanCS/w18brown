@@ -70,7 +70,19 @@ export default {
     },
   
     async getFamilyList() {
-        return Api().get("getFamilyList");
+        return await Api().get("getFamilyList");
+    },
+    
+    async getFacilitators(accountId) {
+        var test = {};
+        test.pack = accountId;
+        return await Api().post("getFacilitators", test);
+    },
+    
+    async getStudents(accountId) {
+        var test = {};
+        test.pack = accountId;
+        return await Api().post("getStudents", test);
     },
 
     async requiredMinutesWeekly(accountINhours) {

@@ -103,7 +103,7 @@
                 <v-flex align-center>
                   <v-data-table light
                     :headers="headers"
-                    :items="families"
+                    :items="accounts"
                     class="elevation-1"
                   >
                     <template slot="items" slot-scope="props">
@@ -133,12 +133,12 @@ export default {
       password: "",
       facilitators: [""],
       students: [""],
-      historic: null, // to be implemented
-      comments: "", // to be implemented
-      bonus: "", // to be implemented
-      email1: "", // to be implemented
+      historic: null,
+      comments: "",
+      bonus: "",
+      email1: "",
       email2: "",
-      phone1: "", // to be implemented
+      phone1: "",
       phone2: "",
       headers: [
         {
@@ -160,11 +160,12 @@ export default {
           value: 'students'
         }
       ],
-      families: [""],
+      accounts: [],
       submitBoolean: false,
       studentData: [],
       facilitatorData: [],
-      accountName: ""
+      accountName: "",
+      errors: [],
     };
   },
   created() {
@@ -174,9 +175,48 @@ export default {
     async load(){
       var familyResponse = await ApiFunctions.getFamilyList();
       var parsedData = JSON.parse(familyResponse.data);
-      console.log(parsedData.values);
-      this.families = parsedData.values;
+      this.accounts = parsedData.values;
+      var index = 0;
+      this.accounts.forEach(async element => {
+        var result = await ApiFunctions.getFacilitators(JSON.stringify(element.id));
+        if(result.data === false){
+          element.facilitators = "None";
+        }
+        else {
+          var finalString1 = "";
+          var count = 0;
+          result.data.forEach(element3 => {
+            finalString1 = finalString1.concat(element3);
+            if (count != result.data.length - 1) {
+              finalString1 = finalString1.concat(", ");
+              count ++;
+            }
+          })
+          element.facilitators = finalString1;
+        }
+      });
+      this.accounts.forEach(async element=> {
+        var result = await ApiFunctions.getStudents(JSON.stringify(element.id));
+        element.students = [];
+        if(result.data === false){
+          element.students = "None";
+        }
+        else {
+          var finalString = "";
+          var count = 0;
+          result.data.forEach(element2 =>{
+            var name = element2.firstName + " " + element2.lastName;
+            finalString = finalString.concat(name);
+            if (count != result.data.length - 1) {
+              finalString = finalString.concat(", ");
+              count++;
+            }
+          })
+          element.students = finalString;
+        }
+      });
     },
+
     async getStudentData (firstName, lastName, grade, room) {
       var info = {};
       info.firstName = firstName;
@@ -188,8 +228,10 @@ export default {
     async getFacilitatorData (first, last) {
       this.accountName = last;
       var fullName = first.concat(" ");
-      fullName = fullName.concat(last);      
-      this.facilitatorData.push(fullName);
+      fullName = fullName.concat(last);
+      var info = {};
+      info.name = fullName;      
+      this.facilitatorData.push(info);
     },
     addFacilitator: function() {
       this.facilitators.push(facCounter);
@@ -220,8 +262,10 @@ export default {
       this.submitBoolean = false;
       this.studentData = [];
       this.facilitatorData = [];
+      this.accountName = "";
     },
     async submitFamily () {
+      this.errors =[];
       this.submitBoolean = true;
       this.$nextTick(async function () {
         this.ID = this.accountName;
@@ -239,12 +283,11 @@ export default {
         field.students = this.studentData;
         field.password = this.password;
         var json = JSON.stringify(field);
-        console.log(json);
-        var submit = await ApiFunctions.confirmCreateFamily(json);
-        console.log(submit);
+        if (error.length == 0) {
+          var submit = await ApiFunctions.confirmCreateFamily(json);
+          resetForm();
+        }
       });
-
-      //var check = await ApiFunctions.checkCreateFamily(json);
     }
   },
   components: {

@@ -293,7 +293,7 @@ async function changePassword(username, password){
  */
 async function getFacilitators(accountID){
 	return new Promise(function(fulfill, reject){
-		output = [];
+		var output = new Array();
 		var sql = "SELECT * from facilitator WHERE familyID = ?"
 
 		con.query(sql, accountID, function (err, result, fields) {
@@ -339,7 +339,6 @@ async function getStudents(accountID){
 				output.push(obj);
 			})
 			fulfill(output);
-			console.log(output);
 		});
 
 	})
@@ -695,8 +694,6 @@ async function checkCreateFamily(familyIn){
  * Returns true if successful
  */
 async function confirmCreateFamily(familyIn){
-	console.log("confirm create family in functions");
-	console.log(familyIn);
 	var family = JSON.parse(familyIn);
 	return new Promise(function(fulfill, reject){
 
@@ -1178,11 +1175,9 @@ async function getFamilyList(){
 		output.values = [];
 		con.query(sql, async function (err, result, fields) {
 			if (err) throw err;
-			result.forEach(element =>{
+			result.forEach(async element =>{
 				var field = {};
 				field.id = element.accountID;
-				field.students = getStudents(element.accountID);
-				field.facilitators = getFacilitators(element.accountID);
 				output.values.push(field);
 			})
 			var json = JSON.stringify(output, null, 2);

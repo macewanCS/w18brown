@@ -94,7 +94,7 @@
             <v-list-tile :to="{name: 'settings'}">
                 <v-list-tile>
                     <v-list-tile-content>
-                        <v-list-tile-title>Schedule Settings</v-list-tile-title>
+                        <v-list-tile-title>Settings</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list-tile>

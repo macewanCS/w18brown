@@ -11,11 +11,6 @@
         </v-toolbar>
         <v-divider />
         <v-list fluid>
-            <v-list-tile :to="{name: 'dashboardteacher'}">
-                <v-list-tile-content>
-                    <v-list-tile-title>Dashboard</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
 
             <v-list-tile :to="{name: 'scheduleteacher'}">
                     <v-list-tile-content>

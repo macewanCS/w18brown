@@ -104,8 +104,9 @@
     <h1>Current Rooms</h1>
 
     <br>
+      <v-layout align-center justify-center> <!-- this centers the contents -->
 
-    <v-flex align-center>
+    <v-flex align-center xs6>
         <v-data-table light
             :headers="headers"
             :items="rooms"    
@@ -113,10 +114,11 @@
             class="elevation-1"
         >
             <template slot="items" slot-scope="props">
-              <td class="text-xs-right">{{ props.item.roomName }}</td>
+              <td align="center">{{ props.item.roomName }}</td>
             </template>
         </v-data-table>
     </v-flex>
+      </v-layout>
     
      </table>
 

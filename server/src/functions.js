@@ -32,14 +32,10 @@ module.exports = {
 	getFacilitators,
 	getStudents,
 	accountExists,
-	getReservationByID
+	getReservationByID,
+	studentsPerAccount,
+	requiredMinutesWeekly
 }
-
-
-
-
-
-
 
 var mysql = require('mysql');
 var dateFormat = require('dateformat');
@@ -114,7 +110,7 @@ async function deleteRoom(roomIn){
 async function roomList(){
 	return new Promise(function(fulfill, reject){
 
-		output = [];
+		var outputRoom = new Array();
 
 		var sql = "SELECT * FROM room";
 
@@ -124,9 +120,9 @@ async function roomList(){
 			} 
 			else{
 				result.forEach(room =>{
-					output.push(room.roomName);
+					outputRoom.push(room.roomName);
 				})
-				fulfill(output);
+				fulfill(outputRoom);
 			}
 		})
 	})
@@ -177,12 +173,10 @@ async function checkName(name, password){
 				//this wont work, needs to be different.
 				fulfill("incorrect");
 
-				console.log("checkName function. user not found in database.")
+//				console.log("checkName function. user not found in database.")
 			}
 			else {
 				fulfill(result[0].type);
-
-				console.log("checkName function. User found with type: ", result[0].type)
 			}
 		
 		});
@@ -197,7 +191,7 @@ async function checkName(name, password){
  * @returns number of students in the family
  */
 async function studentsPerAccount(account){
-	console.log("account: ", account )
+//	console.log("account: ", account )
 	//console.log("calling studentsPerAccount in functions")
     return new Promise(function (fulfill, reject){
 		// ? is like %s in C. 
@@ -206,7 +200,7 @@ async function studentsPerAccount(account){
 		con.query(sql, [account], function (err, result, fields) {
 			if (err) throw err;
 
-			console.log("studentCount function number of students: ", result.length)
+//			console.log("studentCount function number of students: ", result.length)
 			fulfill(result.length);
 	//return result.length
 		});
@@ -277,7 +271,7 @@ async function accountExists(username){
 		var sql = "SELECT * from account where accountID = ?";
 
 		//first lets make sure the username doesnt exist already
-		con.query(sql, username, async function (err, result, fields) {
+		con.query(sql, username, function (err, result, fields) {
 			if (err) throw err;		
 			if (result.length === 0){
 				fulfill(false);
@@ -368,6 +362,7 @@ async function getStudents(accountID){
 	return new Promise(function(fulfill, reject){
 		var output = new Array();
 		var sql = "SELECT * from student WHERE familyID = ?"
+
 		con.query(sql, accountID, function (err, result, fields) {
 			if (err){
 				fulfill(false);
@@ -397,7 +392,7 @@ async function getStudents(accountID){
  */
 async function getReservationByFamily(username){
 	return new Promise(function(fulfill, reject){
-		var output = [];
+		var output = new Array();
 		 today = new Date();
 		 //today = new Date(2018, 02, 01, 00, 00, 00, 00); //*******this was only for testing a prior date.
 		var sql = "SELECT * from reservations WHERE date >= ? AND family_ID = ?";
@@ -453,7 +448,7 @@ async function getReservationByID(ID){
 				output.reservationID = result[0].reservation_ID;
 				output.room = result[0].room;
 	
-				json = JSON.stringify(output);
+				json = output;
 	
 				fulfill(json);
 			}
@@ -544,21 +539,21 @@ async function getRoomReservationByWeek(roomName, startDate){
 							person.date = today.date;
 
 							if (person.percentage === 1){
-								var outputList = [];
+								var outputList = new Array();
 								outputList.push(person);
 								blockOut.slot.push(outputList);
 							}
 							else{
 								//if this was the first slot
 								if (blockOut.slot.length === 0){
-									var outputList = [];
+									var outputList = new Array();
 									outputList.push(person);
 									blockOut.slot.push(outputList);
 								}
 
 								//if we are creating a new slot because the current last slot is full
 								else if (blockOut.slot[blockOut.slot.length -1][0].percentage === 1){
-									var outputList = [];
+									var outputList = new Array();
 									outputList.push(person);
 									blockOut.slot.push(outputList);
 								}
@@ -578,7 +573,7 @@ async function getRoomReservationByWeek(roomName, startDate){
 					while (currentPercent < 3){
 						//console.log("slot i[0] is undefined", blockOut.slot[i][0] === undefined, i);
 						if (blockOut.slot[i] === undefined){
-							outputList = [];
+							var outputList = new Array();
 							//free person for Brucetopher
 							var free = {};
 							free.name = "free";
@@ -727,7 +722,7 @@ async function checkCreateFamily(familyIn){
 		}
 
 		//return the current default password
-		fulfill(true);
+		fulfill("brown");
 
 		
 	})
@@ -788,6 +783,7 @@ async function confirmCreateFamily(familyIn){
  */
 async function getGrades(){
 	return new Promise(function(fulfill, reject){
+
 		output = ["K", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
 		fulfill(output);
@@ -980,7 +976,7 @@ async function deleteEmployee(username){
  */
 async function getSettings(){
 	return new Promise(function(fulfill, reject){
-        var output = [];
+		var output = new Array();
 
 		var sql = "SELECT * FROM settings";
 						// this array gives order. name is the first ?, password is the 2nd ?
@@ -1238,26 +1234,11 @@ async function getFamilyList(){
  */
 async function getChildNames(familyId) {
 	return new Promise(function(fulfill, reject){
-		output = [];
-		console.log(familyId);
-		var sql = "SELECT * FROM student WHERE familyID= ?";
-		con.query(sql, familyId, async function(err, result, fields) {
+		var sql = "SELECT familyID,student_name FROM student WHERE familyID="+familyId;
+		con.query(sql, async function(result, fields) {
 			if (err) throw err;
-			if (result.length === 0) {
-				console.log("empty");
-				fulfill(false);				
-			}
-			result.forEach(stu =>{
-				obj = {};
-				obj.firstName = stu.firstName;
-				console.log("where here");
-				obj.lastName = stu.lastName;
-				output.push(obj);
-			})
-			console.log(output);
-			fulfill(output);
+			fulfill(result);
 		});
-
 	});
 }
 
@@ -1268,7 +1249,7 @@ async function getChildNames(familyId) {
 async function getFacilitatorNames(familyId) {
 	return new Promise(function(fulfill, reject){
 		var sql = "SELECT familyID,name FROM facilitator WHERE familyID="+familyId;
-		con.query(sql, async function(err, result, fields) {
+		con.query(sql, async function(result, fields) {
 			if (err) throw err;
 			fulfill(result);
 		});

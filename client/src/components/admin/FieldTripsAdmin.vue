@@ -27,11 +27,13 @@
             </v-menu>
           </v-layout>
 
-          <v-select v-bind:items="items" v-model="credit" label="Hours of credit" single-line></v-select>
 
-          <v-select :items="availRooms" v-model="selectedRoom" label="Rooms" single-line />
 
-          <v-select v-bind:items="items" v-model="facilitatorCount" label="Facilitators" single-line></v-select>
+          <v-select :items="items" v-model="credit" label="Hours of credit" />
+
+          <v-select :items="availRooms" v-model="selectedRoom" label="Rooms" />
+
+          <v-select v-bind:items="items" v-model="facilitatorCount" label="Facilitators" />
 
            <v-text-field  name="message" type="text" id="message" label="Message including destination..." v-model="message" 
           :rules="[(v) => v.length <= 200 || 'Max 200 characters']"

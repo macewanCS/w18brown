@@ -8,8 +8,6 @@ import Settings from "@/components/admin/Settings";
 import UnderConstruction from "@/components/UnderConstruction";
 import DashboardFamily from "@/components/family/DashboardFamily";
 import DashboardAdmin from "@/components/admin/DashboardAdmin";
-import DashboardBoard from "@/components/board/DashboardBoard";
-import DashboardTeacher from "@/components/teacher/DashboardTeacher";
 import HolidaysAdmin from "@/components/admin/HolidaysAdmin";
 import FieldTripsAdmin from "@/components/admin/FieldTripsAdmin";
 import AccountStaff from "@/components/admin/AccountStaff";
@@ -43,11 +41,6 @@ export default new Router({
       name: 'board',
       component: Board,
       children: [{
-        path: '/dashboardboard',
-        name: 'dashboardboard',
-        component: DashboardBoard
-      },
-      {
         path: 'reportsboard',
         name: 'reportsboard',
         component: ReportsBoard
@@ -63,11 +56,6 @@ export default new Router({
       name: 'teacher',
       component: Teacher,
       children: [{
-        path: '/dashboardteacher',
-        name: 'dashboardteacher',
-        component: DashboardTeacher
-      },
-      {
         path: 'scheduleteacher',
         name: 'scheduleteacher',
         component: ScheduleTeacher

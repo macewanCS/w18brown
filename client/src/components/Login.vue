@@ -82,14 +82,14 @@ export default {
           this.$store.dispatch("setAccountID", response.data.accountID);
           this.$store.dispatch("setToken", response.data.token);
           this.$router.push({
-            name: "dashboardteacher"
+            name: "scheduleteacher"
           });
         } else if (response.data.type == "board") {
   //        console.log("board detected");
           this.$store.dispatch("setAccountID", response.data.accountID);
           this.$store.dispatch("setToken", response.data.token);
           this.$router.push({
-            name: "dashboardboard"
+            name: "scheduleboard"
           });
         } else {
    //       console.log(typeof response.data.type);

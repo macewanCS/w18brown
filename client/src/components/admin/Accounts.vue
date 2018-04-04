@@ -48,18 +48,18 @@
                   <h3>Contact Information</h3>
                   <v-layout row wrap>
                     <v-flex class="input" xs5>
-                      <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="Phone" />
+                      <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="phone1" />
                     </v-flex>
                     <v-flex class="input" xs6>
-                      <v-text-field name="Email" type="text" label="Email" v-model="Email" />
+                      <v-text-field name="Email" type="text" label="Email" v-model="email1" />
                     </v-flex>
                   </v-layout>
                   <v-layout row wrap>
                     <v-flex class="input" xs5>
-                      <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="Phone" />
+                      <v-text-field name="Phone Number" type="text" label="Phone Number" v-model="phone2" />
                     </v-flex>
                     <v-flex class="input" xs6>
-                      <v-text-field name="Email" type="text" label="Email" v-model="Email" />
+                      <v-text-field name="Email" type="text" label="Email" v-model="email2" />
                     </v-flex>
                   </v-layout>
                 </div>
@@ -103,7 +103,7 @@
                 <v-flex align-center>
                   <v-data-table light
                     :headers="headers"
-                    :items="families"
+                    :items="accounts"
                     class="elevation-1"
                   >
                     <template slot="items" slot-scope="props">
@@ -133,13 +133,13 @@ export default {
       password: "",
       facilitators: [""],
       students: [""],
-      historic: null, // to be implemented
-      comments: "", // to be implemented
-      bonus: "", // to be implemented
-      Email1: "", // to be implemented
-      Email2: "",
-      Phone1: "", // to be implemented
-      Phone2: "",
+      historic: null,
+      comments: "",
+      bonus: "",
+      email1: "",
+      email2: "",
+      phone1: "",
+      phone2: "",
       headers: [
         {
           text: 'Family ID',
@@ -160,10 +160,12 @@ export default {
           value: 'students'
         }
       ],
-      families: [""],
+      accounts: [],
       submitBoolean: false,
-      studentData: [""],
-      facilitatorData: [""]
+      studentData: [],
+      facilitatorData: [],
+      accountName: "",
+      errors: [],
     };
   },
   created() {
@@ -172,19 +174,64 @@ export default {
   methods: {
     async load(){
       var familyResponse = await ApiFunctions.getFamilyList();
-      console.log(familyResponse);
       var parsedData = JSON.parse(familyResponse.data);
-      this.families = parsedData.values;
+      this.accounts = parsedData.values;
+      var index = 0;
+      this.accounts.forEach(async element => {
+        var result = await ApiFunctions.getFacilitators(JSON.stringify(element.id));
+        if(result.data === false){
+          element.facilitators = "None";
+        }
+        else {
+          var finalString1 = "";
+          var count = 0;
+          result.data.forEach(element3 => {
+            finalString1 = finalString1.concat(element3);
+            if (count != result.data.length - 1) {
+              finalString1 = finalString1.concat(", ");
+              count ++;
+            }
+          })
+          element.facilitators = finalString1;
+        }
+      });
+      this.accounts.forEach(async element=> {
+        var result = await ApiFunctions.getStudents(JSON.stringify(element.id));
+        element.students = [];
+        if(result.data === false){
+          element.students = "None";
+        }
+        else {
+          var finalString = "";
+          var count = 0;
+          result.data.forEach(element2 =>{
+            var name = element2.firstName + " " + element2.lastName;
+            finalString = finalString.concat(name);
+            if (count != result.data.length - 1) {
+              finalString = finalString.concat(", ");
+              count++;
+            }
+          })
+          element.students = finalString;
+        }
+      });
     },
-    async getStudentData (name, grade, room) {
+
+    async getStudentData (firstName, lastName, grade, room) {
       var info = {};
-      info.name = name;
+      info.firstName = firstName;
+      info.lastName = lastName;
       info.grade = grade;
       info.room = room;
       this.studentData.push(info);
     },
-    async getFacilitatorData (name) {
-      this.facilitatorData.push(name);
+    async getFacilitatorData (first, last) {
+      this.accountName = last;
+      var fullName = first.concat(" ");
+      fullName = fullName.concat(last);
+      var info = {};
+      info.name = fullName;      
+      this.facilitatorData.push(info);
     },
     addFacilitator: function() {
       this.facilitators.push(facCounter);
@@ -208,41 +255,39 @@ export default {
       this.historic = null; 
       this.comments = "";
       this.bonus = "";
-      this.Email1 = "";
-      this.Email2 = "";
-      this.Phone1 = "";
-      this.Phone2 = "";
+      this.email1 = "";
+      this.email2 = "";
+      this.phone1 = "";
+      this.phone2 = "";
       this.submitBoolean = false;
-      this.studentData = [""];
-      this.facilitatorData = [""];
+      this.studentData = [];
+      this.facilitatorData = [];
+      this.accountName = "";
     },
     async submitFamily () {
-      this.ID = await Math.floor(Math.random() * 9000) + 1000;
-      while (await ApiFunctions.accountExists(ID)) {
-        this.ID = await Math.floor(Math.random() * 9000) + 1000;
-      }
-      this.password = await Math.floor(Math.random() * 90000) + 10000;
+      this.errors =[];
       this.submitBoolean = true;
+      this.$nextTick(async function () {
+        this.ID = this.accountName;
+        this.ID = this.ID.concat(await Math.floor(Math.random() * 9000) + 1000);
+        this.password = await Math.floor(Math.random() * 90000) + 10000;
 
-      var field = {};
-      field.accountID = this.ID;
-      field.bonusHours = this.bonus;
-      field.bonusComment = this.comments;
-      field.phone = this.Phone1 + "," + this.Phone2;
-      field.email = this.Email1 + "," + this.Email2;
-      field.historicHours = this.historic;
-      field.facilitators = this.facilitatorData;
-      field.students = this.studentData;
-
-      var json = JSON.stringify(field);
-      
-      var check = await ApiFunctions.checkCreateFamily(json);
-
-      if (check) {
+        var field = {};
+        field.accountID = this.ID;
+        field.bonusHours = this.bonus;
+        field.bonusComment = this.comments;
+        field.phone = this.phone1 + "," + this.phone2;
+        field.email = this.email1 + "," + this.email2;
+        field.historicHours = this.historic;
+        field.facilitators = this.facilitatorData;
+        field.students = this.studentData;
         field.password = this.password;
-        var submit = await ApiFunctions.confirmCreateFamily(json);
-      }
-
+        var json = JSON.stringify(field);
+        if (error.length == 0) {
+          var submit = await ApiFunctions.confirmCreateFamily(json);
+          resetForm();
+        }
+      });
     }
   },
   components: {

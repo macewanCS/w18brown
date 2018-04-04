@@ -235,7 +235,7 @@ async function requiredMinutesWeekly(account){
 
 
 
-/
+/*
  * 
  * @param {*} username provided username
  * @param {*} type provided type
@@ -366,7 +366,7 @@ async function getFacilitators(accountID){
  */
 async function getStudents(accountID){
 	return new Promise(function(fulfill, reject){
-		output = [];
+		var output = new Array();
 		var sql = "SELECT * from student WHERE familyID = ?"
 		con.query(sql, accountID, function (err, result, fields) {
 			if (err){

@@ -157,6 +157,31 @@ app.get("/getFamilyList", async function (req, res) {
     res.send(JSON.stringify(familyList));
 })
 
+app.post("/getFacilitators", async function (req, res){
+    let facs = await functions.getFacilitators(JSON.parse(req.body.pack));
+    res.send(facs);
+})
+
+app.post("/getStudents", async function (req, res){
+    let facs = await functions.getStudents(JSON.parse(req.body.pack));
+    res.send(facs);
+})
+
+app.post("/createFamilyCheck", async function (req, res) {
+    let familyExists = await functions.createFamilyCheck(req.body.formData);
+
+    res.send(familyExist);
+})
+
+app.post("/confirmCreateFamily", async function (req, res){
+    let addedBool = await functions.confirmCreateFamily(req.body.pack);
+
+    res.send(addedBool);
+})
+
+
+
+
 app.post("/addRoom", async function (req, res) {
     let addRoomCheck = await functions.addRoom(req.body.roomName);
     //    await console.log("addroom app boolean: ", addRoomCheck)

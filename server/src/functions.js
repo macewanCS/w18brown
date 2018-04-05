@@ -229,7 +229,6 @@ async function requiredMinutesWeekly(account){
 
 
 
-
 /*
  * 
  * @param {*} username provided username
@@ -334,7 +333,7 @@ async function changePassword(username, password){
  */
 async function getFacilitators(accountID){
 	return new Promise(function(fulfill, reject){
-		output = [];
+		var output = new Array();
 		var sql = "SELECT * from facilitator WHERE familyID = ?"
 
 		con.query(sql, accountID, function (err, result, fields) {
@@ -361,7 +360,7 @@ async function getFacilitators(accountID){
  */
 async function getStudents(accountID){
 	return new Promise(function(fulfill, reject){
-		output = [];
+		var output = new Array();
 		var sql = "SELECT * from student WHERE familyID = ?"
 
 		con.query(sql, accountID, function (err, result, fields) {
@@ -750,9 +749,9 @@ async function confirmCreateFamily(familyIn){
 
 		//insert every student
 		family.students.forEach(stu =>{
-			sql = "INSERT into student (familyID, room, studentName, grade) VALUES (?,?,?,?)";
+			sql = "INSERT into student (familyID, room, firstName, lastName, grade) VALUES (?,?,?,?,?)";
 
-			con.query(sql, [family.accountID, stu.room, stu.name, stu.grade], async function (err, result, fields) {
+			con.query(sql, [family.accountID, stu.room, stu.firstName, stu.lastName, stu.grade], async function (err, result, fields) {
 				if (err){
 					reject(false);
 					throw err;
@@ -1218,11 +1217,9 @@ async function getFamilyList(){
 		output.values = [];
 		con.query(sql, async function (err, result, fields) {
 			if (err) throw err;
-			result.forEach(element =>{
+			result.forEach(async element =>{
 				var field = {};
 				field.id = element.accountID;
-				field.students = getChildNames(JSON.stringify(element.accountID));
-				field.facilitators = getFacilitatorNames(JSON.stringify(element.accountID));
 				output.values.push(field);
 			})
 			var json = JSON.stringify(output, null, 2);

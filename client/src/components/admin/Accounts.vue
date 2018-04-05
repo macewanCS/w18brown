@@ -283,10 +283,7 @@ export default {
         field.students = this.studentData;
         field.password = this.password;
         var json = JSON.stringify(field);
-        if (error.length == 0) {
-          var submit = await ApiFunctions.confirmCreateFamily(json);
-          resetForm();
-        }
+        var submit = await ApiFunctions.confirmCreateFamily(json);
       });
     }
   },

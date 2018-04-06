@@ -34,7 +34,8 @@ module.exports = {
 	accountExists,
 	getReservationByID,
 	studentsPerAccount,
-	requiredMinutesWeekly
+	requiredMinutesWeekly,
+	createFieldTrip
 }
 
 var mysql = require('mysql');
@@ -1283,6 +1284,39 @@ async function addDays(date, days) {
         fulfill(result);
     })
   }
+
+  /**
+   * This function returns false if there was an issue creating the fieldtrip.
+   * Returns the fieldtrip ID of a successful fieldtrip creation
+   * @param {*} fieldTripDetails This is a JSON object that contains the following fields: date, room, credit (float), message, facilitators (int)
+   */
+async function createFieldTrip(fieldTripDetails){
+	var data = JSON.parse(fieldTripDetails);
+
+	//first wipe out all reservations on that day
+
+	var del = "DELETE FROM reservations WHERE room=? AND date = ?";
+
+	con.query(del, [data.room, data.date], async function(err, result, fields) {
+		if (err) throw err;
+	});
+
+
+
+	return new Promise(function(fulfill, reject){
+		var sql = "INSERT into fieldtrip (date, credit, room, facilitator_number, message) VALUES (?, ?, ?, ?, ?)";
+
+		con.query(sql, [data.date, data.credit, data.room, data.facilitators, data.message], async function(err, result, fields) {
+			if (err) {
+				fulfill(false);
+			}
+			//we successfully inserted. Lets return the ID
+			else{
+				fulfill(result["insertId"]);
+			}
+		});
+	});
+}
 
 /*
 async for loop

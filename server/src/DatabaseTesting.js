@@ -106,15 +106,13 @@ async function testcreateReservation(){
     var jsonIn = {};
 
     jsonIn.familyID = "Should Work";
-    jsonIn.date = "2018/03/28";
+    jsonIn.date = "2018/04/10";
     jsonIn.facilitator = "Fred Flinstone";
     jsonIn.startTime = "08:45:00";
     jsonIn.endTime = "12:00:00";
     jsonIn.room = "mauve";
 
-    var input = JSON.stringify(jsonIn);
-
-    let test = await functions.createReservation(input);
+    let test = await functions.createReservation(jsonIn);
 
     console.log(test);
 }
@@ -337,6 +335,21 @@ async function testgetReservationByID(ID){
     console.log(output);
 }
 
+async function testcreateFieldTrip(){
+    var input = {};
+    input.date = "2018/04/10";
+    input.facilitators = 4;
+    input.room = "mauve";
+    input.credit = 8.0;
+    input.message = "fun";
+
+    var pass = JSON.stringify(input);
+
+    let test = await functions.createFieldTrip(pass);
+
+    console.log(test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -364,7 +377,7 @@ async function connectAndTest(){
         // testgetEmployeeList();
         // testdeleteEmployee("testBoard2");
         // testgetEmployeeList();
-        // testcreateReservation();
+        //  testcreateReservation();
         // testdeleteReservation(15);
         //testgetTypes();
         // testcheckCreateFamily("Peter001");
@@ -382,12 +395,13 @@ async function connectAndTest(){
         // testdeleteRoom("Orange");
         // testroomList();
         // testchangePassword("Sarah001", "brown");
-        testgetReservationByFamily("Fac002");
+        // testgetReservationByFamily("Fac002");
         // testgetFacilitators("ShouldWork001");
         // testgetFacilitators("Shouldn'tWork001");
         // testgetStudents("Shouldwork001");
         // testgetStudents("Shouldn'tWork001");
         // testgetReservationByID(12);
         // testgetReservationByID(555);
+        testcreateFieldTrip();
     }
 }

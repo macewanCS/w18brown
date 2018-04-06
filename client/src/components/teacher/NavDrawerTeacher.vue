@@ -34,7 +34,7 @@
 export default {};
 </script>
 
-<style>
+<style scoped>
 h2 {
   padding: 5px;
   text-transform: uppercase;

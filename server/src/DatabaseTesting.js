@@ -106,13 +106,15 @@ async function testcreateReservation(){
     var jsonIn = {};
 
     jsonIn.familyID = "Should Work";
-    jsonIn.date = "2018/04/10";
+    jsonIn.date = "2018/03/28";
     jsonIn.facilitator = "Fred Flinstone";
     jsonIn.startTime = "08:45:00";
     jsonIn.endTime = "12:00:00";
     jsonIn.room = "mauve";
 
-    let test = await functions.createReservation(jsonIn);
+    var input = JSON.stringify(jsonIn);
+
+    let test = await functions.createReservation(input);
 
     console.log(test);
 }
@@ -335,44 +337,6 @@ async function testgetReservationByID(ID){
     console.log(output);
 }
 
-async function testcreateFieldTrip(){
-    var input = {};
-    input.date = "2018/04/10";
-    input.facilitators = 4;
-    input.room = "mauve";
-    input.credit = 8.0;
-    input.message = "fun";
-
-    var pass = JSON.stringify(input);
-
-    let test = await functions.createFieldTrip(pass);
-
-    console.log(test);
-}
-
-//following fields: fieldtripID, familyID, facilitator, date, credit, room.
-async function testcreateFieldTripReservation(){
-    var input = {};
-
-    input.date = "2018/04/10";
-    input.familyID = "ShouldWork001";
-    input.facilitator = "Fred Flinstone";
-    input.room = "mauve";
-    input.credit = 8.0;
-    input.fieldtripID = 8;
-
-    let test = await functions.createFieldTripReservation(input);
-
-    console.log(test);
-
-}
-
-async function testgetFieldTrip(date, room){
-    let test = await functions.getFieldTrip(date, room);
-
-    console.log(test);
-}
-
 /**
  * All backend testing can be completed here
  * 
@@ -400,7 +364,7 @@ async function connectAndTest(){
         // testgetEmployeeList();
         // testdeleteEmployee("testBoard2");
         // testgetEmployeeList();
-        //  testcreateReservation();
+        // testcreateReservation();
         // testdeleteReservation(15);
         //testgetTypes();
         // testcheckCreateFamily("Peter001");
@@ -418,15 +382,12 @@ async function connectAndTest(){
         // testdeleteRoom("Orange");
         // testroomList();
         // testchangePassword("Sarah001", "brown");
-        // testgetReservationByFamily("Fac002");
+        testgetReservationByFamily("Fac002");
         // testgetFacilitators("ShouldWork001");
         // testgetFacilitators("Shouldn'tWork001");
         // testgetStudents("Shouldwork001");
         // testgetStudents("Shouldn'tWork001");
         // testgetReservationByID(12);
         // testgetReservationByID(555);
-        //testcreateFieldTrip();
-        // testcreateFieldTripReservation();
-        testgetFieldTrip("2018/04/10", "mauve");
     }
 }

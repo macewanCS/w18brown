@@ -24,7 +24,7 @@ export default {
 };*/
 </script>
 
-<style>
+<style scoped>
 #box {
   padding: 50px;
   background-color: #ffffff;

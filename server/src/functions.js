@@ -34,10 +34,7 @@ module.exports = {
 	accountExists,
 	getReservationByID,
 	studentsPerAccount,
-	requiredMinutesWeekly,
-	createFieldTrip,
-	createFieldTripReservation,
-	getFieldTrip
+	requiredMinutesWeekly
 }
 
 var mysql = require('mysql');
@@ -1286,109 +1283,6 @@ async function addDays(date, days) {
         fulfill(result);
     })
   }
-
-  /**
-   * This function returns false if there was an issue creating the fieldtrip.
-   * Returns the fieldtrip ID of a successful fieldtrip creation
-   * @param {*} fieldTripDetails This is a JSON object that contains the following fields: date, room, credit (float), message, facilitators (int)
-   */
-async function createFieldTrip(fieldTripDetails){
-	var data = JSON.parse(fieldTripDetails);
-
-	//first wipe out all reservations on that day
-
-	var del = "DELETE FROM reservations WHERE room=? AND date = ?";
-
-	con.query(del, [data.room, data.date], async function(err, result, fields) {
-		if (err) throw err;
-	});
-
-
-
-	return new Promise(function(fulfill, reject){
-		var sql = "INSERT into fieldtrip (date, credit, room, facilitator_number, message) VALUES (?, ?, ?, ?, ?)";
-
-		con.query(sql, [data.date, data.credit, data.room, data.facilitators, data.message], async function(err, result, fields) {
-			if (err) {
-				fulfill(false);
-			}
-			//we successfully inserted. Lets return the ID
-			else{
-				fulfill(result["insertId"]);
-			}
-		});
-	});
-}
-
-/**
- * Returns false if there is a problem. Returns the reservationID if successful.
- * @param {*} input JSON containing the following fields: fieldtripID, familyID, facilitator, date, credit, room.
- */
-async function createFieldTripReservation(input){
-
-	return new Promise(function(fulfill, reject){
-		var sql = "INSERT into fieldtrip_reservations (date, credit, room, facilitator, family_ID, fieldtrip_ID) VALUES (?, ?, ?, ?, ?, ?)";
-
-		con.query(sql, [input.date, input.credit, input.room, input.facilitator, input.familyID, input.fieldtripID], async function(err, result, fields) {
-			if (err) {
-				fulfill(false);
-			}
-			//we successfully inserted. Lets return the ID
-			else{
-				fulfill(result["insertId"]);
-			}
-		});
-	});
-}
-
-/**
- * A fieldtrip is known to exist - returns an object containing the date, credit, message, fieldtripID, maxSlots, [reservationID, facilitatorName]
- * Returns 0 if there are no reservations for that fieldtrip.
- * @param {*} date 
- * @param {*} room 
- */
-async function getFieldTrip(date, room){
-
-	var msg = "SELECT * FROM fieldtrip WHERE date = ? AND room = ?";
-
-	var output = {};
-	var resList = [];
-
-	con.query(msg, [date, room], async function(err, result, fields) {
-		if (err) throw err;
-		output.message = result[0].message;
-		output.maxSlots = result[0].facilitator_number;
-	})
-
-	return new Promise(function(fulfill, reject){
-		var sql = "SELECT * FROM fieldtrip_reservations WHERE date = ? AND room = ?";
-
-		con.query(sql, [date, room], async function(err, result, fields) {
-			if (err) {
-				fulfill(false);
-			}
-			//we successfully inserted. Lets return the ID
-			else{
-				if (result.length === 0){
-					fulfill(0);
-				}
-				else{
-					output.date = date;
-					output.credit = result[0].credit;
-					output.fieldtripID = result[0].fieldtrip_ID;
-					result.forEach(res => {
-						element = {};
-						element.reservationID = res.reservation_ID;
-						element.facilitatorName = res.facilitator;
-						resList.push(element);
-					});
-					output.reservations = resList;
-					fulfill(output);
-				}
-			}
-		});
-	});
-}
 
 /*
 async for loop

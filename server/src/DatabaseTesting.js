@@ -402,6 +402,6 @@ async function connectAndTest(){
         // testgetStudents("Shouldn'tWork001");
         // testgetReservationByID(12);
         // testgetReservationByID(555);
-        testcreateFieldTrip();
+        //testcreateFieldTrip();
     }
 }

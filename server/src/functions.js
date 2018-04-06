@@ -1318,6 +1318,15 @@ async function createFieldTrip(fieldTripDetails){
 	});
 }
 
+/**
+ * A fieldtrip is known to exist - returns an object 
+ * @param {*} date 
+ * @param {*} room 
+ */
+async function getFieldTrip(date, room){
+
+}
+
 /*
 async for loop
         for (let element in test) {

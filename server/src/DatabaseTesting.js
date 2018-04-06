@@ -350,6 +350,29 @@ async function testcreateFieldTrip(){
     console.log(test);
 }
 
+//following fields: fieldtripID, familyID, facilitator, date, credit, room.
+async function testcreateFieldTripReservation(){
+    var input = {};
+
+    input.date = "2018/04/10";
+    input.familyID = "ShouldWork001";
+    input.facilitator = "Fred Flinstone";
+    input.room = "mauve";
+    input.credit = 8.0;
+    input.fieldtripID = 8;
+
+    let test = await functions.createFieldTripReservation(input);
+
+    console.log(test);
+
+}
+
+async function testgetFieldTrip(date, room){
+    let test = await functions.getFieldTrip(date, room);
+
+    console.log(test);
+}
+
 /**
  * All backend testing can be completed here
  * 
@@ -403,5 +426,7 @@ async function connectAndTest(){
         // testgetReservationByID(12);
         // testgetReservationByID(555);
         //testcreateFieldTrip();
+        // testcreateFieldTripReservation();
+        testgetFieldTrip("2018/04/10", "mauve");
     }
 }

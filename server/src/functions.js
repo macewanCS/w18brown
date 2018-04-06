@@ -35,7 +35,9 @@ module.exports = {
 	getReservationByID,
 	studentsPerAccount,
 	requiredMinutesWeekly,
-	createFieldTrip
+	createFieldTrip,
+	createFieldTripReservation,
+	getFieldTrip
 }
 
 var mysql = require('mysql');
@@ -1319,12 +1321,73 @@ async function createFieldTrip(fieldTripDetails){
 }
 
 /**
- * A fieldtrip is known to exist - returns an object 
+ * Returns false if there is a problem. Returns the reservationID if successful.
+ * @param {*} input JSON containing the following fields: fieldtripID, familyID, facilitator, date, credit, room.
+ */
+async function createFieldTripReservation(input){
+
+	return new Promise(function(fulfill, reject){
+		var sql = "INSERT into fieldtrip_reservations (date, credit, room, facilitator, family_ID, fieldtrip_ID) VALUES (?, ?, ?, ?, ?, ?)";
+
+		con.query(sql, [input.date, input.credit, input.room, input.facilitator, input.familyID, input.fieldtripID], async function(err, result, fields) {
+			if (err) {
+				fulfill(false);
+			}
+			//we successfully inserted. Lets return the ID
+			else{
+				fulfill(result["insertId"]);
+			}
+		});
+	});
+}
+
+/**
+ * A fieldtrip is known to exist - returns an object containing the date, credit, message, fieldtripID, maxSlots, [reservationID, facilitatorName]
+ * Returns 0 if there are no reservations for that fieldtrip.
  * @param {*} date 
  * @param {*} room 
  */
 async function getFieldTrip(date, room){
 
+	var msg = "SELECT * FROM fieldtrip WHERE date = ? AND room = ?";
+
+	var output = {};
+	var resList = [];
+
+	con.query(msg, [date, room], async function(err, result, fields) {
+		if (err) throw err;
+		output.message = result[0].message;
+		output.maxSlots = result[0].facilitator_number;
+	})
+
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT * FROM fieldtrip_reservations WHERE date = ? AND room = ?";
+
+		con.query(sql, [date, room], async function(err, result, fields) {
+			if (err) {
+				fulfill(false);
+			}
+			//we successfully inserted. Lets return the ID
+			else{
+				if (result.length === 0){
+					fulfill(0);
+				}
+				else{
+					output.date = date;
+					output.credit = result[0].credit;
+					output.fieldtripID = result[0].fieldtrip_ID;
+					result.forEach(res => {
+						element = {};
+						element.reservationID = res.reservation_ID;
+						element.facilitatorName = res.facilitator;
+						resList.push(element);
+					});
+					output.reservations = resList;
+					fulfill(output);
+				}
+			}
+		});
+	});
 }
 
 /*

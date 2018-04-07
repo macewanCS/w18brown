@@ -5,7 +5,6 @@ import Accounts from "@/components/admin/Accounts";
 import Rooms from "@/components/admin/Rooms";
 import Reserve from "@/components/family/Reserve";
 import Settings from "@/components/admin/Settings";
-import UnderConstruction from "@/components/UnderConstruction";
 import DashboardFamily from "@/components/family/DashboardFamily";
 import DashboardAdmin from "@/components/admin/DashboardAdmin";
 import HolidaysAdmin from "@/components/admin/HolidaysAdmin";

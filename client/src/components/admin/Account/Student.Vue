@@ -68,7 +68,9 @@ export default {
         formSubmit: function () {
             if (this.formSubmit) {
                 this.$emit('submit',this.firstName, this.lastName, this.gradeSelected, this.roomSelected);
-                //resetForm();
+            }
+            if (this.formSubmit == false) {
+                this.resetForm();
             }
         }
     }

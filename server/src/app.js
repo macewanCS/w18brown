@@ -198,8 +198,8 @@ app.post('/deleteRoom', async function (req, res) {
 
 app.post('/accountExists', async function (req, res) {
     let existsResult = await functions.accountExists(req.body.username);
-    console.log("app.js account Exists inout: ", req.body.username)
-    console.log("app.js account Exists result: ", existsResult)
+ //   console.log("app.js account Exists inout: ", req.body.username)
+ //   console.log("app.js account Exists result: ", existsResult)
     res.send(existsResult)
 })
 app.post('/changePassword', async function (req, res) {
@@ -250,6 +250,8 @@ app.get('/getSettings', async function (req, res) {
 */
 app.post("/setSettings", async (req, res) => {
     // console.log(req.body);
+    console.log(req.body);
+
     functions.setSettings(req.body);
 })
 

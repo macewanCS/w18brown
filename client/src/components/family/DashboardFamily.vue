@@ -93,13 +93,6 @@ export default {
     catch (error) {
       console.log("catch condition 1", error)
     } 
-   // await hoursOut();
-
-
-  //      console.log(this.computed.accountID)
-
-  //  console.log(this.computed.accountID)
-
   }
 }
 </script>

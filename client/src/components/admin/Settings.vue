@@ -91,8 +91,7 @@
             <h2>Required Weekly Hours</h2>
             <v-layout justify-center >
                 <v-flex xs2>
-                <br>
-                <v-select :items="hoursList" v-model="requiredHours" label="Required Hours"/>
+                <v-select :items="hoursList" v-model="hoursFloat" label="Change" single-line/>
                 </v-flex>
             </v-layout>
 
@@ -126,17 +125,9 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-            <!--End Dialog Boxes for Confirmation -->
             <br>
         </div>
     </v-flex>
-    <!--
-            </v-tab-item>
-            <v-tab-item key="tab2">
-               </v-tab-item>
-        </v-tabs-items>
-    </v-tabs>
-    -->
 </template>
 <script>
 import ApiFunctions from "@/services/ApiFunctions";
@@ -150,9 +141,9 @@ export default {
       block3Start: "",
       block3End: "",
       startDate: "",
-      requiredHours: "",
+      hoursFloat: null,
       requiredMinutes: null,
-      hoursList: ["0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5"],
+      hoursList: [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5],
       applyDialog: "",
       cancelDialog: "",
       menu: false
@@ -169,6 +160,7 @@ export default {
     */
     applySettings() {
       this.applyDialog = false; // close applyDialog box
+      this.requiredMinutes = parseInt(this.hoursFloat * 60);
       var curSettings = [
         this.block1Start,
         this.block1End,
@@ -177,8 +169,9 @@ export default {
         this.block3Start,
         this.block3End,
         this.startDate,
-        "05:00:00"
+        this.requiredMinutes
       ];
+
       this.pushSettings(curSettings);
     },
     /* 
@@ -195,7 +188,7 @@ export default {
 
 
 
-      this.requiredMinutes = requiredHours * 60;
+      this.requiredMinutes = hoursFloat * 60;
       console.log("required minutes input: ", this.requiredMinutes)
     },
     /*
@@ -207,6 +200,8 @@ export default {
         // Testing logs.  Feel free to explore in the Inspect, and see what this data is made out of.
         console.log(inData);
         console.log(settings);
+        console.log("length: ", settings.length)
+
         if (settings.length == 8) {
           // Sets all the data to the settings obtained from the server.
           this.block1Start = settings[0];
@@ -216,12 +211,16 @@ export default {
           this.block3Start = settings[4];
           this.block3End = settings[5];
           this.startDate = this.changeDate(settings[6]); //API returns date with /, Browser requires -
+          this.requiredMinutes = settings[7];
         } else {
           throw "Length of settings != 8";
         }
+        this.hoursFloat = parseFloat(this.requiredMinutes/60)
+        console.log("hours float: ", this.hoursFloat)
       } catch (error) {
-        console.log("catch condition");
+        console.log("catch condition pull settings", error);
         this.error = error.response.data.error;
+        
       }
     },
     changeDate(dateString) {

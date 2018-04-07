@@ -7,7 +7,6 @@ import Reserve from "@/components/family/Reserve";
 import Settings from "@/components/admin/Settings";
 import DashboardFamily from "@/components/family/DashboardFamily";
 import DashboardAdmin from "@/components/admin/DashboardAdmin";
-import HolidaysAdmin from "@/components/admin/HolidaysAdmin";
 import FieldTripsAdmin from "@/components/admin/FieldTripsAdmin";
 import AccountStaff from "@/components/admin/AccountStaff";
 import Board from "@/components/board/Board";
@@ -85,11 +84,6 @@ export default new Router({
         path: "accounts",
         name: "accounts",
         component: Accounts
-      },
-      {
-        path: "holidaysadmin",
-        name: "holidaysadmin",
-        component: HolidaysAdmin
       },
       {
         path: "passwordreset",

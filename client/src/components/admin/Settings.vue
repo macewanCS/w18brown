@@ -91,8 +91,7 @@
             <h2>Required Weekly Hours</h2>
             <v-layout justify-center >
                 <v-flex xs2>
-                <br>
-                <v-select :items="hoursList" v-model="requiredHours" label="Required Hours"/>
+                <v-select :items="hoursList" v-model="hoursFloat" label="Change Hours"/>
                 </v-flex>
             </v-layout>
 
@@ -150,9 +149,9 @@ export default {
       block3Start: "",
       block3End: "",
       startDate: "",
-      requiredHours: "",
+      hoursFloat: 5.0,
       requiredMinutes: null,
-      hoursList: ["0.5", "1", "1.5", "2", "2.5", "3", "3.5", "4", "4.5", "5"],
+      hoursList: [0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5],
       applyDialog: "",
       cancelDialog: "",
       menu: false
@@ -195,7 +194,7 @@ export default {
 
 
 
-      this.requiredMinutes = requiredHours * 60;
+      this.requiredMinutes = hoursFloat * 60;
       console.log("required minutes input: ", this.requiredMinutes)
     },
     /*
@@ -216,6 +215,7 @@ export default {
           this.block3Start = settings[4];
           this.block3End = settings[5];
           this.startDate = this.changeDate(settings[6]); //API returns date with /, Browser requires -
+          this.hoursFloat = settings[7];
         } else {
           throw "Length of settings != 8";
         }

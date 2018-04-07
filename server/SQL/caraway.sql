@@ -151,13 +151,14 @@ DROP TABLE IF EXISTS `fieldtrip`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fieldtrip` (
-  `fieldtrip_ID` varchar(255) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `credit` int(11) DEFAULT NULL,
   `room` varchar(255) DEFAULT NULL,
   `facilitator_number` int(11) DEFAULT NULL,
-  `message` varchar(500) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `message` varchar(500) DEFAULT NULL,
+  `fieldtripID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`fieldtripID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -166,6 +167,7 @@ CREATE TABLE `fieldtrip` (
 
 LOCK TABLES `fieldtrip` WRITE;
 /*!40000 ALTER TABLE `fieldtrip` DISABLE KEYS */;
+INSERT INTO `fieldtrip` VALUES ('2018-04-10',8,'mauve',4,'fun',2);
 /*!40000 ALTER TABLE `fieldtrip` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -185,7 +187,7 @@ CREATE TABLE `fieldtrip_reservations` (
   `room` varchar(255) DEFAULT NULL,
   `reservation_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`reservation_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,6 +196,7 @@ CREATE TABLE `fieldtrip_reservations` (
 
 LOCK TABLES `fieldtrip_reservations` WRITE;
 /*!40000 ALTER TABLE `fieldtrip_reservations` DISABLE KEYS */;
+INSERT INTO `fieldtrip_reservations` VALUES ('8','ShouldWork001','Fred Flinstone','2018-04-10',8,'mauve',1);
 /*!40000 ALTER TABLE `fieldtrip_reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -385,4 +388,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-07 12:52:27
+-- Dump completed on 2018-04-07 13:31:11

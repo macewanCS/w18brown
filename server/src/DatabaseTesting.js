@@ -106,9 +106,9 @@ async function testcreateReservation(){
     var jsonIn = {};
 
     jsonIn.familyID = "Should Work";
-    jsonIn.date = "2018/04/10";
+    jsonIn.date = "2018/04/11";
     jsonIn.facilitator = "Fred Flinstone";
-    jsonIn.startTime = "08:45:00";
+    jsonIn.startTime = "11:00:00";
     jsonIn.endTime = "12:00:00";
     jsonIn.room = "mauve";
 
@@ -251,8 +251,10 @@ async function testconfirmCreateFamily(name){
     input.accountID = name;
     input.bonusHours = 5;
     input.bonusComment = "board";
-    input.phone = "780-258-3697";
-    input.email = "sdfsdfsdf@sdfsdf.com";
+    input.phone1 = "780-258-3697";
+    input.email1 = "sdfsdfsdf@sdfsdf.com";
+    input.phone2 = "780-258-3697 this is #2";
+    input.email2 = "2nd@sdfsdf.com";
     input.historicHours = 4356;
 
     input.facilitators = [];
@@ -265,12 +267,14 @@ async function testconfirmCreateFamily(name){
     input.students = [];
 
     var stu = {};
-    stu.name = "little girl";
+    stu.firstName = "little";
+    stu.lastName = "girl";
     stu.room = "red";
     stu.grade = "K";
 
     var stu2 = {};
-    stu2.name = "little boy";
+    stu2.firstName = "little";
+    stu2.lastName = "boy";
     stu2.room = "red";
     stu2.grade = "5";
 
@@ -396,20 +400,20 @@ async function connectAndTest(){
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
-        // testgetRoomReservationByWeek("blue", "2018/03/05");
+        testgetRoomReservationByWeek("mauve", "2018/04/09");
         // testgetEmployeeList();
         // testdeleteEmployee("testBoard2");
         // testgetEmployeeList();
         //  testcreateReservation();
         // testdeleteReservation(15);
         //testgetTypes();
-        // testcheckCreateFamily("Peter001");
+        // testcheckCreateFamily("Peter007");
         // testcheckCreateFamily("");
         // testcheckCreateFamily("ShouldWork001");
         // testcheckCreateFamilyStuError("ShouldWork001");
         // testcheckCreateFamilyFacError("ShouldWork001");
         // testgetGrades();
-        // testconfirmCreateFamily("ShouldWork001");
+        //  testconfirmCreateFamily("Peter007");
         //  testaddRoom("Orange");
         // testRoom();
         //  testaddRoom("Orange");
@@ -425,8 +429,8 @@ async function connectAndTest(){
         // testgetStudents("Shouldn'tWork001");
         // testgetReservationByID(12);
         // testgetReservationByID(555);
-        //testcreateFieldTrip();
+        // testcreateFieldTrip();
         // testcreateFieldTripReservation();
-        testgetFieldTrip("2018/04/10", "mauve");
+        // testgetFieldTrip("2018/04/10", "mauve");
     }
 }

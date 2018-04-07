@@ -741,9 +741,9 @@ async function confirmCreateFamily(familyIn){
 	var family = JSON.parse(familyIn);
 	return new Promise(function(fulfill, reject){
 
-		var sql = "INSERT into account (accountID, password, type, bonusHours, bonusComment, phone, email, historic) VALUES (?,?,?,?,?,?,?,?)";
+		var sql = "INSERT into account (accountID, password, type, bonusHours, bonusComment, phone, email, historic, phone2, email2) VALUES (?,?,?,?,?,?,?,?,?,?)";
 
-		con.query(sql, [family.accountID, family.password, "family", family.bonusHours, family.bonusComment, family.phone, family.email, family.historic], async function (err, result, fields) {
+		con.query(sql, [family.accountID, family.password, "family", family.bonusHours, family.bonusComment, family.phone1, family.email1, family.historic, family.phone2, family.email2], async function (err, result, fields) {
 			if (err){
 				reject(false);
 				throw err;

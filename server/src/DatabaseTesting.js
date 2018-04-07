@@ -339,6 +339,12 @@ async function testgetReservationByID(ID){
     console.log(output);
 }
 
+async function testdeleteFieldtripReservation(ID){
+    let test = await functions.deleteFieldtripReservation(ID);
+
+    console.log(test);
+}
+
 async function testcreateFieldTrip(){
     var input = {};
     input.date = "2018/04/10";
@@ -400,7 +406,7 @@ async function connectAndTest(){
         // testcreateEmployeeConfirm("testBoard1", "board", "brown");
         // testcreateEmployeeConfirm("testBoard2", "board", "brown");
         // testcreateEmployeeConfirm("testTeacher1", "teacher", "brown");
-        testgetRoomReservationByWeek("mauve", "2018/04/09");
+        // testgetRoomReservationByWeek("mauve", "2018/04/09");
         // testgetEmployeeList();
         // testdeleteEmployee("testBoard2");
         // testgetEmployeeList();
@@ -432,5 +438,6 @@ async function connectAndTest(){
         // testcreateFieldTrip();
         // testcreateFieldTripReservation();
         // testgetFieldTrip("2018/04/10", "mauve");
+        testdeleteFieldtripReservation(1);
     }
 }

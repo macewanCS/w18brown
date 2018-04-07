@@ -89,6 +89,14 @@
                   Submit
                 </v-btn>
               </div>
+              <v-layout align-center justify-center>
+                <v-flex id="box2" class="text-xs-center" mt-2 v-if="confirm" v-model="confirm">
+                <h2>Family Created <i class="material-icons">check_circle</i></h2>
+                    FamilyID (Username):  {{this.usernameDisplay}}
+                    <br>
+                    Password: {{this.passwordDisplay}}
+                </v-flex>
+              </v-layout>
             </table>
           </div>
 
@@ -166,6 +174,9 @@ export default {
       facilitatorData: [],
       accountName: "",
       errors: [],
+      confirm: false,
+      usernameDisplay: "",
+      passwordDisplay: "",
     };
   },
   created() {
@@ -263,6 +274,7 @@ export default {
       this.studentData = [];
       this.facilitatorData = [];
       this.accountName = "";
+      //this.confirm = false;
     },
     async submitFamily () {
       this.errors =[];
@@ -284,6 +296,10 @@ export default {
         field.password = this.password;
         var json = JSON.stringify(field);
         var submit = await ApiFunctions.confirmCreateFamily(json);
+        this.usernameDisplay = this.ID;
+        this.passwordDisplay = this.password;
+        this.confirm = true;
+        this.resetForm();
       });
     }
   },

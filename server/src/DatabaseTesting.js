@@ -383,6 +383,21 @@ async function testgetFieldTrip(date, room){
     console.log(test);
 }
 
+async function testgetFutureFieldtrips(name){
+    let test = await functions.getFutureFieldtrips(name);
+
+    console.log(test);
+}
+
+async function testgetEarnedMinutesByWeek(name){
+    var monday = new Date(2018, 03, 09, 00, 00, 00, 00);
+
+    let test = await functions.getEarnedMinutesByWeek(name, monday);
+
+    console.log(test);
+}
+
+
 /**
  * All backend testing can be completed here
  * 
@@ -438,6 +453,10 @@ async function connectAndTest(){
         // testcreateFieldTrip();
         // testcreateFieldTripReservation();
         // testgetFieldTrip("2018/04/10", "mauve");
-        testdeleteFieldtripReservation(1);
+        // testdeleteFieldtripReservation(1);
+        // testgetFutureFieldtrips("ShouldWork001");
+        // testgetFutureFieldtrips("ShouldNotWork001");
+        testgetEarnedMinutesByWeek("Should Work");
+        testgetEarnedMinutesByWeek("ShouldWork001");
     }
 }

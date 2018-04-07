@@ -38,7 +38,8 @@ module.exports = {
 	createFieldTrip,
 	createFieldTripReservation,
 	getFieldTrip,
-	deleteFieldtripReservation
+	deleteFieldtripReservation,
+	getFutureFieldtrips
 }
 
 var mysql = require('mysql');
@@ -1445,6 +1446,9 @@ async function getFieldTrip(date, room){
 	});
 }
 
+/**
+ * Internal helper function atm.
+ */
 async function getRequiredHours(){
 	return new Promise(function(fulfill, reject){
 		var sql = "SELECT * from settings";
@@ -1456,6 +1460,38 @@ async function getRequiredHours(){
 			} 
 			else{
 				fulfill(result[0].weekly_requirements * 60);
+			}
+		});
+	})
+}
+
+/**
+ * Returns a list of future fieldtrip reservations.
+ * @param {*} accountName accountiD
+ */
+async function getFutureFieldtrips(accountName){
+	return new Promise(function(fulfill, reject){
+		var today = new Date();
+		var output = new Array();
+
+		var sql = "SELECT * from fieldtrip_reservations WHERE family_ID = ? AND date > ?";
+
+		con.query(sql, [accountName, today], async function (err, result, fields) {
+			if (err){
+				reject(false);
+				throw err;
+			} 
+			else{
+				result.forEach(res =>{
+					var reservation = {};
+					reservation.name = res.facilitator;
+					reservation.date = dateFormat(res.date, "yyyy/mm/dd");
+					reservation.reservationID = res.reservation_ID;
+					reservation.room = res.room;
+					output.push(reservation);
+				})
+				json = JSON.stringify(output);
+				fulfill(json);
 			}
 		});
 	})

@@ -37,7 +37,8 @@ module.exports = {
 	requiredMinutesWeekly,
 	createFieldTrip,
 	createFieldTripReservation,
-	getFieldTrip
+	getFieldTrip,
+	deleteFieldtripReservation
 }
 
 var mysql = require('mysql');
@@ -1284,6 +1285,27 @@ async function getKey(dictionary, value){
 					fulfill(key);
 			}
 		}
+	})
+}
+
+/**
+ * Deletes a fieldtrip reservation for a given ID.
+ * Returns true if deleted, false if there was an issue.
+ * @param {*} ID 
+ */
+async function deleteFieldtripReservation(ID){
+	return new Promise(function(fulfill, reject){
+
+		var sql = "DELETE from fieldtrip_reservations WHERE reservation_ID=?"
+		con.query(sql, ID, async function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			else{
+				fulfill(true);
+			}
+		})
 	})
 }
 

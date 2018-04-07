@@ -221,7 +221,7 @@ async function studentsPerAccount(account){
 async function requiredMinutesWeekly(account){
 //	console.log("account is: ", account)
 	var students = await studentsPerAccount(account)
-	var minutesWeekly = 60 * 2.5 // update 2.5 to be required hours in settings.
+	var minutesWeekly = await getRequiredHours();//60 * 2.5 // update 2.5 to be required hours in settings.
 //console.log("in requiredMinutesWeekly in functions. students: ", students)
 	if (students > 2){
 		return 2 * minutesWeekly
@@ -1443,6 +1443,22 @@ async function getFieldTrip(date, room){
 			}
 		});
 	});
+}
+
+async function getRequiredHours(){
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT * from settings";
+
+		con.query(sql, async function (err, result, fields) {
+			if (err){
+				reject(false);
+				throw err;
+			} 
+			else{
+				fulfill(result[0].weekly_requirements * 60);
+			}
+		});
+	})
 }
 
 /*

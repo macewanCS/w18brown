@@ -105,13 +105,23 @@
       <v-tab-item key="tab2">
         <v-flex ma-5>
           <div class="text-xs-center">
+            <h1>View Family Account</h1>
+            <v-flex class="center" xs4>
+              <v-text-field
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+                v-model="search"
+                width = "200px"
+              ></v-text-field>   
+            </v-flex>              
             <table class="center">
-              <h1>View Family Account</h1>
-
-                <v-flex align-center>
+                <v-flex align-center>             
                   <v-data-table light
                     :headers="headers"
                     :items="accounts"
+                    :search="search"
                     class="elevation-1"
                   >
                     <template slot="items" slot-scope="props">
@@ -177,6 +187,7 @@ export default {
       confirm: false,
       usernameDisplay: "",
       passwordDisplay: "",
+      search:""
     };
   },
   created() {

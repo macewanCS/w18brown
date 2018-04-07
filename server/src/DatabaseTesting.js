@@ -106,9 +106,9 @@ async function testcreateReservation(){
     var jsonIn = {};
 
     jsonIn.familyID = "Should Work";
-    jsonIn.date = "2018/04/10";
+    jsonIn.date = "2018/04/11";
     jsonIn.facilitator = "Fred Flinstone";
-    jsonIn.startTime = "08:45:00";
+    jsonIn.startTime = "11:00:00";
     jsonIn.endTime = "12:00:00";
     jsonIn.room = "mauve";
 

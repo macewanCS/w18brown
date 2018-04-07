@@ -604,7 +604,7 @@ async function getRoomReservationByWeek(roomName, startDate){
 						}
 						else{
 								if (blockOut.slot[i][0].percentage != 1){
-									if (blockOut.slot[i][0].name != "free"){
+									if (blockOut.slot[i][1] === undefined){
 										var remaining = 1 - blockOut.slot[i][0].percentage;
 										if (remaining > 0.05){
 											var newFree = {};

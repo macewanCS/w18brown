@@ -468,12 +468,26 @@ async function getReservationByID(ID){
 async function getRoomReservationByWeek(roomName, startDate){
 	var monday = new Date(startDate);
 
-	let blocks = await getBlocks();
-
 	var json = {};
+
+	var ftList = new Array();
+
+	for (let i = 0; i < 5; i++){
+		let day = await addDays(monday, i);
+		let value = await checkDayForFieldtrip(dateFormat(day, "yyyy/mm/dd"));
+
+		if (value === true){
+			ftList.push(dateFormat(day, "yyyy/mm/dd"));
+		}
+	}
+
+	json.fieldtrips = ftList;
+
+	let blocks = await getBlocks();
 
 	var days = [];
 	var daysOut = {};
+	daysOut.fieldtrips = ftList;
 	daysOut.room = roomName;
 	daysOut.reservations = [];
 	var blocksOut = [];
@@ -500,7 +514,6 @@ async function getRoomReservationByWeek(roomName, startDate){
 
 				today.date = dateFormat(day, "yyyy/mm/dd");
 				today.blocks = [];
-				today.fieldTrip = false;
 				//go through each block
 				blocks.forEach(block =>{
 					var blockOut = {};
@@ -1339,6 +1352,26 @@ async function createFieldTripReservation(input){
 			}
 		});
 	});
+}
+
+/**
+ * Internal for me
+ * @param {*} monday start date to be checked. Send as string.
+ */
+async function checkDayForFieldtrip(day){
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT * FROM fieldtrip WHERE date = ?";
+
+		con.query(sql, day, async function(err, result, fields) {
+			if (err) {
+				fulfill(false);
+			}
+
+			else{
+				fulfill(result.length > 0);
+			}
+		})
+	})
 }
 
 /**

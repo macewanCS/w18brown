@@ -101,7 +101,6 @@ export default {
   },
   methods: {
     async load(){
-
       this.today = await this.getToday()
       //console.log(this.today)
       this.tripDate = this.today

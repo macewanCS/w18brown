@@ -1520,9 +1520,9 @@ async function getEarnedMinutesByWeek(account, monday){
 
 	var ft = await getHoursHelper(account, monday, endDate, "fieldtrip");
 	var std = await getHoursHelper(account, monday, endDate, "std");
-
+	var total = ft + std
 	return new Promise(function(fulfill, reject){
-		fulfill(ft + std);
+		fulfill({minutes: total});
 	})
 }
 

@@ -49,7 +49,8 @@ export default {
       percentComplete: 0,
       studentCount: 1000,
 
-
+      monday: null,
+      today: null,
 
 
     };
@@ -57,17 +58,33 @@ export default {
   computed: {
     ...mapState(["accountID"]) //Can obtain accountID by using this.accountID now.
   },
-  async hoursOut(){
-    console.log(this.minutesRaw)
-    this.requiredHours = (this.minutesRaw / 60)
-    console.log(this.requiredHours)
-    this.requiredMinutes = this.minutesRaw % 60
-  },
 
   
+ 
   async created(){
     console.log("logging")
     console.log(this.accountID)
+
+    try {
+      await this.load()
+          console.log("today: ", this.today)
+
+      this.monday = await this.getMonday(this.today)
+   //   console.log("monday is...")
+   //   console.log("monday ", this.monday)
+
+      const response = await ApiFunctions.getEarnedMinutesByWeek({
+        account: this.accountID,
+        monday: this.monday
+      })
+
+      console.log("earned minutes: ", response.data.minutes)  
+      this.earnedMinRaw = response.data.minutes
+    }
+
+    catch (error){
+      console.log("catch condition in getting earned hours", error)
+    }
 
     try {
       console.log("calling requiredMinutesWeekly with account: ", this.accountID)
@@ -81,18 +98,50 @@ export default {
       console.log("raw: ", this.minutesRaw)
       this.requiredHours = parseInt((this.minutesRaw / 60))
       this.requiredMinutes = parseInt((this.minutesRaw % 60))
-    this.percentComplete = (this.earnedMinRaw / this.minutesRaw)*100
+      this.percentComplete = (this.earnedMinRaw / this.minutesRaw)*100
 
       this.earnedHours = parseInt((this.earnedMinRaw / 60))
       this.earnedMinutes = parseInt((this.earnedMinRaw % 60))
 
-
-    console.log(this.percentComplete)
+      console.log("percent complete: ", this.percentComplete)
 
     }
     catch (error) {
       console.log("catch condition 1", error)
-    } 
+    }  
+  },
+  methods: {
+    async getMonday(d) {    
+      //Taken from https://stackoverflow.com/questions/4156434/javascript-get-the-first-day-of-the-week-from-current-date
+      var newDay = new Date(d.replace(/-/g, "/")); //https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off
+      var day = newDay.getDay();
+      if (day == 0) {
+        return newDay;
+      } else {
+        var diff = newDay.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+        return new Date(newDay.setDate(diff));
+      }
+    },
+    async getToday(){
+      var dateRaw = new Date();
+      return String(dateRaw.getFullYear()) + "-" + await this.addZero(String(dateRaw.getMonth())) + 
+      "-" + await this.addZero(String(dateRaw.getDate()))
+    },
+    async addZero(stringInt){
+      if (stringInt.length == 1){
+        return "0" + stringInt
+      }
+      else return stringInt
+    },
+    async load(){
+      this.today = await this.getToday()
+    },
+    async hoursOut(){
+      console.log(this.minutesRaw)
+      this.requiredHours = (this.minutesRaw / 60)
+      console.log(this.requiredHours)
+      this.requiredMinutes = this.minutesRaw % 60
+    },
   }
 }
 </script>

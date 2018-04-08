@@ -327,5 +327,19 @@ app.post("/checkAuth", passport.authenticate("jwt", { session: false }),
 )
 
 
+app.post('/createFieldTrip', async function (req, res) {
+    console.log("createFieldTrip in app.js")
+    let addTrip = await functions.createFieldTrip(req.body);
+
+    res.send(addTrip)
+})
+
+
+
+
+
+
+
+
 
 app.listen(8081)

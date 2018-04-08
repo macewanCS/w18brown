@@ -42,7 +42,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES ('Peter001','peterpw','admin',NULL,NULL,'(780)123-4567','email@email.com',NULL,NULL,NULL),('Sarah001','sarahpw','family',0,'N/A','780)555-9874','her@email.com',45.25,NULL,NULL),('testBoard1','brown','board',NULL,NULL,NULL,NULL,NULL,NULL,NULL),('testTeacher1','brown','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL),('ShouldWork001',NULL,'family',5,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL,NULL,NULL),('ShouldWork001',NULL,'family',5,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL,NULL,NULL),('Peter007',NULL,'family',5,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL,'780-258-3697 this is #2','2nd@sdfsdf.com'),('Peter007',NULL,'family',5,'board','780-258-3697','sdfsdfsdf@sdfsdf.com',NULL,'780-258-3697 this is #2','2nd@sdfsdf.com');
+INSERT INTO `account` VALUES ('admin001','brown','admin',NULL,NULL,NULL,NULL,NULL,NULL,NULL),('family001','brown','family',0,'N/A','780-123-5478','first@gmail.com',25.00,'587-987-3214','2nd@gmail.com'),('teacher001','brown','teacher',NULL,NULL,NULL,NULL,NULL,NULL,NULL),('board001','brown','board',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -139,7 +139,7 @@ CREATE TABLE `facilitator` (
 
 LOCK TABLES `facilitator` WRITE;
 /*!40000 ALTER TABLE `facilitator` DISABLE KEYS */;
-INSERT INTO `facilitator` VALUES ('ShouldWork001','Fred Flinstone'),('ShouldWork001','Misfkj sadf'),('ShouldWork001','Fred Flinstone'),('ShouldWork001','Misfkj sadf'),('Peter007','Fred Flinstone'),('Peter007','Misfkj sadf'),('Peter007','Fred Flinstone'),('Peter007','Misfkj sadf');
+INSERT INTO `facilitator` VALUES ('family001','Fred Flinstone'),('family001','Babe Ruth');
 /*!40000 ALTER TABLE `facilitator` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -158,7 +158,7 @@ CREATE TABLE `fieldtrip` (
   `message` varchar(500) DEFAULT NULL,
   `fieldtripID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`fieldtripID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -167,7 +167,7 @@ CREATE TABLE `fieldtrip` (
 
 LOCK TABLES `fieldtrip` WRITE;
 /*!40000 ALTER TABLE `fieldtrip` DISABLE KEYS */;
-INSERT INTO `fieldtrip` VALUES ('2018-04-10',8,'mauve',4,'fun',2);
+INSERT INTO `fieldtrip` VALUES ('2018-04-10',480,'red',3,'For fun',3),('2018-04-02',600,'mauve',7,'For fun',4);
 /*!40000 ALTER TABLE `fieldtrip` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -187,7 +187,7 @@ CREATE TABLE `fieldtrip_reservations` (
   `room` varchar(255) DEFAULT NULL,
   `reservation_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`reservation_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +196,7 @@ CREATE TABLE `fieldtrip_reservations` (
 
 LOCK TABLES `fieldtrip_reservations` WRITE;
 /*!40000 ALTER TABLE `fieldtrip_reservations` DISABLE KEYS */;
-INSERT INTO `fieldtrip_reservations` VALUES ('8','ShouldWork001','Fred Flinstone','2018-04-10',8,'mauve',1);
+INSERT INTO `fieldtrip_reservations` VALUES ('4','family001','Babe Ruth','2018-04-02',600,'mauve',2),('3','family001','Babe Ruth','2018-04-10',480,'mauve',3);
 /*!40000 ALTER TABLE `fieldtrip_reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -288,7 +288,7 @@ CREATE TABLE `reservations` (
   `room` varchar(255) DEFAULT NULL,
   `reservation_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`reservation_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +297,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES ('Fac001','Charlie','2018-03-09','08:45:00','12:00:00','red',1),('Fac002','Betty','2018-03-09','08:45:00','12:00:00','red',2),('Fac002','Betty','2018-03-07','08:45:00','12:00:00','red',3),('Fac002','Betty','2018-03-06','08:45:00','12:00:00','red',4),('Fac002','Betty','2018-03-08','11:50:00','13:00:00','red',5),('Fac002','Betty','2018-03-09','12:50:00','15:45:00','red',6),('Fac002','Betty','2018-03-05','12:50:00','15:45:00','red',7),('Fac007','Johnny Chan','2018-03-09','12:50:00','14:00:00','red',8),('Fac006','Smiley Face','2018-03-29','13:00:00','15:45:00','red',9);
+INSERT INTO `reservations` VALUES ('family001','Fred Flinstone','2018-04-11','08:45:00','12:00:00','red',12),('family001','Fred Flinstone','2018-04-13','12:50:00','15:45:00','red',13),('family001','Babe Ruth','2018-04-03','12:50:00','15:45:00','red',14),('family001','Babe Ruth','2018-04-03','12:50:00','15:45:00','mauve',15);
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -320,7 +320,6 @@ CREATE TABLE `room` (
 
 LOCK TABLES `room` WRITE;
 /*!40000 ALTER TABLE `room` DISABLE KEYS */;
-INSERT INTO `room` VALUES ('0','red'),('1','green'),('2','blue'),('3','mauve'),('4','purple'),('5','fancycolour'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange'),(NULL,'Orange');
 /*!40000 ALTER TABLE `room` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -349,7 +348,7 @@ CREATE TABLE `settings` (
 
 LOCK TABLES `settings` WRITE;
 /*!40000 ALTER TABLE `settings` DISABLE KEYS */;
-INSERT INTO `settings` VALUES ('08:45:00','12:00:00','11:50:00','13:00:00','12:50:00','15:45:00','2018-09-05',50000);
+INSERT INTO `settings` VALUES ('08:45:00','12:00:00','11:50:00','13:00:00','12:50:00','15:45:00','2018-09-05',150);
 /*!40000 ALTER TABLE `settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -375,7 +374,7 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES ('ShouldWork001','red','K',NULL,NULL),('ShouldWork001','red','5',NULL,NULL),('ShouldWork001','red','K',NULL,NULL),('ShouldWork001','red','5',NULL,NULL),('Peter007','red','K','little','girl'),('Peter007','red','5','little','boy');
+INSERT INTO `student` VALUES ('family001','red','8','Joe','DiMaggio');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -388,4 +387,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-07 13:31:11
+-- Dump completed on 2018-04-08 12:50:50

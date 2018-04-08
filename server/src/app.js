@@ -268,7 +268,7 @@ app.get("/roomDict", async function (req, res) {
 })
 app.get("/roomList", async function (req, res) {
     let rooms2 = await functions.roomList();
-    console.log("rooms: ", rooms2);
+    //console.log("rooms: ", rooms2);
     res.send(JSON.stringify(rooms2));
 })
 
@@ -336,7 +336,12 @@ app.post('/createFieldTrip', async function (req, res) {
 
 
 
+app.post('/getEarnedMinutesByWeek', async function (req, res) {
+    console.log("getEarnedMinutesByWeek in app.js")
+    let earnedMinutes = await functions.getEarnedMinutesByWeek(req.body.account, req.body.monday);
 
+    res.send(earnedMinutes)
+})
 
 
 

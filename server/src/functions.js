@@ -223,7 +223,7 @@ async function studentsPerAccount(account){
 async function requiredMinutesWeekly(account){
 //	console.log("account is: ", account)
 	var students = await studentsPerAccount(account)
-	var minutesWeekly = await getRequiredHours();//60 * 2.5 // update 2.5 to be required hours in settings.
+	var minutesWeekly = await getRequiredHours();
 //console.log("in requiredMinutesWeekly in functions. students: ", students)
 	if (students > 2){
 		return 2 * minutesWeekly
@@ -1330,8 +1330,7 @@ async function addDays(date, days) {
    * @param {*} fieldTripDetails This is a JSON object that contains the following fields: date, room, credit (float), message, facilitators (int)
    */
 async function createFieldTrip(fieldTripDetails){
-	var data = JSON.parse(fieldTripDetails);
-
+	var data = fieldTripDetails;
 	//first wipe out all reservations on that day
 
 	var del = "DELETE FROM reservations WHERE room=? AND date = ?";
@@ -1339,8 +1338,6 @@ async function createFieldTrip(fieldTripDetails){
 	con.query(del, [data.room, data.date], async function(err, result, fields) {
 		if (err) throw err;
 	});
-
-
 
 	return new Promise(function(fulfill, reject){
 		var sql = "INSERT into fieldtrip (date, credit, room, facilitator_number, message) VALUES (?, ?, ?, ?, ?)";
@@ -1351,7 +1348,8 @@ async function createFieldTrip(fieldTripDetails){
 			}
 			//we successfully inserted. Lets return the ID
 			else{
-				fulfill(result["insertId"]);
+				fulfill(true);
+				//fulfill(result["insertId"]);
 			}
 		});
 	});
@@ -1460,7 +1458,7 @@ async function getRequiredHours(){
 				throw err;
 			} 
 			else{
-				fulfill(result[0].weekly_requirements * 60);
+				fulfill(result[0].weekly_requirements);
 			}
 		});
 	})

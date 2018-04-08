@@ -151,7 +151,14 @@ export default {
         } else {
             throw "No Reservation ID provided.";
         }
+    },
+
+
+    async createFieldTrip(params) {
+        return Api().post("createFieldTrip", params);
     }
+
+    
     /* 
         backend functions not yet linked
 	connect,

@@ -1,39 +1,69 @@
 <template>
-    <v-tooltip left>
-        <div v-on:click.stop="clicked" slot="activator">
-            <v-card hover v-bind:style="{height: myProp.height}" v-bind:color="myProp.color" slot="activator" class="facilitator" v-bind:class="{fieldTrip : isFieldTrip}">
-                {{myProp.name}}
-            </v-card>
-        </div>
-        <span class="tooltips">
-            <v-card class="tooltips">
-                <v-card-text>
-                    <b>{{myProp.name.valueOf() == "free" ? "Available for Reservations" : "Reserved by: " + myProp.name}}</b><br> Start Time: {{myProp.startTime}}<br> End Time: {{myProp.endTime}}
-                </v-card-text>
-            </v-card>
-        </span>
-    </v-tooltip>
+  <v-tooltip left>
+    <div v-on:click.stop="clicked" slot="activator">
+      <v-card hover v-bind:style="{height: myHeight}" v-bind:color="isFieldTrip ? 'blue': myProp.color" slot="activator" class="facilitator" v-bind:class="{fieldTrip : isFieldTrip}">
+        {{myName}}
+      </v-card>
+    </div>
+    <span class="tooltips">
+      <v-card class="tooltips">
+        <v-card-text>
+          <b>{{myName}}</b><br>{{startTime}}<br>{{endTime}}
+        </v-card-text>
+      </v-card>
+    </span>
+  </v-tooltip>
 </template>
 <script>
 export default {
   data() {
     return {
-      isFieldTrip: false
     };
   },
   props: {
-    myProp: {}
+    myProp: {},
+    isFieldTrip: {}
   },
   created() {
-    this.checkFieldTrip();
+  },
+  computed: {
+    myHeight: function() {
+      if (this.isFieldTrip) {
+        return "735px";
+      } else {
+        return this.myProp.height;
+      }
+    },
+    myName: function() {
+      if (this.isFieldTrip) {
+        return "Field Trip";
+      } else if (this.myProp.name.valueOf() == "free") {
+        return "Free";
+      } else {
+        return "Reserved by: " + this.myProp.name;
+      }
+    },
+    startTime: function() {
+      if (this.isFieldTrip) {
+        return ""
+      } else {
+        return "Start Time: " + this.myProp.startTime
+      }
+    },
+    endTime: function() {
+      if (this.isFieldTrip) {
+        return ""
+      } else {
+        return "End Time: " + this.myProp.endTime
+      }
+    }
   },
   methods: {
     clicked() {
-      this.$emit("clicked", this.myProp);
-    },
-    checkFieldTrip() {
-      if (this.myProp.isFieldTrip) {
-          this.isFieldTrip = true;
+      if (this.isFieldTrip) {
+        this.$emit("fclicked", this.myFieldTrip)
+      } else {
+        this.$emit("clicked", this.myProp);
       }
     }
   }
@@ -52,10 +82,17 @@ export default {
   justify-content: center;
   align-items: center;
   text-overflow: ellipsis;
+  font-size: 8pt;
 }
 .fieldTrip {
-  width: 168px;
-  max-width: 168px;
+  min-width: 164px;
+  width: 164px;
+  max-width: 164px;
+  height: 740px;
   z-index: 3;
+  background-color: aliceblue;
+}
+.textSize{
+  font-size: 5pt;
 }
 </style>

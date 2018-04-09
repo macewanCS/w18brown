@@ -103,21 +103,95 @@
         </v-flex>
       </v-tab-item>
       <v-tab-item key="tab2">
+        <v-dialog v-model="dialog" max-width="1000px">
+          <v-card>
+            <v-card-text>
+              <v-container grid-list-md>
+                <v-layout wrap>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field label="First Name" v-model="editedItem.firstName"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field label="Last Name" v-model="editedItem.lastName"></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout wrap>
+                  <v-flex xs12 sm6 md4>
+                    <v-select :items="grades" v-model="editedItem.grade" label="Grade" autocomplete/>
+                  </v-flex>
+                  <v-flex xs12 sm6 md4>
+                    <v-select :items="roomsList" v-model="editedItem.room" label="Rooms" autocomplete/>
+                  </v-flex>
+                </v-layout>
+                <v-layout wrap>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field label="Phone" v-model="editedItem.phone"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field label="Phone" v-model="editedItem.phone2"></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout wrap>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field label="Email" v-model="editedItem.email"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field label="Email" v-model="editedItem.email2"></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout wrap>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field label="Bonus" v-model="editedItem.bonus"></v-text-field>
+                  </v-flex>
+                  <v-flex xs12 sm6 md4>
+                    <v-text-field label="Comments" v-model="editedItem.comment"></v-text-field>
+                  </v-flex>                                                       
+                </v-layout>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" flat @click.native="close">Cancel</v-btn>
+              <v-btn color="blue darken-1" flat @click.native="save">Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
         <v-flex ma-5>
           <div class="text-xs-center">
+            <h1>View Family Account</h1>
+            <v-flex class="center" xs4>
+              <v-text-field
+                append-icon="search"
+                label="Search"
+                single-line
+                hide-details
+                v-model="search"
+                width = "200px"
+              ></v-text-field>   
+            </v-flex>              
             <table class="center">
-              <h1>View Family Account</h1>
-
-                <v-flex align-center>
+                <v-flex align-center>             
                   <v-data-table light
                     :headers="headers"
                     :items="accounts"
+                    :search="search"
                     class="elevation-1"
                   >
                     <template slot="items" slot-scope="props">
-                      <td class="text-xs-right">{{ props.item.id }}</td>
-                      <td class="text-xs-right">{{ props.item.facilitators }}</td>
-                      <td class="text-xs-right">{{ props.item.students }}</td>
+                      <td class="text-xs-right">{{ props.item.familyID }}</td>
+                      <td class="text-xs-right">{{ props.item.firstName }}</td>
+                      <td class="text-xs-right">{{ props.item.lastName }}</td>   
+                      <td class="text-xs-right">{{ props.item.facilitators }}</td>                                           
+                      <td class="text-xs-right">{{ props.item.room }}</td>
+                      <td class="text-xs-right">{{ props.item.grade }}</td>
+                      <td class="justify-center layout px-0">
+                        <v-btn icon class="mx-0" @click="editItem(props.item)">
+                          <v-icon color="teal">edit</v-icon>
+                        </v-btn>
+                        <v-btn icon class="mx-0" @click="deleteItem(props.item)">
+                          <v-icon color="pink">delete</v-icon>
+                        </v-btn>
+                      </td>                                   
                     </template>
                   </v-data-table>
                 </v-flex>
@@ -137,6 +211,7 @@ var studentCounter = 1;
 export default {
   data() {
     return {
+      dialog: false,
       ID: "",
       password: "",
       facilitators: [""],
@@ -148,12 +223,26 @@ export default {
       email2: "",
       phone1: "",
       phone2: "",
+      grades: ["K","1","2","3","4","5","6", "7", "8", "9", "10", "11", "12"],
+      roomsList: [""],
       headers: [
         {
           text: 'Family ID',
           align: 'center',
           sortable: true,
-          value: 'id'
+          value: 'familyID'
+        },
+        {
+          text: 'First Name',
+          align: 'center',
+          sortable: true,
+          value: 'firstName'
+        },
+        {
+          text: 'Last Name',
+          align: 'center',
+          sortable: true,
+          value: 'lastName'
         },
         {
           text: 'Facilitators',
@@ -162,13 +251,20 @@ export default {
           value: 'facilitators'
         },
         {
-          text: 'Students',
+          text: 'Room',
           align: 'center',
           sortable: true,
-          value: 'students'
-        }
+          value: 'room'
+        },
+        {
+          text: 'Grade',
+          align: 'center',
+          sortable: true,
+          value: 'grade'
+        }, 
       ],
       accounts: [],
+      accounts2: [],
       submitBoolean: false,
       studentData: [],
       facilitatorData: [],
@@ -177,6 +273,16 @@ export default {
       confirm: false,
       usernameDisplay: "",
       passwordDisplay: "",
+      search:"",
+      editedIndex: -1,
+      editedItem: {
+
+      },
+      beforeEdit: {
+        id: "",
+        first: "",
+        last: "",
+      }
     };
   },
   created() {
@@ -184,12 +290,10 @@ export default {
   },
   methods: {
     async load(){
-      var familyResponse = await ApiFunctions.getFamilyList();
-      var parsedData = JSON.parse(familyResponse.data);
-      this.accounts = parsedData.values;
-      var index = 0;
+      var studentResponse = await ApiFunctions.getChildList();
+      this.accounts = studentResponse.data;
       this.accounts.forEach(async element => {
-        var result = await ApiFunctions.getFacilitators(JSON.stringify(element.id));
+        var result = await ApiFunctions.getFacilitators(element.familyID);
         if(result.data === false){
           element.facilitators = "None";
         }
@@ -206,26 +310,26 @@ export default {
           element.facilitators = finalString1;
         }
       });
-      this.accounts.forEach(async element=> {
-        var result = await ApiFunctions.getStudents(JSON.stringify(element.id));
-        element.students = [];
-        if(result.data === false){
-          element.students = "None";
-        }
-        else {
-          var finalString = "";
-          var count = 0;
-          result.data.forEach(element2 =>{
-            var name = element2.firstName + " " + element2.lastName;
-            finalString = finalString.concat(name);
-            if (count != result.data.length - 1) {
-              finalString = finalString.concat(", ");
-              count++;
-            }
-          })
-          element.students = finalString;
-        }
+      this.accounts.forEach(async element => {
+        var result = await ApiFunctions.getFamilybyID(element.familyID);
+        result.data.forEach(element2 =>{
+        element.phone = element2.phone;
+        element.phone2 = element2.phone2;
+        element.email = element2.email;
+        element.email2 = element2.email2;
+        element.bonus = element2.bonusHours;
+        element.comment = element2.bonusComment;
+        })
       });
+
+      var roomResponse = await ApiFunctions.getRoomList();
+      var parsedData = JSON.parse(roomResponse.data);
+      this.rooms = parsedData.values;
+      var list = new Array();
+      this.rooms.forEach(function(element) {
+        list.push(element.roomName);
+      });
+      this.roomsList = list;
     },
 
     async getStudentData (firstName, lastName, grade, room) {
@@ -258,6 +362,57 @@ export default {
     removeStudent: function(index) {
       this.students.splice(index, 1);
     },
+    editItem (item) {
+      this.editedIndex = this.accounts.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+      this.beforeEdit.id = item.familyID;
+      this.beforeEdit.first = item.firstName;
+      this.beforeEdit.last = item.lastName;
+    },
+    async deleteItem (item) {
+      const index = this.accounts.indexOf(item);
+      confirm('Are you sure you want to delete this item?') && this.accounts.splice(index, 1);
+      var result = await ApiFunctions.deleteChildbyID(item.familyID,item.firstName,item.lastName);      
+    },
+    close () {
+      this.dialog = false;
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      }, 300)
+    },
+
+    async save () {
+      if (this.editedIndex > -1) {
+        Object.assign(this.accounts[this.editedIndex], this.editedItem);
+      } else {
+        this.items.push(this.editedItem);
+      }
+      this.close();
+      var studentField = {};
+      var accountField = {};
+      studentField.accountID = this.beforeEdit.id;
+      accountField.accountID = this.beforeEdit.id;
+      accountField.bonusHours = this.editedItem.bonus;
+      accountField.bonusComment = this.editedItem.comment;
+      accountField.phone = this.editedItem.phone;
+      accountField.phone2 = this.editedItem.phone2;
+      accountField.email = this.editedItem.email;
+      accountField.email2 = this.editedItem.email2;
+      studentField.beforeFirst = this.beforeEdit.first;
+      studentField.beforeLast = this.beforeEdit.last;
+      studentField.first = this.editedItem.firstName;
+      studentField.last = this.editedItem.lastName;
+      studentField.room = this.editedItem.room;
+      studentField.grade = this.editedItem.grade;
+      var accJSON = JSON.stringify(accountField);
+      var stuJSON = JSON.stringify(studentField);
+      var account = await ApiFunctions.updateAccount(accJSON);
+      var student = await ApiFunctions.updateChild(stuJSON);
+      this.editedItem = {};
+    },
+
     async resetForm() {
       this.ID = "";
       this.password = "";
@@ -288,8 +443,10 @@ export default {
         field.accountID = this.ID;
         field.bonusHours = this.bonus;
         field.bonusComment = this.comments;
-        field.phone = this.phone1 + "," + this.phone2;
-        field.email = this.email1 + "," + this.email2;
+        field.phone1 = this.phone1;
+        field.phone2 = this.phone2;
+        field.email1 = this.email1;
+        field.email2 = this.email2;
         field.historicHours = this.historic;
         field.facilitators = this.facilitatorData;
         field.students = this.studentData;
@@ -300,13 +457,19 @@ export default {
         this.passwordDisplay = this.password;
         this.confirm = true;
         this.resetForm();
+        this.load();
       });
     }
   },
   components: {
     Facilitator,
     Student
-  }
+  },
+  watch: {
+    dialog (val) {
+      val || this.close()
+    }
+  },
 };
 </script>
 <style scoped>

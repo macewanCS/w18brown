@@ -88,75 +88,75 @@
                 </v-card>
               </v-flex>
               <v-flex xs3 class="cal-block-col">
-                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTrip : isMonFieldTrip}">
+                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTripBlock : isMonFieldTrip}">
                   <v-layout row>
                     <v-flex>
-                      <calFacil v-for="fac in Calendar[0][0][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
+                      <calFacil v-for="fac in Calendar[0][0][0]" :key="fac.index" :myProp="fac" :isFieldTrip="isMonFieldTrip" @clicked="newReserve" @fclicked=""/>
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if = "!isMonFieldTrip">
                       <calFacil v-for="fac in Calendar[0][0][1]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if = "!isMonFieldTrip">
                       <calFacil v-for="fac in Calendar[0][0][2]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
                     </v-flex>
                   </v-layout>
                 </v-card>
               </v-flex>
               <v-flex xs3 class="cal-block-col">
-                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTrip : isTueFieldTrip}">
+                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTripBlock : isTueFieldTrip}">
                   <v-layout row>
                     <v-flex>
-                      <calFacil v-for="fac in Calendar[1][0][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
+                      <calFacil v-for="fac in Calendar[1][0][0]" :key="fac.index" :myProp="fac" :isFieldTrip="isTueFieldTrip" @clicked="newReserve" @fclicked=""/>
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if = "!isTueFieldTrip">
                       <calFacil v-for="fac in Calendar[1][0][1]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if = "!isTueFieldTrip">
                       <calFacil v-for="fac in Calendar[1][0][2]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
                     </v-flex>
                   </v-layout>
                 </v-card>
               </v-flex>
               <v-flex xs3 class="cal-block-col">
-                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTrip : isWedFieldTrip}">
+                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTripBlock : isWedFieldTrip}">
                   <v-layout row>
                     <v-flex>
-                      <calFacil v-for="fac in Calendar[2][0][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
+                      <calFacil v-for="fac in Calendar[2][0][0]" :key="fac.index" :myProp="fac" :isFieldTrip="isWedFieldTrip" @clicked="newReserve"/>
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if = "!isWedFieldTrip">
                       <calFacil v-for="fac in Calendar[2][0][1]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if = "!isWedFieldTrip">
                       <calFacil v-for="fac in Calendar[2][0][2]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
                     </v-flex>
                   </v-layout>
                 </v-card>
               </v-flex>
               <v-flex xs3 class="cal-block-col">
-                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTrip : isThuFieldTrip}">
+                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTripBlock : isThuFieldTrip}">
                   <v-layout row>
                     <v-flex>
-                      <calFacil v-for="fac in Calendar[3][0][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
+                      <calFacil v-for="fac in Calendar[3][0][0]" :key="fac.index" :myProp="fac" :isFieldTrip="isThuFieldTrip" @clicked="newReserve" @fclicked=""/>
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if = "!isThuFieldTrip">
                       <calFacil v-for="fac in Calendar[3][0][1]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if = "!isThuFieldTrip">
                       <calFacil v-for="fac in Calendar[3][0][2]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
                     </v-flex>
                   </v-layout>
                 </v-card>
               </v-flex>
               <v-flex xs3 class="cal-block-col">
-                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTrip : isFriFieldTrip}">
+                <v-card v-bind:color="blockDay_color" light class="cal-block-day" v-bind:class="{fieldTripBlock : isFriFieldTrip}">
                   <v-layout row>
                     <v-flex>
-                      <calFacil v-for="fac in Calendar[4][0][0]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
+                      <calFacil v-for="fac in Calendar[4][0][0]" :key="fac.index" :myProp="fac" :isFieldTrip="isFriFieldTrip" @clicked="newReserve" @fclicked=""/>
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if = "!isFriFieldTrip">
                       <calFacil v-for="fac in Calendar[4][0][1]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
                     </v-flex>
-                    <v-flex>
+                    <v-flex v-if = "!isFriFieldTrip">
                       <calFacil v-for="fac in Calendar[4][0][2]" :key="fac.index" :myProp="fac" @clicked="newReserve" />
                     </v-flex>
                   </v-layout>
@@ -456,7 +456,15 @@ export default {
       updateUpcomingRes: false,
 
       //FieldTrips
-      fieldTripDialog: false
+      fieldTripDialog: false,
+
+      //Block Settings
+      Block1Start: "",
+      Block1End: "",
+      Block2Start: "",
+      Block2End:  "",
+      Block3Start: "",
+      Block3End: ""
     };
   },
   components: {
@@ -475,8 +483,8 @@ export default {
       let rooms = ApiFunctions.getRooms();
     },
     async updateCalendar() {
-      let myVar = await this.getReservations();
-      await this.setCalendar(myVar);
+      let reservations = await this.getReservations();
+      await this.setCalendar(reservations);
     },
     async getReservations() {
       try {
@@ -486,13 +494,69 @@ export default {
           this.selectedRoom,
           this.selectedMonday
         );
-        //await console.log(JSON.parse(incomingReserves.data));
+        await console.log(JSON.parse(incomingReserves.data));
         let reserves = await JSON.parse(incomingReserves.data);
         return reserves;
-        //await console.log(reserves);
+        //console.log("this is reserves", reserves);
       } catch (error) {
         this.error = error.response.data.error;
       }
+    },
+    async handleFieldTrips(reservations) {
+      if (reservations.fieldtrips.length == 0) {
+        return
+      } else {
+        var ftrips = reservations.fieldtrips;
+        console.log("Ftrip",ftrips);
+        for(var i = 0; i < ftrips.length; i++) {
+          var date = new Date(ftrips[i])
+          var info = ApiFunctions.getFieldTrip(ftrips[i], this.selectedRoom);
+          console.log("info", info);
+          var dayOfWeek = date.getDay();
+          console.log(date.getDay());
+          
+          switch(dayOfWeek) {
+            case 1:
+              this.isMonFieldTrip = true;
+              this.Calendar[0][0][0][0].isFieldTrip = true;
+              this.Calendar[0][0][0][0].height = "740px";
+              this.Calendar[0][0][0][0].color = this.blockFieldTrip_color;
+              this.Calendar[0][0][0][0].ftripinfo = info;
+              break;
+            case 2:
+              this.isTueFieldTrip = true;
+              this.Calendar[1][0][0][0].isFieldTrip = true;
+              this.Calendar[1][0][0][0].height = "740px";
+              this.Calendar[1][0][0][0].color = this.blockFieldTrip_color;
+              this.Calendar[1][0][0][0].ftripinfo = info;
+              break;
+            case 3:
+              this.isWedFieldTrip = true;
+              this.Calendar[2][0][0][0].isFieldTrip = true;
+              this.Calendar[2][0][0][0].height = "740px";
+              this.Calendar[2][0][0][0].color = this.blockFieldTrip_color;
+              this.Calendar[2][0][0][0].ftripinfo = info;
+              break;
+            case 4:
+              this.isThuFieldTrip = true;
+              this.Calendar[3][0][0][0].isFieldTrip = true;
+              this.Calendar[3][0][0][0].height = "740px";
+              this.Calendar[3][0][0][0].color = this.blockFieldTrip_color;
+              this.Calendar[3][0][0][0].ftripinfo = info;
+              break;
+            case 5:
+              this.isFriFieldTrip = true;
+              this.Calendar[4][0][0][0].isFieldTrip = true;
+              this.Calendar[4][0][0][0].height = "740px";
+              this.Calendar[4][0][0][0].color = this.blockFieldTrip_color;
+              this.Calendar[4][0][0][0].ftripinfo = info;
+              break;
+            default:
+              console.log("Found fieldtrip on Sat/Sun");
+          }
+        }
+      }
+      this.calendar_ready = true;
     },
     setCalendar(weekReserves) {
       if (weekReserves.reservations.length != 5) {
@@ -520,15 +584,6 @@ export default {
                 this.Calendar[day][block][slot][i].color = this.blockFree_color;
                 this.Calendar[day][block][slot][i].isFree = true;
                 this.Calendar[day][block][slot][i].isFieldTrip = false;
-              } else if (
-                this.Calendar[day][block][slot][i].name.valueOf() == "fieldtrip"
-              ) {
-                this.Calendar[day][block][slot][i].height = "735px";
-                this.Calendar[day][block][slot][
-                  i
-                ].color = this.blockFieldTrip_color;
-                this.Calendar[day][block][slot][i].isFree = true;
-                this.Calendar[day][block][slot][i].isFieldTrip = false;
               } else {
                 this.Calendar[day][block][slot][
                   i
@@ -540,7 +595,8 @@ export default {
           }
         }
       }
-      this.calendar_ready = true;
+      this.handleFieldTrips(weekReserves);
+      // this.calendar_ready = true;
     },
     newReserve(origin) {
       //console.log(origin);
@@ -630,7 +686,7 @@ export default {
       }
     },
     async getFacilitators(accountID) {
-      let response = await ApiFunctions.getFacilitators(this.accountID);
+      let response = await ApiFunctions.getCalFacilitators(this.accountID);
       let list = response.data;
       if (list) {
         this.availFacilitators = list;
@@ -678,6 +734,13 @@ export default {
     },
     refreshUpcomingRes() {
       this.updateUpcomingRes = !this.updateUpcomingRes;
+    },
+    resetFieldTrips() {
+      this.isMonFieldTrip = false;
+      this.isTueFieldTrip = false;
+      this.isWedFieldTrip = false;
+      this.isThuFieldTrip = false;
+      this.isFriFieldTrip = false;
     }
   },
   watch: {
@@ -686,6 +749,7 @@ export default {
       if (this.selectedDate.valueOf() == "") {
         return;
       } else {
+        this.resetFieldTrips();
         this.updateCalendar();
       }
     },
@@ -712,6 +776,7 @@ export default {
       if (this.selectedRoom.valueOf() == "") {
         return;
       } else {
+        this.resetFieldTrips();
         this.updateCalendar();
       }
     }
@@ -821,8 +886,15 @@ h1 {
 .selectorLayout {
   height: 60px;
 }
-.fieldTrip {
+.fieldTripBlock {
   min-height: 743px;
   z-index: 2;
+}
+.fieldTripSlot {
+  min-height: 740px;
+  min-width: 170px;
+  width: 170px;
+  max-width: 170px;
+  z-index: 3;
 }
 </style>

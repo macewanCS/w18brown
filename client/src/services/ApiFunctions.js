@@ -26,12 +26,12 @@ export default {
         }
         return Api().post("getReservations", reservationParam);
     },
-    async getFacilitators(familyID) {
+    async getCalFacilitators(familyID) {
         if (familyID) {
             var params = {
                 accountID: familyID
             }
-            return Api().post("getFacilitators", params);
+            return Api().post("getCalFacilitators", params);
         } else {
             throw "No AccountID in store";
         }
@@ -160,8 +160,12 @@ export default {
 
 
     async getEarnedMinutesByWeek(accountDay) {
-        console.log("getEarnedMinutesByWeek in apifunctions")
+        //console.log("getEarnedMinutesByWeek in apifunctions")
         return Api().post("getEarnedMinutesByWeek", accountDay);
+    },
+    async getFieldTrip(date, room) {
+        var test = {myDate: date, myRoom: room};
+        return Api().post("getFieldTrip", test);
     }
 
 

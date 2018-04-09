@@ -1403,7 +1403,7 @@ async function checkDayForFieldtrip(day){
  * @param {*} room 
  */
 async function getFieldTrip(date, room){
-
+	console.log(date, room);
 	var msg = "SELECT * FROM fieldtrip WHERE date = ? AND room = ?";
 
 	var output = {};

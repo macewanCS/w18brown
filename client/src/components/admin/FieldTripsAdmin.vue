@@ -1,15 +1,6 @@
 <template>
-  <!--
-        v-container - Somewhat like a div, but from Vuetify
-            fluid - try and expand to full length of screen
-            fill-height - fill full height of screen
-        v-layout - similar to above but different properties
-    -->
   <v-flex ma-5>
-    <!-- ma-5 puts margins on all sides of size 5 (maximum size)-->
     <div class="text-xs-center">
-      <!-- this centers the contents -->
-
       <table class="center">
         <h1>Create Field Trip</h1>
         <br>
@@ -26,8 +17,6 @@
                 </v-date-picker>
             </v-menu>
           </v-layout>
-
-
 
           <v-select :items="items" v-model="credit" label="Hours of credit" />
 
@@ -48,6 +37,12 @@
             <i class="material-icons">error</i>
           </v-flex>
 
+
+       <v-flex id="errorMessage" class="text-xs-center" mt-3 v-if="dateError" v-model="dateError">
+            {{ "Date can not be in the past" }}
+            <i class="material-icons">error</i>
+          </v-flex>
+
         </v-flex>
       <br/>
         <v-layout align-center justify-center>
@@ -55,9 +50,11 @@
             <h2>Field Trip Created
               <i class="material-icons">check_circle</i>
             </h2>
-            Username: {{this.savedUser}}
-            <br>Employee Type: {{this.savedType}}
-            <br>Temporary Password: {{this.savedPass}}
+            Date: {{this.savedDate}}<br>
+            Credit hours: {{this.savedCredit}}<br>
+            Room: {{this.savedRoom}}<br>
+            Facilitators: {{this.savedFacilitator}}<br>
+            Message: {{this.savedMessage}}
           </v-flex>
         </v-layout>
         <br>
@@ -75,39 +72,52 @@ export default {
   data() {
     return {
       tripDate: null,
-      message: "",
       credit: null,
+      selectedRoom: null, 
       facilitatorCount: null,
+      message: null,
       genericError: false,
-
       availRooms: [],
-
-      //   employeeType: "",
       confirm: false,
+      errorAdding: false,
+      items: [1,2,3,4,5,6,7,8,9,10,11,12],
 
-      // dropdown items
-      items: [
-        // this is for the dropdown
-        { text: "1" },
-        { text: "2" },
-        { text: "3" },
-        { text: "4" },
-        { text: "5" },
-        { text: "6" },
-        { text: "7" },
-        { text: "8" },
-        { text: "9" },
-        { text: "10" },
-        { text: "11" },
-        { text: "12" }
-      ],
+      savedDate: null,
+      savedCredit: null,
+      savedRoom: null,
+      savedFacilitator: null,
+      savedMessage: null,
+
+      today: null,
+      dateError: false
+
     };
+  },
+  created() {
+      this.load();
   },
   async mounted() {
     this.getRoomList();
   },
   methods: {
- 
+    async load(){
+      this.today = await this.getToday()
+      //console.log(this.today)
+      this.tripDate = this.today
+    },
+
+    async getToday(){
+      var dateRaw = new Date();
+      return String(dateRaw.getFullYear()) + "-" + await this.addZero(String(dateRaw.getMonth())) + 
+      "-" + await this.addZero(String(dateRaw.getDate()))
+    },
+
+    async addZero(stringInt){
+      if (stringInt.length == 1){
+        return "0" + stringInt
+      }
+      else return stringInt
+    },
 
     async getRoomList() {
       let unparsed = await ApiFunctions.B_RoomList();
@@ -115,9 +125,58 @@ export default {
     },
 
     async submit() {
-      this.genericError = true;
 
-    }
+      // resets
+      this.dateError = false
+      this.confirm = false
+      this.errorAdding = false
+      this.genericError = false
+
+      if (this.tripDate < this.today ){
+        console.log("error this date is in the past.")
+        this.dateError = true
+      }
+      else if (this.tripDate == null || this.credit == null || this.selectedRoom == null ||
+          this.facilitatorCount == null || this.message == null )
+          {
+          this.genericError = true
+      }
+      else {
+       
+
+       try {
+          const addTripResponse = await ApiFunctions.createFieldTrip({
+            date: this.tripDate,
+            message: this.message,
+            credit: this.credit,
+            room: this.selectedRoom,
+            facilitators: this.facilitatorCount
+          })
+          console.log("createFieldTrip in vue: ", addTripResponse.data)
+
+          this.confirm = addTripResponse
+          this.errorAdding = !addTripResponse
+
+          this.savedDate = this.tripDate
+          this.savedCredit = this.credit
+          this.savedRoom = this.selectedRoom
+          this.savedFacilitator = this.facilitatorCount
+          this.savedMessage = this.message
+          // reset
+          this.tripDate = this.today
+          this.credit =null
+          this.selectedRoom = null
+          this.facilitatorCount = null
+          this.message = null
+        }
+        catch (error) {
+          this.genericError = true;
+          console.log("catch condition 1")
+        } 
+      }
+}
+
+
 
   }
 };

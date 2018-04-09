@@ -42,7 +42,10 @@ module.exports = {
 	requiredMinutesWeekly,
 	createFieldTrip,
 	createFieldTripReservation,
-	getFieldTrip
+	getFieldTrip,
+	deleteFieldtripReservation,
+	getFutureFieldtrips,
+	getEarnedMinutesByWeek
 }
 
 var mysql = require('mysql');
@@ -225,7 +228,7 @@ async function studentsPerAccount(account){
 async function requiredMinutesWeekly(account){
 //	console.log("account is: ", account)
 	var students = await studentsPerAccount(account)
-	var minutesWeekly = 60 * 2.5 // update 2.5 to be required hours in settings.
+	var minutesWeekly = await getRequiredHours();
 //console.log("in requiredMinutesWeekly in functions. students: ", students)
 	if (students > 2){
 		return 2 * minutesWeekly
@@ -473,12 +476,26 @@ async function getReservationByID(ID){
 async function getRoomReservationByWeek(roomName, startDate){
 	var monday = new Date(startDate);
 
-	let blocks = await getBlocks();
-
 	var json = {};
+
+	var ftList = new Array();
+
+	for (let i = 0; i < 5; i++){
+		let day = await addDays(monday, i);
+		let value = await checkDayForFieldtrip(dateFormat(day, "yyyy/mm/dd"));
+
+		if (value === true){
+			ftList.push(dateFormat(day, "yyyy/mm/dd"));
+		}
+	}
+
+	json.fieldtrips = ftList;
+
+	let blocks = await getBlocks();
 
 	var days = [];
 	var daysOut = {};
+	daysOut.fieldtrips = ftList;
 	daysOut.room = roomName;
 	daysOut.reservations = [];
 	var blocksOut = [];
@@ -505,7 +522,6 @@ async function getRoomReservationByWeek(roomName, startDate){
 
 				today.date = dateFormat(day, "yyyy/mm/dd");
 				today.blocks = [];
-				today.fieldTrip = false;
 				//go through each block
 				blocks.forEach(block =>{
 					var blockOut = {};
@@ -596,7 +612,7 @@ async function getRoomReservationByWeek(roomName, startDate){
 						}
 						else{
 								if (blockOut.slot[i][0].percentage != 1){
-									if (blockOut.slot[i][0].name != "free"){
+									if (blockOut.slot[i][1] === undefined){
 										var remaining = 1 - blockOut.slot[i][0].percentage;
 										if (remaining > 0.05){
 											var newFree = {};
@@ -1316,6 +1332,27 @@ async function getKey(dictionary, value){
 }
 
 /**
+ * Deletes a fieldtrip reservation for a given ID.
+ * Returns true if deleted, false if there was an issue.
+ * @param {*} ID 
+ */
+async function deleteFieldtripReservation(ID){
+	return new Promise(function(fulfill, reject){
+
+		var sql = "DELETE from fieldtrip_reservations WHERE reservation_ID=?"
+		con.query(sql, ID, async function (err, result, fields) {
+			if (err){
+				fulfill(false);
+				throw err;
+			} 
+			else{
+				fulfill(true);
+			}
+		})
+	})
+}
+
+/**
  * Helper Function
  * @param {*} date 
  * @param {*} days 
@@ -1334,8 +1371,7 @@ async function addDays(date, days) {
    * @param {*} fieldTripDetails This is a JSON object that contains the following fields: date, room, credit (float), message, facilitators (int)
    */
 async function createFieldTrip(fieldTripDetails){
-	var data = JSON.parse(fieldTripDetails);
-
+	var data = fieldTripDetails;
 	//first wipe out all reservations on that day
 
 	var del = "DELETE FROM reservations WHERE room=? AND date = ?";
@@ -1343,8 +1379,6 @@ async function createFieldTrip(fieldTripDetails){
 	con.query(del, [data.room, data.date], async function(err, result, fields) {
 		if (err) throw err;
 	});
-
-
 
 	return new Promise(function(fulfill, reject){
 		var sql = "INSERT into fieldtrip (date, credit, room, facilitator_number, message) VALUES (?, ?, ?, ?, ?)";
@@ -1355,7 +1389,8 @@ async function createFieldTrip(fieldTripDetails){
 			}
 			//we successfully inserted. Lets return the ID
 			else{
-				fulfill(result["insertId"]);
+				fulfill(true);
+				//fulfill(result["insertId"]);
 			}
 		});
 	});
@@ -1380,6 +1415,26 @@ async function createFieldTripReservation(input){
 			}
 		});
 	});
+}
+
+/**
+ * Internal for me
+ * @param {*} monday start date to be checked. Send as string.
+ */
+async function checkDayForFieldtrip(day){
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT * FROM fieldtrip WHERE date = ?";
+
+		con.query(sql, day, async function(err, result, fields) {
+			if (err) {
+				fulfill(false);
+			}
+
+			else{
+				fulfill(result.length > 0);
+			}
+		})
+	})
 }
 
 /**
@@ -1429,6 +1484,131 @@ async function getFieldTrip(date, room){
 			}
 		});
 	});
+}
+
+/**
+ * Internal helper function atm.
+ */
+async function getRequiredHours(){
+	return new Promise(function(fulfill, reject){
+		var sql = "SELECT * from settings";
+
+		con.query(sql, async function (err, result, fields) {
+			if (err){
+				reject(false);
+				throw err;
+			} 
+			else{
+				fulfill(result[0].weekly_requirements);
+			}
+		});
+	})
+}
+
+/**
+ * Returns a list of future fieldtrip reservations.
+ * @param {*} accountName accountiD
+ */
+async function getFutureFieldtrips(accountName){
+	return new Promise(function(fulfill, reject){
+		var today = new Date();
+		var output = new Array();
+
+		var sql = "SELECT * from fieldtrip_reservations WHERE family_ID = ? AND date > ?";
+
+		con.query(sql, [accountName, today], async function (err, result, fields) {
+			if (err){
+				reject(false);
+				throw err;
+			} 
+			else{
+				result.forEach(res =>{
+					var reservation = {};
+					reservation.name = res.facilitator;
+					reservation.date = dateFormat(res.date, "yyyy/mm/dd");
+					reservation.reservationID = res.reservation_ID;
+					reservation.room = res.room;
+					output.push(reservation);
+				})
+				json = JSON.stringify(output);
+				fulfill(json);
+			}
+		});
+	})
+}
+
+/**
+ * Returns the number of earned minutes for a given week (including the current week)
+ * @param {accountID} account
+ * @param {Make sure this is a monday at midnight (Or early in the morning)!! No formatting either, just a normal javascript monday} monday 
+ */
+async function getEarnedMinutesByWeek(account, monday){
+	let saturday = await addDays(monday, 5);
+
+	var rightNow = new Date();
+	//next line only needed for testing
+	rightNow = await addDays(rightNow, 33);
+
+	var endDate;
+
+	//first see if this is the current week or not
+	if (rightNow < saturday){
+		endDate = rightNow;
+	}
+	else{
+		endDate = saturday;
+	}
+
+	var ft = await getHoursHelper(account, monday, endDate, "fieldtrip");
+	var std = await getHoursHelper(account, monday, endDate, "std");
+	var total = ft + std
+	return new Promise(function(fulfill, reject){
+		fulfill({minutes: total});
+	})
+}
+
+/**
+ * Internal helper - noi touching!!!
+ * @param {account} account
+ * @param {startdate} start 
+ * @param {enddate} end 
+ * @param {ft or std res} type 
+ * 
+ */
+async function getHoursHelper(account, start, end, type){
+	return new Promise(function(fulfill, reject){
+		if (type === "fieldtrip"){
+			var sql = "SELECT * FROM fieldtrip_reservations WHERE family_ID = ? AND date >= ? AND date <= ?";
+		}
+		else{
+			var sql = "SELECT * FROM reservations WHERE family_ID = ? AND date >= ? AND date <= ?";
+		}
+
+		con.query(sql, [account, start, end], async function (err, result, fields) {
+			if (err){
+				reject(false);
+				throw err;
+			} 
+			else{
+				var total = 0;
+
+				result.forEach(res =>{
+					if (type === "fieldtrip"){
+						total += res.credit;
+					}
+					else{
+						var tokens = res.end_time.split(":");
+						var endT = new Date(2018, 05, 05, tokens[0], tokens[1], tokens[2], 0);
+						var tokens = res.start_time.split(":");
+						var startT = new Date(2018, 05, 05, tokens[0], tokens[1], tokens[2], 0);
+						total += (endT - startT) / 60000;
+					}
+				})
+
+				fulfill(total);
+			}
+		});
+	})
 }
 
 /*

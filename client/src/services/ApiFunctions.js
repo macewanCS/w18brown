@@ -182,7 +182,22 @@ export default {
         } else {
             throw "No Reservation ID provided.";
         }
+    },
+
+
+    async createFieldTrip(params) {
+        return Api().post("createFieldTrip", params);
+    },
+
+
+    async getEarnedMinutesByWeek(accountDay) {
+        console.log("getEarnedMinutesByWeek in apifunctions")
+        return Api().post("getEarnedMinutesByWeek", accountDay);
     }
+
+
+    
+    
     /* 
         backend functions not yet linked
 	connect,

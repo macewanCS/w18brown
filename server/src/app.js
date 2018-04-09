@@ -227,8 +227,8 @@ app.post('/deleteRoom', async function (req, res) {
 
 app.post('/accountExists', async function (req, res) {
     let existsResult = await functions.accountExists(req.body.username);
-    console.log("app.js account Exists inout: ", req.body.username)
-    console.log("app.js account Exists result: ", existsResult)
+ //   console.log("app.js account Exists inout: ", req.body.username)
+ //   console.log("app.js account Exists result: ", existsResult)
     res.send(existsResult)
 })
 app.post('/changePassword', async function (req, res) {
@@ -279,6 +279,8 @@ app.get('/getSettings', async function (req, res) {
 */
 app.post("/setSettings", async (req, res) => {
     // console.log(req.body);
+    console.log(req.body);
+
     functions.setSettings(req.body);
 })
 
@@ -295,7 +297,7 @@ app.get("/roomDict", async function (req, res) {
 })
 app.get("/roomList", async function (req, res) {
     let rooms2 = await functions.roomList();
-    console.log("rooms: ", rooms2);
+    //console.log("rooms: ", rooms2);
     res.send(JSON.stringify(rooms2));
 })
 
@@ -352,6 +354,25 @@ app.post("/checkAuth", passport.authenticate("jwt", { session: false }),
         res.send(true);
     }
 )
+
+
+app.post('/createFieldTrip', async function (req, res) {
+    console.log("createFieldTrip in app.js")
+    let addTrip = await functions.createFieldTrip(req.body);
+
+    res.send(addTrip)
+})
+
+
+
+app.post('/getEarnedMinutesByWeek', async function (req, res) {
+    console.log("getEarnedMinutesByWeek in app.js")
+    let earnedMinutes = await functions.getEarnedMinutesByWeek(req.body.account, req.body.monday);
+
+    res.send(earnedMinutes)
+})
+
+
 
 
 

@@ -74,15 +74,35 @@ export default {
     },
     
     async getFacilitators(accountId) {
-        var test = {};
-        test.pack = accountId;
-        return await Api().post("getFacilitators", test);
+        var data = {};
+        data.pack = accountId;
+        return await Api().post("getFacilitators", data);
     },
     
     async getStudents(accountId) {
-        var test = {};
-        test.pack = accountId;
-        return await Api().post("getStudents", test);
+        var data = {};
+        data.pack = accountId;
+        return await Api().post("getStudents", data);
+    },
+
+    async getChildList() {
+        return await Api().get("getChildList");
+    },
+
+    async getFamilybyID(accountId) {
+        var data = {};
+        data.pack = accountId;
+        return await Api().post("getFamilybyID", data);
+    },
+
+    async deleteChildbyID(accountId, first, last) {
+        var data = {};
+        data.id = accountId;
+        data.first = first;
+        data.last = last;
+        var pack = {};
+        pack.pack = JSON.stringify(data);
+        return await Api().post("deleteChildbyID", pack);
     },
 
     async requiredMinutesWeekly(accountINhours) {
@@ -96,10 +116,21 @@ export default {
     },
 
     async confirmCreateFamily(formSubmit) {
-        console.log(formSubmit);
-        var test = {};
-        test.pack = formSubmit;
-        return Api().post('confirmCreateFamily', test);
+        var data = {};
+        data.pack = formSubmit;
+        return Api().post('confirmCreateFamily', data);
+    },
+
+    async updateChild(formSubmit) {
+        var data = {};
+        data.pack = formSubmit;
+        return Api().post('updateChild', data);
+    },
+
+    async updateAccount(formSubmit) {
+        var data = {};
+        data.pack = formSubmit;
+        return Api().post('updateAccount', data);
     },
 
 

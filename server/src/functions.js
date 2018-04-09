@@ -31,6 +31,11 @@ module.exports = {
 	getReservationByFamily,
 	getFacilitators,
 	getStudents,
+	getChildList,
+	getFamilybyID,
+	deleteChildbyID,
+	updateChild,
+	updateAccount,
 	accountExists,
 	getReservationByID,
 	studentsPerAccount,
@@ -1228,7 +1233,6 @@ async function finalRoomUpdate(RoomsIn){
  * 
  */
 async function getFamilyList(){
-	console.log("calling get family list in functions");
 	return new Promise(function(fulfill, reject){
 		sql = "SELECT accountID,type FROM account WHERE type='family'";
 		var output = {};
@@ -1251,10 +1255,14 @@ async function getFamilyList(){
  * Michael's internal helper function
  * @param {*} familyId 
  */
-async function getChildNames(familyId) {
-	return new Promise(function(fulfill, reject){
-		var sql = "SELECT familyID,student_name FROM student WHERE familyID="+familyId;
-		con.query(sql, async function(result, fields) {
+async function getChildList() {
+	console.log("calling get child list in functions");
+	return new Promise(function(fulfill, reject) {
+		var output = {};
+		var sql = "SELECT * FROM student"
+		output.name = "FamilyList";
+		output.values = [];
+		con.query(sql, async function(err, result, fields) {
 			if (err) throw err;
 			fulfill(result);
 		});
@@ -1265,14 +1273,47 @@ async function getChildNames(familyId) {
  * Michael's internal helepr function
  * @param {*} familyId 
  */
-async function getFacilitatorNames(familyId) {
+async function getFamilybyID(familyId) {
 	return new Promise(function(fulfill, reject){
-		var sql = "SELECT familyID,name FROM facilitator WHERE familyID="+familyId;
-		con.query(sql, async function(result, fields) {
+		var sql = "SELECT * FROM account WHERE accountID= ?";
+		con.query(sql,familyId, async function(err, result, fields) {
 			if (err) throw err;
 			fulfill(result);
 		});
 	});
+}
+
+async function deleteChildbyID(data) {
+	var child = JSON.parse(data);
+	return new Promise(function(fulfill, reject){
+		var sql = "DELETE FROM student WHERE familyID = ? AND firstName = ? AND lastName = ?";
+		con.query(sql,[child.id,child.first,child.last], async function(err, result, fields) {
+			if (err) throw err;
+			fulfill("success");
+		});
+	});
+}
+
+async function updateChild(data) {
+	var child = JSON.parse(data);
+	return new Promise(function(fulfill, reject){
+		var sql = "UPDATE student SET room = ?, firstName = ?, lastName = ?, grade = ? WHERE familyID = ? AND firstName = ? AND lastName = ?"
+		con.query(sql,[child.room,child.first,child.last,child.grade,child.accountID,child.beforeFirst,child.beforeLast], async function(err, result, fields) {
+			if (err) throw err;
+			fulfill("success");
+		})
+	})
+}
+
+async function updateAccount(data) {
+	var account = JSON.parse(data);
+	return new Promise(function(fulfill, reject){
+		var sql = "UPDATE account SET bonusHours = ?, bonusComment = ?, phone = ?, email = ?, phone2 = ?, email2 = ? WHERE accountID = ?"
+		con.query(sql,[account.bonusHours, account.bonusComment, account.phone, account.email, account.phone2, account.email2, account.accountID],async function(err, result, fields){
+			if (err) throw err;
+			fulfill("success");
+		})
+	})
 }
 
 /**

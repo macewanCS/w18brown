@@ -158,13 +158,28 @@ app.get("/getFamilyList", async function (req, res) {
 })
 
 app.post("/getFacilitators", async function (req, res){
-    let facs = await functions.getFacilitators(JSON.parse(req.body.pack));
+    let facs = await functions.getFacilitators(req.body.pack);
     res.send(facs);
 })
 
 app.post("/getStudents", async function (req, res){
     let facs = await functions.getStudents(JSON.parse(req.body.pack));
     res.send(facs);
+})
+
+app.get("/getChildList", async function (req,res){
+    let studentList = await functions.getChildList();
+    res.send(JSON.stringify(studentList));
+})
+
+app.post("/getFamilybyID", async function (req,res){
+    let family = await functions.getFamilybyID(req.body.pack);
+    res.send(family);
+})
+
+app.post("/deleteChildbyID", async function (req,res){
+    let success = await functions.deleteChildbyID(req.body.pack);
+    res.send(success);
 })
 
 app.post("/createFamilyCheck", async function (req, res) {
@@ -175,6 +190,20 @@ app.post("/createFamilyCheck", async function (req, res) {
 
 app.post("/confirmCreateFamily", async function (req, res){
     let addedBool = await functions.confirmCreateFamily(req.body.pack);
+
+    res.send(addedBool);
+})
+
+app.post("/updateChild", async function (req, res){
+    console.log(req.body.pack);
+    let addedBool = await functions.updateChild(req.body.pack);
+
+    res.send(addedBool);
+})
+
+app.post("/updateAccount", async function (req, res){
+    console.log(req.body.pack);
+    let addedBool = await functions.updateAccount(req.body.pack);
 
     res.send(addedBool);
 })

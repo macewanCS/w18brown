@@ -98,7 +98,7 @@ export default {
       console.log("raw: ", this.minutesRaw)
       this.requiredHours = parseInt((this.minutesRaw / 60))
       this.requiredMinutes = parseInt((this.minutesRaw % 60))
-      this.percentComplete = (this.earnedMinRaw / this.minutesRaw)*100
+      this.percentComplete = parseInt((this.earnedMinRaw / this.minutesRaw)*100)
 
       this.earnedHours = parseInt((this.earnedMinRaw / 60))
       this.earnedMinutes = parseInt((this.earnedMinRaw % 60))

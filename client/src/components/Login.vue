@@ -10,7 +10,7 @@ https://www.youtube.com/watch?v=Fa4cRMaTDUI -->
     <v-container fluid fill-height>
         <v-layout align-center justify-center>
             <div id="box">
-                <h1 class="text-xs-center" >Caraway Facilitation<br> Log In Page</h1>
+                <h1 class="text-xs-center" >Caraway Facilitation<br> Login Page</h1>
                 <!-- added v-models for linking to script, added placeholders -->
                 <v-text-field name="username" type="text" id="username" label="Username" v-model="username" @keyup.enter="login"/>
                 <v-text-field name="password" type="password" id="password" label="Password" v-model="password" @keyup.enter="login"/>

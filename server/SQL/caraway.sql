@@ -288,7 +288,7 @@ CREATE TABLE `reservations` (
   `room` varchar(255) DEFAULT NULL,
   `reservation_ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`reservation_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,7 +297,7 @@ CREATE TABLE `reservations` (
 
 LOCK TABLES `reservations` WRITE;
 /*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
-INSERT INTO `reservations` VALUES ('family001','Fred Flinstone','2018-04-11','08:45:00','12:00:00','red',12),('family001','Fred Flinstone','2018-04-13','12:50:00','15:45:00','red',13),('family001','Babe Ruth','2018-04-03','12:50:00','15:45:00','red',14),('family001','Babe Ruth','2018-04-03','12:50:00','15:45:00','mauve',15),('family001','Babe Ruth','2018-04-09','08:45:00','12:00:00','red',16);
+INSERT INTO `reservations` VALUES ('family001','Fred Flinstone','2018-04-11','08:45:00','12:00:00','red',12),('family001','Fred Flinstone','2018-04-13','12:50:00','15:45:00','red',13),('family001','Babe Ruth','2018-04-03','12:50:00','15:45:00','red',14),('family001','Babe Ruth','2018-04-03','12:50:00','15:45:00','mauve',15),('family001','Babe Ruth','2018-04-09','08:45:00','12:00:00','red',16),('family001','Fred Flinstone','2018-03-09','08:45:00','12:00:00','red',17);
 /*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -388,4 +388,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-04-09 14:18:58
+-- Dump completed on 2018-04-09 14:35:28

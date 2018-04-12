@@ -364,6 +364,12 @@ app.post("/getFieldTrip", async function(req, res) {
         console.log(err);
     }
 })
+app.post('/getEarnedMinutesByWeek', async function (req, res) {
+    console.log("getEarnedMinutesByWeek in app.js")
+    let earnedMinutes = await functions.getEarnedMinutesByWeek(req.body.account, req.body.monday);
+
+    res.send(earnedMinutes)
+})
 
 
 

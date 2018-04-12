@@ -297,11 +297,11 @@ app.get("/roomDict", async function (req, res) {
 })
 app.get("/roomList", async function (req, res) {
     let rooms2 = await functions.roomList();
-    //console.log("rooms: ", rooms2);
+    console.log("rooms: ", rooms2);
     res.send(JSON.stringify(rooms2));
 })
 
-app.post("/getFacilitators", async function (req, res) {
+app.post("/getCalFacilitators", async function (req, res) {
     //console.log("This is Req:  ", req.body);
     let facil = await functions.getFacilitators(req.body.accountID);
     res.send(JSON.stringify(facil));
@@ -354,25 +354,22 @@ app.post("/checkAuth", passport.authenticate("jwt", { session: false }),
         res.send(true);
     }
 )
-
-
-app.post('/createFieldTrip', async function (req, res) {
-    console.log("createFieldTrip in app.js")
-    let addTrip = await functions.createFieldTrip(req.body);
-
-    res.send(addTrip)
+app.post("/getFieldTrip", async function(req, res) {
+    try {
+        console.log(req.body)
+        let room = req.body.myRoom //Need String of year/month/day
+        let date = req.body.myDate
+        res.send(functions.getFieldTrip(date, room));
+    } catch (err) {
+        console.log(err);
+    }
 })
-
-
-
 app.post('/getEarnedMinutesByWeek', async function (req, res) {
     console.log("getEarnedMinutesByWeek in app.js")
     let earnedMinutes = await functions.getEarnedMinutesByWeek(req.body.account, req.body.monday);
 
     res.send(earnedMinutes)
 })
-
-
 
 
 
